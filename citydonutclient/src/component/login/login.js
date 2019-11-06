@@ -19,8 +19,8 @@ export class Login extends React.Component {
         this.setState({pass : pass.target.value});
     };
 
-    isVisible = () => {return this.state.pass != undefined && this.state.email != undefined &&
-        this.state.pass != "" && this.state.email != ""};
+    isVisible = () => {return this.state.pass !== undefined && this.state.email !== undefined &&
+        this.state.pass !== "" && this.state.email !== ""};
 
     render() {
         return (
