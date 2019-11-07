@@ -11,7 +11,7 @@ export class CreateProject extends React.Component{
 
             <Modal.Dialog>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title>Створити проект</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -29,13 +29,13 @@ export class CreateProject extends React.Component{
                     </div>
                     <div>
                         <label> Добавити локацію:</label>
-                        <input type="text" name="addLocation"/>
+
                     </div>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant="secondary">Очистити</Button>
+                    <Button variant="primary">Подати</Button>
                 </Modal.Footer>
             </Modal.Dialog>
 
