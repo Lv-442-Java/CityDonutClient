@@ -18,6 +18,7 @@ export class Head extends React.Component {
                 <Nav className="mr-auto">
                     <Nav.Link as={Link} to='/'>Home</Nav.Link>
                     <Nav.Link as={Link} to='/login'>Login</Nav.Link>
+                    <Nav.Link as={Link} to='/project/create'>Create Project</Nav.Link>
                 </Nav>
                 <Form inline>
                     <FormControl type="text" placeholder="Search" className="mr-sm-2"/>
