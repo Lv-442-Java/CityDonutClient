@@ -5,6 +5,7 @@ import {Login} from "./component/login/login";
 import {Base} from "./component/base/base";
 import {Head} from "./component/head/head";
 import {CreateProject} from "./component/project/CreateProject";
+import {Projects} from "./component/project/projects";
 
 export class Routers extends React.Component {
 
@@ -16,6 +17,7 @@ export class Routers extends React.Component {
                     <Route exact path ='/' component={Base} />
                     <Route path ='/login' component={Login} />
                     <Route path ='/project/create' component={CreateProject} />
+                    <Route path='/projects' component={Projects} />
                 </Switch>
             </BrowserRouter>
         )
