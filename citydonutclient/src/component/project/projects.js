@@ -8,10 +8,12 @@ export class Projects extends React.Component {
     state = {
         projects: [],
         filters: {
-            status: 1,
-            moneyFrom: 10000,
-            moneyTo: 30000,
-            categories: [1],
+            page: 0,
+            size: 6,
+            status: "default",
+            moneyFrom: 0,
+            moneyTo: "default",
+            categories: ["default"],
         }
     };
 
@@ -25,18 +27,28 @@ export class Projects extends React.Component {
     };
 
     getData = () => {
-        axios.get(`http://localhost:8090/api/v1/project/filter?status=${this.state.filters.status}&moneyFrom=10000&moneyTo=30000&categories=3&categories=2`, {crossDomain: true}).then(response => {
-            this.setState({projects: response.data}
-            )
-        })
+        axios.get(`http://localhost:8091/api/v1/project/filter?` +
+            `page=${this.state.filters.page}&` +
+            `size=${this.state.filters.size}&` +
+            `status=${this.state.filters.status}&` +
+            `moneyFrom=${this.state.filters.moneyFrom}&` +
+            `moneyTo=${this.state.filters.moneyTo}&` +
+            `categories=${this.state.filters.categories}`,
+            {crossDomain: true})
+            .then(response => {
+                this.setState({projects: response.data})
+            })
     };
 
     render() {
-        console.log(this.state);
         return (
-            <div>
-                <ProjectsFilter setFilters={this.setFilters}/>
-                <ProjectsList projects={this.state.projects}/>
+            <div className="row">
+                <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                    <ProjectsFilter setFilters={this.setFilters}/>
+                </div>
+                <div className="col-md-9 col-sm-9 col-lg-9 col-xs-12">
+                    <ProjectsList projects={this.state.projects}/>
+                </div>
             </div>
         )
     }
