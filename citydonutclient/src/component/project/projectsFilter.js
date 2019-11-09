@@ -129,7 +129,7 @@ export class ProjectsFilter extends React.Component {
                 <p>НЕОБХІДНІ КОШТИ</p>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
-                        <InputGroup.Text>$</InputGroup.Text>
+                        <InputGroup.Text>₴</InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl aria-label="Amount (to the nearest dollar)" placeholder="від 0"
                                  onInput={this.setMoneyFrom}/>
@@ -139,7 +139,7 @@ export class ProjectsFilter extends React.Component {
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
-                        <InputGroup.Text>$</InputGroup.Text>
+                        <InputGroup.Text>₴</InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl aria-label="Amount (to the nearest dollar)" placeholder={"до " + this.maxMoneyNeeded}
                                  onInput={this.setMoneyTo}/>
