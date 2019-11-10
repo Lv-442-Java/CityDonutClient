@@ -6,6 +6,7 @@ import {Base} from "./component/base/base";
 import {Head} from "./component/head/head";
 import {CreateProject} from "./component/project/CreateProject";
 import {PhotoSlider} from "./component/project/photoSlider";
+import {Projects} from "./component/project/projects";
 
 export class Routers extends React.Component {
 
@@ -19,6 +20,7 @@ export class Routers extends React.Component {
                     <Route path ='/project/create' component={CreateProject} />
                     <Route path ='/slider' component={PhotoSlider}/>
 
+                    <Route path='/projects' component={Projects} />
                 </Switch>
             </BrowserRouter>
         )
