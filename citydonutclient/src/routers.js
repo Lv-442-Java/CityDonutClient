@@ -18,8 +18,7 @@ export class Routers extends React.Component {
                     <Route exact path ='/' component={Base} />
                     <Route path ='/login' component={Login} />
                     <Route path ='/project/create' component={CreateProject} />
-                    <Route path ='/slider' component={PhotoSlider}/>
-
+                    <Route path ='/slider/:id' render={(props) => <PhotoSlider {...props} id = {this.props.id}/>}/>
                     <Route path='/projects' component={Projects} />
                 </Switch>
             </BrowserRouter>
