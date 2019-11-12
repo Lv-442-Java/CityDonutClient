@@ -4,8 +4,6 @@ import Carousel from 'react-bootstrap/Carousel'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from "axios";
 
-import * as photos from "react-bootstrap/cjs/utils/ElementChildren";
-
 export class PhotoSlider extends React.Component{
 
     state= {

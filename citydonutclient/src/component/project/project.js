@@ -1,5 +1,6 @@
 import React from "react";
 import {PhotoSlider} from "./photoSlider";
+import {ProjectProgressBar} from "./projectProgressBar";
 
 export class Project extends React.Component{
     state= {
@@ -9,7 +10,11 @@ export class Project extends React.Component{
     }
     render() {
         return(
+            <div>
             <PhotoSlider projectId = {this.state.projectId}></PhotoSlider>
+                <ProjectProgressBar></ProjectProgressBar>
+            </div>
+
         )
     }
 }
