@@ -11,7 +11,7 @@ export class PhotoSlider extends React.Component{
     state= {
 
     photos:[],
-    projectId: this.props.match.params.id,
+    projectId: this.props.projectId,
     projectName:"My Project"
         /*projectName:this.props.projectName*/
 }
@@ -32,7 +32,7 @@ export class PhotoSlider extends React.Component{
 
 
     getData = () => {
-        axios.get(`http://localhost:8000/api/v1/project/${this.props.match.params.id}/getUrl`, {crossDomain: true}).then(response => {
+        axios.get(`http://localhost:8000/api/v1/project/${this.props.projectId}/getUrl`, {crossDomain: true}).then(response => {
             this.setState({photos: response.data}
             )
         })
