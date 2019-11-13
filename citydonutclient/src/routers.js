@@ -20,6 +20,7 @@ export class Routers extends React.Component {
                     <Route path ='/project/create' component={CreateProject} />
                     <Route path='/projects' component={Projects} />
                     <Route path='/registration' component={Registration} />
+                    <Route exact path='/projects' component={Projects} />
                 </Switch>
             </BrowserRouter>
         )
