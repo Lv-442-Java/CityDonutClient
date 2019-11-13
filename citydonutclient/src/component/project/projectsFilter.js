@@ -8,28 +8,45 @@ import Form from "react-bootstrap/Form";
 
 export class ProjectsFilter extends React.Component {
 
-    statusesAfterValidation = [];
-    allCategories = [];
-    maxMoneyNeeded;
-
     state = {
+        //filter: {
         page: 0,
         size: 6,
-        status: "default",
-        moneyFrom: 0,
-        moneyTo: "default",
-        categories: ["default"],
+        status: null,
+        moneyFrom: null,
+        moneyTo: null,
+        categories: [],
+        //},
         statusName: "статус проекту",
+        statusesAfterValidation: [],
+        allCategories: [],
+        maxMoneyNeeded: null
     };
+
+    componentDidMount() {
+        this.getStatuses();
+        this.getMaxMoney();
+        this.getCategories();
+    }
 
     setStatus = (event, e) => {
         this.setState(
             {
-                status: event === "default" ? event : parseInt(event),
-                statusName: e.target.innerText
-            },
-            () => this.props.setFilters(this.state)
-        );
+                // filter: {
+                status: event === null ? event : parseInt(event),
+                //},
+                statusName: e.target.innerText,
+            }
+            ,
+            () =>
+                this
+                    .props
+                    .setFilters(
+                        this
+                            .state/*.filter*/
+                    )
+        )
+        ;
     };
 
     setMoneyFrom = (e) => {
@@ -39,9 +56,11 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                moneyFrom: e.target.value === "" ? 0 : e.target.value,
+                // filter: {
+                moneyFrom: e.target.value === "" ? null : e.target.value,
+                //},
             },
-            () => this.props.setFilters(this.state)
+            () => this.props.setFilters(this.state/*.filter*/)
         );
     };
 
@@ -52,30 +71,31 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                moneyTo: e.target.value === "" ? 0 : e.target.value,
+                //filter: {
+                moneyTo: e.target.value === "" ? null : e.target.value,
+                //  }
             },
-            () => this.props.setFilters(this.state)
+            () => this.props.setFilters(this.state/*.filter*/)
         );
     };
 
     getStatuses = () => {
         axios.get(`http://localhost:8091/api/v1/status/afterValidation`)
-            .then(response => this.statusesAfterValidation = response.data)
+            .then(response => this.setState({statusesAfterValidation: response.data}));
     };
 
     getMaxMoney = () => {
-        axios.get(`http://localhost:8091/api/v1/maxMoney`).then(response => this.maxMoneyNeeded = response.data)
+        axios.get(`http://localhost:8091/api/v1/maxMoney`)
+            .then(response => this.setState({maxMoneyNeeded: response.data}));
     };
 
     getCategories = () => {
-        axios.get(`http://localhost:8091/api/v1/category/all`).then(response => this.allCategories = response.data)
+        axios.get(`http://localhost:8091/api/v1/category/all`)
+            .then(response => this.setState({allCategories: response.data}));
     };
 
     setCategories = (event, e) => {
-        let newCategories = this.state.categories.slice();
-        if (newCategories[0] === "default") {
-            newCategories = newCategories.splice(0, newCategories.length - 1);
-        }
+        let newCategories = this.state/*.filter*/.categories.slice();
         if (event.target.checked) {
             newCategories.push(event.target.id);
         } else {
@@ -83,25 +103,22 @@ export class ProjectsFilter extends React.Component {
                 return elem !== event.target.id
             })
         }
-        if (newCategories.length === 0) {
-            newCategories.push("default");
-        }
         this.setState(
             {
+                // filter : {
                 categories: newCategories,
+                // },
             },
-            () => this.props.setFilters(this.state)
+            () => this.props.setFilters(this.state/*.filter*/)
         );
     };
 
     render() {
-        this.getStatuses();
-        const items = this.statusesAfterValidation.map((item) =>
+        const items = this.state.statusesAfterValidation.map((item) =>
             <Dropdown.Item eventKey={item.id}>{item.status}</Dropdown.Item>
         );
 
-        this.getCategories();
-        const categories = this.allCategories.map((category) =>
+        const categories = this.state.allCategories.map((category) =>
             <ListGroup.Item action variant="light">
                 <Form>
                     <Form.Check type="checkbox" id={category.id} label={category.category}
@@ -109,8 +126,6 @@ export class ProjectsFilter extends React.Component {
                 </Form>
             </ListGroup.Item>
         );
-
-        this.getMaxMoney();
 
         return (
             <div>
@@ -121,7 +136,7 @@ export class ProjectsFilter extends React.Component {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         {items}
-                        <Dropdown.Item eventKey="default">статус проекту</Dropdown.Item>
+                        <Dropdown.Item eventKey={null}>статус проекту</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
                 <br></br>
@@ -141,7 +156,8 @@ export class ProjectsFilter extends React.Component {
                     <InputGroup.Prepend>
                         <InputGroup.Text>₴</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl aria-label="Amount (to the nearest dollar)" placeholder={"до " + this.maxMoneyNeeded}
+                    <FormControl aria-label="Amount (to the nearest dollar)"
+                                 placeholder={"до " + this.state.maxMoneyNeeded}
                                  onInput={this.setMoneyTo}/>
                     <InputGroup.Append>
                         <InputGroup.Text>.00</InputGroup.Text>

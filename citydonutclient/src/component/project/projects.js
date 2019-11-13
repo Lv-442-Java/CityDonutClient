@@ -10,10 +10,10 @@ export class Projects extends React.Component {
         filters: {
             page: 0,
             size: 6,
-            status: "default",
-            moneyFrom: 0,
-            moneyTo: "default",
-            categories: ["default"],
+            status: null,
+            moneyFrom: null,
+            moneyTo: null,
+            categories: [],
         }
     };
 
@@ -26,14 +26,27 @@ export class Projects extends React.Component {
             () => this.getData())
     };
 
-    getData = () => {
-        axios.get(`http://localhost:8091/api/v1/project/filter?` +
+    getUrl = () => {
+        let url =  `http://localhost:8091/api/v1/project/filter?` +
             `page=${this.state.filters.page}&` +
-            `size=${this.state.filters.size}&` +
-            `status=${this.state.filters.status}&` +
-            `moneyFrom=${this.state.filters.moneyFrom}&` +
-            `moneyTo=${this.state.filters.moneyTo}&` +
-            `categories=${this.state.filters.categories}`,
+            `size=${this.state.filters.size}`;
+        if(this.state.filters.status!==null){
+            url+=`&status=${this.state.filters.status}`;
+        }
+        if(this.state.filters.moneyFrom!==null){
+            url+=`&moneyFrom=${this.state.filters.moneyFrom}`
+        }
+        if(this.state.filters.moneyTo!==null){
+            url+=`&moneyTo=${this.state.filters.moneyTo}`;
+        }
+        if(this.state.filters.categories.length!==0){
+            url+=`&categories=${this.state.filters.categories}`
+        }
+        return url;
+    };
+
+    getData = () => {
+        axios.get(this.getUrl(),
             {crossDomain: true})
             .then(response => {
                 this.setState({projects: response.data})
@@ -41,6 +54,7 @@ export class Projects extends React.Component {
     };
 
     render() {
+        // console.log(this.state.filters.categories)
         return (
             <div className="row">
                 <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
@@ -53,3 +67,4 @@ export class Projects extends React.Component {
         )
     }
 }
+
