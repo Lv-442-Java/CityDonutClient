@@ -8,22 +8,15 @@ export class Projects extends React.Component {
 
     state = {
         projects: [],
-        filters: {
-            page: 0,
-            size: 6,
-            status: null,
-            moneyFrom: null,
-            moneyTo: null,
-            categories: [],
-        }
+        filters: {},
     };
 
     componentDidMount() {
         const values = queryString.parse(this.props.location.search);
 
         let newFilters = {
-            page: values.page === undefined ? null : values.page,
-            size: values.size === undefined ? null : values.size,
+            page: values.page === undefined ? 0 : values.page,
+            size: values.size === undefined ? 6 : values.size,
             status: values.status === undefined ? null : values.status,
             moneyFrom: values.moneyFrom === undefined ? null : values.moneyFrom,
             moneyTo: values.moneyTo === undefined ? null : values.moneyTo,
