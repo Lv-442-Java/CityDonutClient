@@ -9,14 +9,12 @@ import Form from "react-bootstrap/Form";
 export class ProjectsFilter extends React.Component {
 
     state = {
-        //filter: {
         page: 0,
         size: 6,
         status: null,
         moneyFrom: null,
         moneyTo: null,
         categories: [],
-        //},
         statusName: "статус проекту",
         statusesAfterValidation: [],
         allCategories: [],
@@ -32,9 +30,7 @@ export class ProjectsFilter extends React.Component {
     setStatus = (event, e) => {
         this.setState(
             {
-                // filter: {
                 status: event === null ? event : parseInt(event),
-                //},
                 statusName: e.target.innerText,
             }
             ,
@@ -43,7 +39,7 @@ export class ProjectsFilter extends React.Component {
                     .props
                     .setFilters(
                         this
-                            .state/*.filter*/
+                            .state
                     )
         )
         ;
@@ -56,11 +52,9 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                // filter: {
                 moneyFrom: e.target.value === "" ? null : e.target.value,
-                //},
             },
-            () => this.props.setFilters(this.state/*.filter*/)
+            () => this.props.setFilters(this.state)
         );
     };
 
@@ -71,11 +65,9 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                //filter: {
                 moneyTo: e.target.value === "" ? null : e.target.value,
-                //  }
             },
-            () => this.props.setFilters(this.state/*.filter*/)
+            () => this.props.setFilters(this.state)
         );
     };
 
@@ -95,7 +87,7 @@ export class ProjectsFilter extends React.Component {
     };
 
     setCategories = (event, e) => {
-        let newCategories = this.state/*.filter*/.categories.slice();
+        let newCategories = this.state.categories.slice();
         if (event.target.checked) {
             newCategories.push(event.target.id);
         } else {
@@ -105,11 +97,9 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                // filter : {
                 categories: newCategories,
-                // },
             },
-            () => this.props.setFilters(this.state/*.filter*/)
+            () => this.props.setFilters(this.state)
         );
     };
 
