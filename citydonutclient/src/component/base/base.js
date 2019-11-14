@@ -1,7 +1,6 @@
 import React from 'react';
 import {SuccessfulProjectsList} from "./successfulProjectsList";
 import Carousel from "react-bootstrap/Carousel";
-import Card from "react-bootstrap/Card";
 
 export class Base extends React.Component {
 
@@ -10,12 +9,12 @@ export class Base extends React.Component {
     render() {
         return (
             <div>
-                <Carousel>
+                <Carousel style={{"background-color": "#C6C2C2"}}>
                     <Carousel.Item className="text-center">
-                        <SuccessfulProjectsList page={0} />
+                        <SuccessfulProjectsList page={0}/>
                     </Carousel.Item>
                     <Carousel.Item>
-                        <SuccessfulProjectsList page={1} />
+                        <SuccessfulProjectsList page={1}/>
                     </Carousel.Item>
                 </Carousel>
             </div>
