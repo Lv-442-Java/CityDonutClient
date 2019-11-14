@@ -1,39 +1,23 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-import {getExchangeCurentDay} from "../../services/exangeServices";
+import {SuccessfulProjectsList} from "./successfulProjectsList";
+import Carousel from "react-bootstrap/Carousel";
+import Card from "react-bootstrap/Card";
 
 export class Base extends React.Component {
 
-    state = {
-        exchange: []
-    };
-
-    componentDidMount() {
-        this.getExchange();
-    }
-
-    getExchange = () => {
-        getExchangeCurentDay()
-            .then(res => {
-                this.setState({exchange: res['data']});
-                console.log(res);
-            }).catch(err => console.log("Error"));
-    };
+    state = {};
 
     render() {
-        console.log(this.state.exchange);
         return (
             <div>
-                {
-                    this.state.exchange.map(element =>
-
-                        <div key={element['r030']}>
-                            {element['txt']}
-                        </div>
-                    )
-                }
-                <h1>HOME!!!!!!</h1>
-                <Link to='/login'>LOGIN</Link>
+                <Carousel>
+                    <Carousel.Item className="text-center">
+                        <SuccessfulProjectsList page={0} />
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <SuccessfulProjectsList page={1} />
+                    </Carousel.Item>
+                </Carousel>
             </div>
         )
     }
