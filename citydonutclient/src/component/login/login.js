@@ -1,73 +1,58 @@
-import React from 'react';
-import {FacebookLoginButton, GoogleLoginButton} from "react-social-login-buttons";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
+import React from "react";
+import axios from "axios";
+import Form from 'react-bootstrap/Form'
 
 export class Login extends React.Component {
-
     state = {
         "email": undefined,
-        "pass": undefined
+        "password": undefined
     };
 
-    ShowAlert = () => {
-        alert(this.state.email + this.state.pass);
+    setEmail = (e) => {
+        this.setState({email: e.target.value});
     };
 
-    setEmail = (email) => {
-        this.setState({email: email.target.value});
+    setPassword = (e) => {
+        this.setState({password: e.target.value});
     };
 
-    setPassword = (pass) => {
-        this.setState({pass: pass.target.value});
+    insertLoginData = () => {
+        let data = {
+            email: this.state.email,
+            password: this.state.password
+        };
+        console.log(data);
+        axios.post(`http://localhost:8080/sign-in`,
+            data,
+            {crossDomain: true}).then(response => console.log(response.data))
     };
 
-    isVisible = () => {
-        return this.state.pass !== undefined && this.state.email !== undefined &&
-            this.state.pass !== "" && this.state.email !== ""
-    };
 
-    render() {
+
+      render() {
         return (
-            <div>
-                {/*<input type="email" onChange={this.setEmail}/>*/}
-                {/*<input type="password" onChange={this.setPassword}/>*/}
-                {/*{this.isVisible() && <input type="button" value="submit" onClick={this.ShowAlert}/>}*/}
 
-                {/*<FacebookLoginButton onClick={() => alert("Hello")}>*/}
-                {/*    <span>Custom text</span>*/}
-                {/*</FacebookLoginButton>*/}
+            <div className="text-center">
+                <h2>Логнінування</h2>
 
-                {/*<GoogleLoginButton onClick={() => alert("Hello")} />*/}
+                <div className="col-5">
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Control type="email" placeholder="Введіть ваш email" onChange={this.setEmail}/>
+                    </Form.Group>
+                </div>
 
-                <Modal.Dialog>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Логінування</Modal.Title>
-                    </Modal.Header>
+                <div className="col-5">
+                    <Form.Group controlId="formPlaintextPassword">
+                        <Form.Control type="password" placeholder="Введіть ваш пароль" onChange={this.setPassword}/>
+                    </Form.Group>
+                </div>
 
-                    <Modal.Body>
-                        <div>
-                            <label> Логін:</label>
-                            <input type="email" onChange={this.setEmail}/>
-                        </div>
-                        <div>
-                            <label>Пароль:</label>
-                            <input type="password" onChange={this.setPassword}/>
-                        </div>
-                    </Modal.Body>
-
-                    <Modal.Footer>
-
-                        <Button variant="primary">Увійти</Button>
-                        <FacebookLoginButton onClick={() => alert("Hello")}>
-
-                        </FacebookLoginButton>
-
-                        <GoogleLoginButton onClick={() => alert("Hello")}/>
-                    </Modal.Footer>
-                </Modal.Dialog>
+                <button className="btn btn-success" onClick={this.insertLoginData}>Login</button>
 
             </div>
+
         )
     }
 }
+
+export default Login;

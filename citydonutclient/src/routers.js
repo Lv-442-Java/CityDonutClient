@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, Switch} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
-import {Login} from "./component/login/login";
+import Login from "./component/login/login";
 import {Base} from "./component/base/base";
 import {Head} from "./component/head/head";
 import {CreateProject} from "./component/project/CreateProject";
