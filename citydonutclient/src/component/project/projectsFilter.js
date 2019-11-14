@@ -32,17 +32,8 @@ export class ProjectsFilter extends React.Component {
             {
                 status: event === null ? event : parseInt(event),
                 statusName: e.target.innerText,
-            }
-            ,
-            () =>
-                this
-                    .props
-                    .setFilters(
-                        this
-                            .state
-                    )
-        )
-        ;
+            }, () => this.props.setFilters(this.state)
+        );
     };
 
     setMoneyFrom = (e) => {
@@ -112,7 +103,7 @@ export class ProjectsFilter extends React.Component {
             <ListGroup.Item action variant="light">
                 <Form>
                     <Form.Check type="checkbox" id={category.id} label={category.category}
-                                onChange={this.setCategories}/>
+                                onChange={this.setCategories} />
                 </Form>
             </ListGroup.Item>
         );
