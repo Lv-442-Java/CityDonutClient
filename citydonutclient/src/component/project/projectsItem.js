@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import ProgressBar from "../progressBar/progressBar";
+import img from "../../img/test.png"
 
 export class ProjectsItem extends React.Component {
 
@@ -20,7 +21,6 @@ export class ProjectsItem extends React.Component {
             })
         })
     };
-
     componentDidMount() {
         this.getDonatesSum();
     }
@@ -32,7 +32,7 @@ export class ProjectsItem extends React.Component {
                     <Card border="primary" className="text-center mx-auto"
                           style={{width: '18rem', marginTop: '2rem'}}>
                         <Card.Img variant="top"
-                                  src="https://i0.wp.com/storage.googleapis.com/blog-images-backup/1*3SVfBkNZI2f-sspiq59xcw.png?zoom=1.25&resize=391%2C321&ssl=1"/>
+                                  src={img}/>
                         <Card.Body>
                             <Card.Title>{this.props.name}</Card.Title>
 
