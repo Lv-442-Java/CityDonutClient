@@ -59,7 +59,6 @@ export class Projects extends React.Component {
     };
 
     render() {
-        // console.log(this.state.filters.categories)
         return (
             <div className="row">
                 <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
