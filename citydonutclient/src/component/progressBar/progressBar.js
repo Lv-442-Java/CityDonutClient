@@ -1,7 +1,6 @@
 import React from 'react';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import Card from "react-bootstrap/Card";
 
 class ProgressBar extends React.Component {
 

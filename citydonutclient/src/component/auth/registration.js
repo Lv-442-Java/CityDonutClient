@@ -4,19 +4,30 @@ import Form from 'react-bootstrap/Form'
 
 export class Registration extends React.Component {
     state = {
-        "firstName": undefined,
-        "lastName": undefined,
-        "email": undefined,
-        "password": undefined,
-        "cpassword": undefined
+        firstName: undefined,
+        lastName: undefined,
+        email: undefined,
+        password: undefined,
+        cpassword: undefined,
+        status: undefined,
+        invalidEmail: undefined,
+        dublicationEmail: undefined,
+        invalidPassword: undefined
     };
 
     setEmail = (e) => {
-        this.setState({email: e.target.value});
+        this.setState({
+            email: e.target.value,
+            invalidEmail: undefined,
+            dublicationEmail: undefined,
+        });
     };
 
     setPassword = (e) => {
-        this.setState({password: e.target.value});
+        this.setState({
+            password: e.target.value,
+            invalidPassword: undefined
+        });
     };
 
     setFirstName = (e) => {
@@ -35,25 +46,47 @@ export class Registration extends React.Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            status: 0
         };
         console.log(data);
-        axios.post(`http://localhost:8080/api/v1/registration/`,
+        axios.post(`http://localhost:8091/api/v1/registration/`,
             data,
-            {crossDomain: true}).then(response => console.log(response.data))
+            {crossDomain: true})
+            .then(response => {
+                this.setState({
+                    status: response.status,
+                    invalidEmail: undefined,
+                    dublicationEmail: undefined,
+                    invalidPassword: undefined
+                })
+                console.log(response.data)
+            })
+            .catch(err => {
+                console.log(err);
+                let data = err.response.data;
+                let errors = JSON.parse(data.message);
+                this.setState({...errors})
+                console.log(errors);
+            })
     };
     isValidForm = () => {
         return this.state.password !== undefined &&
             this.state.cpassword === this.state.password;
-    }
+    };
+
+    isVisible = () => {
+        return this.state.status === 200
+    };
 
     render() {
+        console.log(this.state)
         return (
 
-            <div className="text-center">
-                <h2>Реєстрація</h2>
+            <div align="center" >
+                <h2>Реєстрація </h2>
 
-                <div className="col-5">
+                <div className="col-5 ">
                     <Form.Group controlId="formForFirstName">
                         <Form.Control type="firstName" placeholder="Введіть ваше ім'я" onChange={this.setFirstName}/>
                     </Form.Group>
@@ -68,13 +101,26 @@ export class Registration extends React.Component {
 
                 <div className="col-5">
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Control type="email" placeholder="Введіть ваш email" onChange={this.setEmail}/>
+                        <Form.Control type="email"
+                                      placeholder="Введіть ваш email"
+                                      onChange={this.setEmail}
+                                      isInvalid={!!this.state.invalidEmail || !!this.state.dublicationEmail}/>
+                        <Form.Control.Feedback type="invalid">
+                            {this.state.invalidEmail}
+                            {this.state.dublicationEmail}
+                        </Form.Control.Feedback>
                     </Form.Group>
                 </div>
 
                 <div className="col-5">
                     <Form.Group controlId="formPlaintextPassword">
-                        <Form.Control type="password" placeholder="Введіть ваш пароль" onChange={this.setPassword}/>
+                        <Form.Control type="password"
+                                      placeholder="Введіть ваш пароль"
+                                      onChange={this.setPassword}
+                                      isInvalid={!!this.state.invalidPassword}/>
+                        <Form.Control.Feedback type="invalid">
+                            {this.state.invalidPassword}
+                        </Form.Control.Feedback>
                     </Form.Group>
                 </div>
 
@@ -85,7 +131,12 @@ export class Registration extends React.Component {
                     </Form.Group>
                 </div>
 
-                <button className="btn btn-success" onClick={this.insertRegistrationData} disabled={!this.isValidForm()}>Register</button>
+                <button className="btn btn-success" onClick={this.insertRegistrationData}
+                        disabled={!this.isValidForm()}>Register
+                </button>
+
+                <div> {this.isVisible() && <div className="alert alert-primary" role="alert">Перевірте вашу почтову скриньку</div>}
+                </div>
 
             </div>
 
