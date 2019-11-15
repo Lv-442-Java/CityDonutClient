@@ -7,6 +7,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 
 export class ProjectsFilter extends React.Component {
+
     state = {
         page: 0,
         size: 6,
@@ -42,9 +43,9 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                moneyFrom: e.target.value === '' ? null : e.target.value,
+                moneyFrom: e.target.value === "" ? null : e.target.value,
             },
-            () => this.props.setFilters(this.state),
+            () => this.props.setFilters(this.state)
         );
     };
 
@@ -97,12 +98,8 @@ export class ProjectsFilter extends React.Component {
         const categories = this.state.allCategories.map(category => (
             <ListGroup.Item action variant="light">
                 <Form>
-                    <Form.Check
-                        type="checkbox"
-                        id={category.id}
-                        label={category.category}
-                        onChange={this.setCategories}
-                    />
+                    <Form.Check type="checkbox" id={category.id} label={category.category}
+                                onChange={this.setCategories}/>
                 </Form>
             </ListGroup.Item>
         ));
