@@ -7,7 +7,7 @@ import axios from "axios";
 export class SuccessfulProjectItem extends React.Component {
 
     state = {
-        avatar : "https://i0.wp.com/storage.googleapis.com/blog-images-backup/1*3SVfBkNZI2f-sspiq59xcw.png?zoom=1.25&resize=391%2C321&ssl=1",
+        avatar: "https://i0.wp.com/storage.googleapis.com/blog-images-backup/1*3SVfBkNZI2f-sspiq59xcw.png?zoom=1.25&resize=391%2C321&ssl=1",
     };
 
     componentDidMount() {

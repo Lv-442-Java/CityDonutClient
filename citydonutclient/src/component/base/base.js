@@ -23,11 +23,14 @@ export class Base extends React.Component {
 
     getItems = () => {
         let result = [];
-        if(this.state.projects1.length!==0){
+        if (this.state.projects1.length !== 0) {
             result.push(<Carousel.Item className='text-center'><SuccessfulProjectsList projects={this.state.projects1}/></Carousel.Item>);
         }
         if (this.state.projects2.length !== 0) {
             result.push(<Carousel.Item className='text-center'><SuccessfulProjectsList projects={this.state.projects2}/></Carousel.Item>);
+        }
+        if (result.length !== 0) {
+            return <Carousel style={{"background-color": "#C6C2C2"}}>{result}</Carousel>;
         }
         return result;
     };
@@ -35,9 +38,7 @@ export class Base extends React.Component {
     render() {
         return (
             <div>
-                <Carousel style={{"background-color": "#C6C2C2"}}>
-                    {this.getItems()}
-                </Carousel>
+                {this.getItems()}
             </div>
         )
     }
