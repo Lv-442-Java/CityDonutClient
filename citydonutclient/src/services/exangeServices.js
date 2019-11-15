@@ -1,5 +1,3 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const getExchangeCurentDay = () => {
-    return axios.get('https://old.bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json');
-}
+export const getExchangeCurentDay = () => axios.get('https://old.bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json');
