@@ -1,21 +1,42 @@
 import React from 'react';
 import {SuccessfulProjectsList} from "./successfulProjectsList";
 import Carousel from "react-bootstrap/Carousel";
+import axios from "axios";
 
 export class Base extends React.Component {
 
-    state = {};
+    state = {
+        projects1: [],
+        projects2: [],
+    };
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    getData = () => {
+        axios.get(`http://localhost:8091/api/v1/project/filter?page=0&size=3&status=6`)
+            .then(response => this.setState({projects1: response.data}));
+        axios.get(`http://localhost:8091/api/v1/project/filter?page=1&size=3&status=6`)
+            .then(response => this.setState({projects2: response.data}))
+    };
+
+    getItems = () => {
+        let result = [];
+        if(this.state.projects1.length!==0){
+            result.push(<Carousel.Item className='text-center'><SuccessfulProjectsList projects={this.state.projects1}/></Carousel.Item>);
+        }
+        if (this.state.projects2.length !== 0) {
+            result.push(<Carousel.Item className='text-center'><SuccessfulProjectsList projects={this.state.projects2}/></Carousel.Item>);
+        }
+        return result;
+    };
 
     render() {
         return (
             <div>
                 <Carousel style={{"background-color": "#C6C2C2"}}>
-                    <Carousel.Item className="text-center">
-                        <SuccessfulProjectsList page={0}/>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <SuccessfulProjectsList page={1}/>
-                    </Carousel.Item>
+                    {this.getItems()}
                 </Carousel>
             </div>
         )
