@@ -103,7 +103,7 @@ export class ProjectsFilter extends React.Component {
             <ListGroup.Item action variant="light">
                 <Form>
                     <Form.Check type="checkbox" id={category.id} label={category.category}
-                                onChange={this.setCategories} />
+                                onChange={this.setCategories}/>
                 </Form>
             </ListGroup.Item>
         );

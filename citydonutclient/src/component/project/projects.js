@@ -8,22 +8,15 @@ export class Projects extends React.Component {
 
     state = {
         projects: [],
-        filters: {
-            page: 0,
-            size: 6,
-            status: null,
-            moneyFrom: null,
-            moneyTo: null,
-            categories: [],
-        }
+        filters: {},
     };
 
     componentDidMount() {
         const values = queryString.parse(this.props.location.search);
 
         let newFilters = {
-            page: values.page === undefined ? null : values.page,
-            size: values.size === undefined ? null : values.size,
+            page: values.page === undefined ? 0 : values.page,
+            size: values.size === undefined ? 6 : values.size,
             status: values.status === undefined ? null : values.status,
             moneyFrom: values.moneyFrom === undefined ? null : values.moneyFrom,
             moneyTo: values.moneyTo === undefined ? null : values.moneyTo,
@@ -41,18 +34,10 @@ export class Projects extends React.Component {
         let url = `?` +
             `page=${this.state.filters.page}&` +
             `size=${this.state.filters.size}`;
-        if (this.state.filters.status !== null) {
-            url += `&status=${this.state.filters.status}`;
-        }
-        if (this.state.filters.moneyFrom !== null) {
-            url += `&moneyFrom=${this.state.filters.moneyFrom}`
-        }
-        if (this.state.filters.moneyTo !== null) {
-            url += `&moneyTo=${this.state.filters.moneyTo}`;
-        }
-        if (this.state.filters.categories.length !== 0) {
-            url += `&categories=${this.state.filters.categories}`
-        }
+        this.state.filters.status !== null && (url += `&status=${this.state.filters.status}`);
+        this.state.filters.moneyFrom !== null && (url += `&moneyFrom=${this.state.filters.moneyFrom}`);
+        this.state.filters.moneyTo !== null && (url += `&moneyTo=${this.state.filters.moneyTo}`);
+        this.state.filters.categories.length !== 0 && (url += `&categories=${this.state.filters.categories}`);
         this.props.history.push(url);
         return url;
     };
@@ -66,7 +51,6 @@ export class Projects extends React.Component {
     };
 
     render() {
-        // console.log(this.state.filters.categories)
         return (
             <div className="row">
                 <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
