@@ -10,6 +10,7 @@ export class ProjectsItem extends React.Component {
     state = {
         donatesSum: 0,
         donatedPercent: 0,
+        photoUrl: "",
         arr: this.props.categories.map(category => category.category)
     };
 
@@ -21,8 +22,18 @@ export class ProjectsItem extends React.Component {
             })
         })
     };
+
+    getAvatar = () => {
+        axios.get(`http://localhost:8091/api/v1/project/${this.props.id}/getAvatar`, {withCredentials: true}).then(response => {
+            this.setState({
+                photoUrl: response.data
+            })
+        })
+    };
+
     componentDidMount() {
         this.getDonatesSum();
+        this.getAvatar();
     }
 
     render() {
@@ -32,7 +43,7 @@ export class ProjectsItem extends React.Component {
                     <Card border="primary" className="text-center mx-auto"
                           style={{width: '18rem', marginTop: '2rem'}}>
                         <Card.Img variant="top"
-                                  src={img}/>
+                                  src={this.state.photoUrl}/>
                         <Card.Body>
                             <Card.Title>{this.props.name}</Card.Title>
 

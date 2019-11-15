@@ -1,14 +1,9 @@
 import React from 'react';
-import {Routers} from "./routers";
-class App extends React.Component {
+import { Routers } from './routers';
 
-    render() {
-        return (
-            <div>
-                <Routers />
-            </div>
-        )
-    }
-}
-
+const App = (
+    <div>
+        <Routers />
+    </div>
+);
 export default App;

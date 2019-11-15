@@ -1,11 +1,10 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-import {getExchangeCurentDay} from "../../services/exangeServices";
+import { Link } from 'react-router-dom';
+import { getExchangeCurentDay } from '../../services/exangeServices';
 
 export class Base extends React.Component {
-
     state = {
-        exchange: []
+        exchange: [],
     };
 
     componentDidMount() {
@@ -14,10 +13,10 @@ export class Base extends React.Component {
 
     getExchange = () => {
         getExchangeCurentDay()
-            .then(res => {
-                this.setState({exchange: res['data']});
+            .then((res) => {
+                this.setState({ exchange: res.data });
                 console.log(res);
-            }).catch(err => console.log("Error"));
+            }).catch(err => console.log('Error'));
     };
 
     render() {
@@ -25,16 +24,15 @@ export class Base extends React.Component {
         return (
             <div>
                 {
-                    this.state.exchange.map(element =>
-
-                        <div key={element['r030']}>
-                            {element['txt']}
+                    this.state.exchange.map(element => (
+                        <div key={element.r030}>
+                            {element.txt}
                         </div>
-                    )
+                    ))
                 }
                 <h1>HOME!!!!!!</h1>
-                <Link to='/login'>LOGIN</Link>
+                <Link to="/login">LOGIN</Link>
             </div>
-        )
+        );
     }
 }
