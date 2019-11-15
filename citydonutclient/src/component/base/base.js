@@ -39,7 +39,6 @@ export class Base extends React.Component {
     };
 
     render() {
-        console.log(this.state.exchange);
         return (
             <div>
                 {this.getItems()}
