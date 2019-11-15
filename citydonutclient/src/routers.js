@@ -6,6 +6,7 @@ import {Base} from "./component/base/base";
 import {Head} from "./component/head/head";
 import {CreateProject} from "./component/project/CreateProject";
 import {Projects} from "./component/project/projects";
+import {Project} from "./component/project/project";
 
 export class Routers extends React.Component {
 

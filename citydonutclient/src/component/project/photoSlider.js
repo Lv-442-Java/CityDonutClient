@@ -10,9 +10,8 @@ export class PhotoSlider extends React.Component{
 
     photos:[],
     projectId: this.props.projectId,
-    projectName:"My Project"
-        /*projectName:this.props.projectName*/
-}
+
+    }
 
     componentDidMount() {
         this.getData()
@@ -30,7 +29,7 @@ export class PhotoSlider extends React.Component{
 
 
     getData = () => {
-        axios.get(`http://localhost:8000/api/v1/project/${this.props.projectId}/getUrl`, {crossDomain: true}).then(response => {
+        axios.get(`http://localhost:8091/api/v1/project/${this.props.projectId}/getUrl`, { withCredentials: true }).then(response => {
             this.setState({photos: response.data}
             )
         })
@@ -40,17 +39,17 @@ export class PhotoSlider extends React.Component{
 
         const { photos } = this.state;
         return (
-                <div class="text-center">
-                <Carousel >
+                <div className="text-center">
+                    <Carousel >
                     {photos.map(photo => (
                         <Carousel.Item >
                             <img  src={photo} style={{width: "50%", margin:"10px"}}/>
                             <Carousel.Caption>
-                                <h2>{this.state.projectName}</h2>
+                                <h2>{this.props.projectName}</h2>
                             </Carousel.Caption>
                         </Carousel.Item>
                     ))}
-                </Carousel>
+                    </Carousel>
                 </div>
         );
     }
