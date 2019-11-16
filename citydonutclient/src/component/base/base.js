@@ -40,6 +40,7 @@ export class Base extends React.Component {
 
     render() {
         return (
+
             <div>
                 {this.getItems()}
             </div>
