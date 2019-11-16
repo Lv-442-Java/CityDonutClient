@@ -10,9 +10,9 @@ import queryString from 'query-string'
 export class ProjectsFilter extends React.Component {
 
     state = {
+        statusName:"статус проекту",
         statusesAfterValidation: [],
-        allCategories: [],
-        maxMoneyNeeded: null,
+        allCategories: []
     };
 
     componentDidMount() {
@@ -45,13 +45,12 @@ export class ProjectsFilter extends React.Component {
         this.state.statusesAfterValidation.map(status => {
             status.id == this.state.status && this.setState({statusName: status.status});
         });
-        this.state.statusName === undefined && this.setState({statusName: "статус проекту"});
     };
 
     setStatus = (event, e) => {
         this.setState(
             {
-                status: event === undefined ? event : parseInt(event),
+                status: event === null ? undefined : parseInt(event),
                 statusName: e.target.innerText,
             }, () => this.props.setFilters(this.state)
         );
@@ -127,7 +126,7 @@ export class ProjectsFilter extends React.Component {
                         {this.state.statusesAfterValidation.map((item) =>
                             <Dropdown.Item eventKey={item.id}>{item.status}</Dropdown.Item>
                         )}
-                        <Dropdown.Item eventKey={undefined}>статус проекту</Dropdown.Item>
+                        <Dropdown.Item eventKey={null}>статус проекту</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
                 <br></br>
