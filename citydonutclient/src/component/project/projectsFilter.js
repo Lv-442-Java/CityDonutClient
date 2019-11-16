@@ -12,12 +12,14 @@ export class ProjectsFilter extends React.Component {
     state = {
         statusesAfterValidation: [],
         allCategories: [],
-        maxMoneyNeeded: null
+        maxMoneyNeeded: null,
     };
 
     componentDidMount() {
         const values = queryString.parse(this.props.startLink);
-        this.setStartFilters(values,() => {this.props.setFilters(this.state)});
+        this.setStartFilters(values, () => {
+            this.props.setFilters(this.state)
+        });
         this.getStatuses();
         this.getMaxMoney();
         this.getCategories();
@@ -26,13 +28,12 @@ export class ProjectsFilter extends React.Component {
     setStartFilters = (startFilters) => {
         this.setState(
             {
-                page: startFilters.page === undefined ? 0 : startFilters.page,
-                size: startFilters.size === undefined ? 6 : startFilters.size,
-                status: startFilters.status === undefined ? null : startFilters.status,
-                moneyFrom: startFilters.moneyFrom === undefined ? null : startFilters.moneyFrom,
-                moneyTo: startFilters.moneyTo === undefined ? null : startFilters.moneyTo,
-                categories: startFilters.categories === undefined ? [] :
-                    startFilters.categories.split(",").map(id => parseInt(id)),
+                page: startFilters.page,
+                size: startFilters.size,
+                status: startFilters.status,
+                moneyFrom: startFilters.moneyFrom,
+                moneyTo: startFilters.moneyTo,
+                categories: startFilters.categories.split(",").map(id => parseInt(id)),
             }, () => {
                 this.props.setFilters(this.state);
             }
@@ -49,7 +50,7 @@ export class ProjectsFilter extends React.Component {
     setStatus = (event, e) => {
         this.setState(
             {
-                status: event === null ? event : parseInt(event),
+                status: event === undefined ? event : parseInt(event),
                 statusName: e.target.innerText,
             }, () => this.props.setFilters(this.state)
         );
@@ -62,7 +63,7 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                moneyFrom: e.target.value === "" ? null : e.target.value,
+                moneyFrom: e.target.value === "" ? undefined : e.target.value,
             },
             () => this.props.setFilters(this.state)
         );
@@ -75,7 +76,7 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                moneyTo: e.target.value === "" ? null : e.target.value,
+                moneyTo: e.target.value === "" ? undefined : e.target.value,
             },
             () => this.props.setFilters(this.state)
         );
@@ -125,7 +126,7 @@ export class ProjectsFilter extends React.Component {
                         {this.state.statusesAfterValidation.map((item) =>
                             <Dropdown.Item eventKey={item.id}>{item.status}</Dropdown.Item>
                         )}
-                        <Dropdown.Item eventKey={null}>статус проекту</Dropdown.Item>
+                        <Dropdown.Item eventKey={undefined}>статус проекту</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
                 <br></br>
@@ -137,7 +138,7 @@ export class ProjectsFilter extends React.Component {
                     </InputGroup.Prepend>
                     <FormControl aria-label="Amount (to the nearest dollar)" placeholder="від 0"
                                  onInput={this.setMoneyFrom}
-                                 value={this.state.moneyFrom !== null ? this.state.moneyFrom : ""}/>
+                                 value={this.state.moneyFrom !== undefined ? this.state.moneyFrom : ""}/>
                     <InputGroup.Append>
                         <InputGroup.Text>.00</InputGroup.Text>
                     </InputGroup.Append>
@@ -149,7 +150,7 @@ export class ProjectsFilter extends React.Component {
                     <FormControl aria-label="Amount (to the nearest dollar)"
                                  placeholder={"до " + this.state.maxMoneyNeeded}
                                  onInput={this.setMoneyTo}
-                                 value={this.state.moneyTo !== null ? this.state.moneyTo : ""}/>
+                                 value={this.state.moneyTo !== undefined ? this.state.moneyTo : ""}/>
                     <InputGroup.Append>
                         <InputGroup.Text>.00</InputGroup.Text>
                     </InputGroup.Append>

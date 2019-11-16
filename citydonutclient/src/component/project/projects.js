@@ -19,9 +19,9 @@ export class Projects extends React.Component {
         let url = `?` +
             `page=${this.state.filters.page}&` +
             `size=${this.state.filters.size}`;
-        this.state.filters.status !== null && (url += `&status=${this.state.filters.status}`);
-        this.state.filters.moneyFrom !== null && (url += `&moneyFrom=${this.state.filters.moneyFrom}`);
-        this.state.filters.moneyTo !== null && (url += `&moneyTo=${this.state.filters.moneyTo}`);
+        this.state.filters.status !== undefined && (url += `&status=${this.state.filters.status}`);
+        this.state.filters.moneyFrom !== undefined && (url += `&moneyFrom=${this.state.filters.moneyFrom}`);
+        this.state.filters.moneyTo !== undefined && (url += `&moneyTo=${this.state.filters.moneyTo}`);
         this.state.filters.categories.length !== 0 && (url += `&categories=${this.state.filters.categories}`);
         this.props.history.push(url);
         return url;
