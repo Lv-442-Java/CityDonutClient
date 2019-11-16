@@ -28,12 +28,13 @@ export class ProjectsFilter extends React.Component {
     setStartFilters = (startFilters) => {
         this.setState(
             {
-                page: startFilters.page,
-                size: startFilters.size,
+                page: startFilters.page === undefined ? 0 : startFilters.page,
+                size: startFilters.size === undefined ? 6 : startFilters.size,
                 status: startFilters.status,
                 moneyFrom: startFilters.moneyFrom,
                 moneyTo: startFilters.moneyTo,
-                categories: startFilters.categories.split(",").map(id => parseInt(id)),
+                categories: startFilters.categories === undefined ? [] :
+                    startFilters.categories.split(",").map(id => parseInt(id)),
             }, () => {
                 this.props.setFilters(this.state);
             }
