@@ -6,7 +6,10 @@ import Card from 'react-bootstrap/Card';
 class ProgressBar extends React.Component {
     render() {
         return (
-            <div className="progress" style={{ height: '25px' }}>
+
+            <div className="progress" style={this.props.style}>
+
+
                 <OverlayTrigger overlay={<Tooltip>{this.props.doneTip}</Tooltip>}>
                     <div
                         className="progress-bar bg-success"
