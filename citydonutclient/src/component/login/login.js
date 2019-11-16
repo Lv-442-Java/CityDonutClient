@@ -7,14 +7,20 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 export class Login extends React.Component {
     state = {
+<<<<<<< HEAD
         "userEmail": undefined,
         "password": undefined
+=======
+        email: undefined,
+        pass: undefined,
+>>>>>>> 7bf58c69eacc0978dc33e7d8d4aa13b0bd6440df
     };
 
     setEmail = (e) => {
         this.setState({email: e.target.value});
     };
 
+<<<<<<< HEAD
     setPassword = (e) => {
         this.setState({password: e.target.value});
     };
@@ -36,9 +42,23 @@ export class Login extends React.Component {
         })
     };
 
+=======
+    setEmail = (email) => {
+        this.setState({ email: email.target.value });
+    };
+
+    setPassword = (pass) => {
+        this.setState({ pass: pass.target.value });
+    };
+
+    isVisible = () => this.state.pass !== undefined && this.state.email !== undefined
+        && this.state.pass !== '' && this.state.email !== '';
+
+>>>>>>> 7bf58c69eacc0978dc33e7d8d4aa13b0bd6440df
     render() {
         console.log(this.state)
         return (
+<<<<<<< HEAD
 
             <Modal.Dialog style={{width: '400px', height: '400px'}}>
                 <Modal.Header>
@@ -77,6 +97,14 @@ export class Login extends React.Component {
                 </div>
             </Modal.Dialog>
         )
+=======
+            <div>
+                <input type="email" onChange={this.setEmail} />
+                <input type="password" onChange={this.setPassword} />
+                {this.isVisible() && <input type="button" value="submit" onClick={this.ShowAlert} />}
+            </div>
+        );
+>>>>>>> 7bf58c69eacc0978dc33e7d8d4aa13b0bd6440df
     }
 }
 
