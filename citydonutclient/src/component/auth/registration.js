@@ -144,7 +144,7 @@ export class Registration extends React.Component {
                 </div>
 
                 <button className="btn btn-success" onClick={this.insertRegistrationData}
-                        disabled={!this.isValidForm()}>Register
+                        disabled={!this.isValidForm()}>Зареєструвати
                 </button>
 
                 <div> {this.isVisible() &&
