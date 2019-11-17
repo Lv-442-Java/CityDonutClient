@@ -1,38 +1,58 @@
-import React from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import axios from 'axios';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Form from 'react-bootstrap/Form';
+import React from "react";
+import Dropdown from "react-bootstrap/Dropdown";
+import axios from "axios";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import ListGroup from "react-bootstrap/ListGroup";
+import Form from "react-bootstrap/Form";
+import queryString from 'query-string'
 
 export class ProjectsFilter extends React.Component {
 
     state = {
-        page: 0,
-        size: 6,
-        status: null,
-        moneyFrom: null,
-        moneyTo: null,
-        categories: [],
-        statusName: 'статус проекту',
+        statusName:"статус проекту",
         statusesAfterValidation: [],
-        allCategories: [],
-        maxMoneyNeeded: null,
+        allCategories: []
     };
 
     componentDidMount() {
+        const values = queryString.parse(this.props.startLink);
+        this.setStartFilters(values, () => {
+            this.props.setFilters(this.state)
+        });
         this.getStatuses();
         this.getMaxMoney();
         this.getCategories();
     }
 
+    setStartFilters = (startFilters) => {
+        this.setState(
+            {
+                page: startFilters.page === undefined ? 0 : startFilters.page,
+                size: startFilters.size === undefined ? 6 : startFilters.size,
+                status: startFilters.status,
+                moneyFrom: startFilters.moneyFrom,
+                moneyTo: startFilters.moneyTo,
+                categories: startFilters.categories === undefined ? [] :
+                    startFilters.categories.split(",").map(id => parseInt(id)),
+            }, () => {
+                this.props.setFilters(this.state);
+            }
+        );
+    };
+
+    setStatusName = () => {
+        this.state.statusesAfterValidation.map(status => {
+            status.id == this.state.status && this.setState({statusName: status.status});
+        });
+    };
+
     setStatus = (event, e) => {
         this.setState(
             {
-                status: event === null ? event : parseInt(event),
+                status: event === null ? undefined : parseInt(event),
                 statusName: e.target.innerText,
-            }, () => this.props.setFilters(this.state),
+            }, () => this.props.setFilters(this.state)
         );
     };
 
@@ -43,7 +63,7 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                moneyFrom: e.target.value === "" ? null : e.target.value,
+                moneyFrom: e.target.value === "" ? undefined : e.target.value,
             },
             () => this.props.setFilters(this.state)
         );
@@ -56,78 +76,69 @@ export class ProjectsFilter extends React.Component {
         }
         this.setState(
             {
-                moneyTo: e.target.value === '' ? null : e.target.value,
+                moneyTo: e.target.value === "" ? undefined : e.target.value,
             },
-            () => this.props.setFilters(this.state),
+            () => this.props.setFilters(this.state)
         );
     };
 
     getStatuses = () => {
-        axios.get('http://localhost:8091/api/v1/status/afterValidation')
-            .then(response => this.setState({ statusesAfterValidation: response.data }));
+        axios.get(`http://localhost:8091/api/v1/status/afterValidation`)
+            .then(response => this.setState({statusesAfterValidation: response.data},
+                () => this.setStatusName()));
     };
 
     getMaxMoney = () => {
-        axios.get('http://localhost:8091/api/v1/maxMoney')
-            .then(response => this.setState({ maxMoneyNeeded: response.data }));
+        axios.get(`http://localhost:8091/api/v1/maxMoney`)
+            .then(response => this.setState({maxMoneyNeeded: response.data}));
     };
 
     getCategories = () => {
-        axios.get('http://localhost:8091/api/v1/category/all')
-            .then(response => this.setState({ allCategories: response.data }));
+        axios.get(`http://localhost:8091/api/v1/category/all`)
+            .then(response => this.setState({allCategories: response.data}));
     };
 
-    setCategories = (event, e) => {
-        let newCategories = this.state.categories.slice();
-        if (event.target.checked) {
-            newCategories.push(event.target.id);
-        } else {
-            newCategories = newCategories.filter(elem => elem !== event.target.id);
-        }
+    setCategories = (event) => {
+        let newCategories = [];
+        newCategories.push(...this.state.categories);
+        event.target.checked ? newCategories.push(parseInt(event.target.id)) :
+            newCategories = newCategories.filter(elem => {
+                return elem !== parseInt(event.target.id)
+            });
         this.setState(
             {
                 categories: newCategories,
             },
-            () => this.props.setFilters(this.state),
+            () => this.props.setFilters(this.state)
         );
     };
 
     render() {
-        const items = this.state.statusesAfterValidation.map(item => <Dropdown.Item eventKey={item.id}>{item.status}</Dropdown.Item>);
-
-        const categories = this.state.allCategories.map(category => (
-            <ListGroup.Item action variant="light">
-                <Form>
-                    <Form.Check type="checkbox" id={category.id} label={category.category}
-                                onChange={this.setCategories}/>
-                </Form>
-            </ListGroup.Item>
-        ));
-
         return (
             <div>
-                <br />
+                <br></br>
+                <p>СТАТУС ПРОЕКТУ</p>
                 <Dropdown onSelect={this.setStatus}>
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                         {this.state.statusName}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {items}
+                        {this.state.statusesAfterValidation.map((item) =>
+                            <Dropdown.Item eventKey={item.id}>{item.status}</Dropdown.Item>
+                        )}
                         <Dropdown.Item eventKey={null}>статус проекту</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-                <br />
+                <br></br>
 
                 <p>НЕОБХІДНІ КОШТИ</p>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                         <InputGroup.Text>₴</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl
-                        aria-label="Amount (to the nearest dollar)"
-                        placeholder="від 0"
-                        onInput={this.setMoneyFrom}
-                    />
+                    <FormControl aria-label="Amount (to the nearest dollar)" placeholder="від 0"
+                                 onInput={this.setMoneyFrom}
+                                 value={this.state.moneyFrom !== undefined ? this.state.moneyFrom : ""}/>
                     <InputGroup.Append>
                         <InputGroup.Text>.00</InputGroup.Text>
                     </InputGroup.Append>
@@ -136,11 +147,10 @@ export class ProjectsFilter extends React.Component {
                     <InputGroup.Prepend>
                         <InputGroup.Text>₴</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl
-                        aria-label="Amount (to the nearest dollar)"
-                        placeholder={`до ${this.state.maxMoneyNeeded}`}
-                        onInput={this.setMoneyTo}
-                    />
+                    <FormControl aria-label="Amount (to the nearest dollar)"
+                                 placeholder={"до " + this.state.maxMoneyNeeded}
+                                 onInput={this.setMoneyTo}
+                                 value={this.state.moneyTo !== undefined ? this.state.moneyTo : ""}/>
                     <InputGroup.Append>
                         <InputGroup.Text>.00</InputGroup.Text>
                     </InputGroup.Append>
@@ -148,9 +158,17 @@ export class ProjectsFilter extends React.Component {
 
                 <p>КАТЕГОРІЇ</p>
                 <ListGroup>
-                    {categories}
+                    {this.state.allCategories.map((category) =>
+                        <ListGroup.Item action variant="light">
+                            <Form>
+                                <Form.Check type="checkbox" id={category.id} label={category.category}
+                                            onChange={this.setCategories}
+                                            defaultChecked={this.state.categories.includes(category.id)}/>
+                            </Form>
+                        </ListGroup.Item>
+                    )}
                 </ListGroup>
             </div>
-        );
+        )
     }
 }
