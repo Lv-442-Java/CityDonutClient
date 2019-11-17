@@ -30,10 +30,7 @@ export class Login extends React.Component {
                 <div>
                     <p> Для реєстрації перейдіть сюди => <a href="http://localhost:3000/registration" target="ddd">Реєстрація</a></p>
                 </div>
-
-
             </div>
-
     );
     }
     }
