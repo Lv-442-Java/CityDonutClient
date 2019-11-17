@@ -1,47 +1,82 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { Marker } from 'react-google-maps';
+import GoogleMap from './GoogleMap';
+import GoogleLocation from './GoogleLocation';
 
-import Modal from "react-bootstrap/Modal";
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Button from "react-bootstrap/Button";
 
-export class CreateProject extends React.Component{
-
+export class CreateProject extends React.Component {
     render() {
-        return(
-
-            <Modal.Dialog>
+        return (
+            <Modal.Dialog style={{ width: '600px', height: '500' }}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title style={{ textAlign: 'center' }}>Створити проект</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    <div>
-                        <label> Назва проекту:</label>
-                        <input type="text" name="projectName" pattern="[A-Za-z]{3}" title="Three letter country code" />
+
+                    <div style={{ width: '100%' }}>
+                        <label htmlFor="pName"> Назва проекту:</label>
+                        <input
+                            type="text"
+                            id="pName"
+                            name="projectName"
+                            placeholder="Назва проекту..."
+                            style={{
+                                width: '100%',
+                                padding: '12px 20px',
+                                margin: '8px 0',
+                                display: 'inline-block',
+                                border: '1px solid #ccc',
+                                borderRadius: '4px',
+
+                            }}
+                        />
+
+                        <label htmlFor="pDescription">Опис:</label>
+                        <input
+                            type="area"
+                            id="pDescription"
+                            name="description"
+                            placeholder="Про проект..."
+                            style={{
+                                width: '100%',
+                                height: '100px',
+                                padding: '12px 20px',
+                                margin: '8px 0',
+                                display: 'inline-block',
+                                border: '1px solid #ccc',
+                                borderRadius: '4px',
+                                boxSizing: 'border-box',
+
+                            }}
+                        />
+
+                        <label htmlFor="pFile">Загрузити файли:</label>
+                        <input type="file" id="pFile" name="fileLoad" />
                     </div>
-                    <div>
-                        <label>Опис:</label>
-                        <input type="area" name="description"/>
-                    </div>
-                    <div>
-                        <label>Загрузити файли:</label>
-                        <input type="file" name="fileLoad"/>
-                    </div>
-                    <div>
-                        <label> Добавити локацію:</label>
-                        <input type="text" name="addLocation"/>
+
+                    <div style={{
+                        height: '400px',
+                        width: '350px',
+                        margin: '50px 0px 60px 60px',
+                    }}
+                    >
+                        <GoogleMap />
                     </div>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant="primary">Надіслати</Button>
                 </Modal.Footer>
+                <GoogleLocation />
             </Modal.Dialog>
 
 
-
-        )
+        );
     }
-
 }
+
+export default CreateProject;

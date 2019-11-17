@@ -1,6 +1,6 @@
-import React from "react";
-import axios from "axios";
-import Form from 'react-bootstrap/Form'
+import React from 'react';
+import axios from 'axios';
+import Form from 'react-bootstrap/Form';
 
 export class Registration extends React.Component {
     state = {
@@ -41,6 +41,7 @@ export class Registration extends React.Component {
     setConfirmPassword = (e) => {
         this.setState({cpassword: e.target.value});
     };
+
     insertRegistrationData = () => {
         let data = {
             firstName: this.state.firstName,
@@ -52,7 +53,7 @@ export class Registration extends React.Component {
         console.log(data);
         axios.post(`http://localhost:8091/api/v1/registration/`,
             data,
-            {crossDomain: true})
+            {withCredentials: true})
             .then(response => {
                 this.setState({
                     status: response.status,
@@ -71,8 +72,16 @@ export class Registration extends React.Component {
             })
     };
     isValidForm = () => {
-        return this.state.password !== undefined &&
-            this.state.cpassword === this.state.password;
+        return this.state.cpassword === this.state.password &&
+            this.isEmptyField()
+    };
+
+    isEmptyField = () => {
+        return this.state.firstName !== undefined && this.state.firstName !== "" &&
+            this.state.lastName !== undefined && this.state.lastName !== "" &&
+            this.state.email !== undefined && this.state.email !== "" &&
+            this.state.password !== undefined && this.state.password !== "" &&
+            this.state.cpassword !== undefined && this.state.cpassword !== ""
     };
 
     isVisible = () => {
@@ -83,7 +92,7 @@ export class Registration extends React.Component {
         console.log(this.state)
         return (
 
-            <div align="center" >
+            <div align="center">
                 <h2>Реєстрація </h2>
 
                 <div className="col-5 ">
@@ -131,11 +140,15 @@ export class Registration extends React.Component {
                     </Form.Group>
                 </div>
 
+                <div> {!this.isEmptyField() && <div className="alert alert-primary" role="alert">Всі поля повинні бути заповненими</div>}
+                </div>
+
                 <button className="btn btn-success" onClick={this.insertRegistrationData}
                         disabled={!this.isValidForm()}>Register
                 </button>
 
-                <div> {this.isVisible() && <div className="alert alert-primary" role="alert">Перевірте вашу почтову скриньку</div>}
+                <div> {this.isVisible() &&
+                <div className="alert alert-primary" role="alert">Перевірте вашу почтову скриньку</div>}
                 </div>
 
             </div>
