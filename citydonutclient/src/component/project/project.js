@@ -1,6 +1,7 @@
 import React from "react";
 import {PhotoSlider} from "./photoSlider";
 import {ProjectProgressBar} from "./projectProgressBar";
+import {ProjectScroller} from "./projectScroller";
 import axios from "axios";
 
 export class Project extends React.Component{
@@ -37,6 +38,7 @@ export class Project extends React.Component{
                         <ProjectProgressBar projectId={this.state.projectId} projectName={this.state.project.name}
                         moneyNeeded={this.state.project.moneyNeeded}
                         endDate={this.state.project.donationEndDate}></ProjectProgressBar>
+                        <ProjectScroller></ProjectScroller>
                     </div>
                     ): (<h1>Something went wrong. Reload the page, please</h1>)}
             </div>
