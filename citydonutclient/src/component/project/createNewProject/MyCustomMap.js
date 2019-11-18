@@ -1,7 +1,7 @@
 import React from "react";
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 
-export const API_KEY = 'AIzaSyAVPjaV3Lhmn_Q65E6dy-jztUkSHB_KGQc';
+export const API_KEY = 'AIzaSyCL5ozw1CkFmBD_MiCtXia4LgLwLiINf7w';
 
 export default class MyCustomMap extends React.Component {
 
@@ -18,25 +18,24 @@ export default class MyCustomMap extends React.Component {
         }
     }
 
+
     createMap = (places) => withScriptjs(withGoogleMap(props =>
 
             <GoogleMap
                 defaultZoom={this.state.zoom}
                 defaultCenter={{lat: this.state.center.lat, lng: this.state.center.lng}}>
                 <Marker
-                    position={{ lat: this.props.location.coordinates.lat , lng: this.props.location.coordinates.lng }}
+                    position={{ lat: this.props.location.coordinates.lat, lng: this.props.location.coordinates.lng }}
                 />
-                {/*{places.map(element => <Marker key={element.index} position={{*/}
-                {/*    lat : element.places.lat,*/}
-                {/*    lng: element.places.lng*/}
-                {/*/>*/}
-
             </GoogleMap>
     ));
     componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
         console.log("did mount")
-        if(this.props.location !== prevProps.location){
-            this.setState({MyMap:this.createMap()})
+        if(this.props.location !== prevProps.location && this.props.location.coordinates.lat){
+            this.setState({
+                center: this.props.location.coordinates,
+                MyMap:this.createMap(this.props.location.coordinates)
+            })
         }
     }
 

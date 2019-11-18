@@ -1,25 +1,24 @@
 import React from "react";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
+import GoogleLocation from "../createNewProject/GoogleLocation";
 
 export default class UpdateProject extends React.Component {
         state = {
             id: 1,
-            project : {
                 creationDate : '',
                 name : '',
                 description : '',
                 moneyNeeded : 0,
-                location : ''
-            },
-            fieldsCheck :{
-                areDocumentsValid : '',
+                location : '',
+
+                areDocumentsValid : false,
                 arePhotosValid : false,
                 descriptionValid: false,
                 locationValid : false,
                 moneyNeededValid : false,
                 nameValid :false
-            }
+
     }
 
 
@@ -28,10 +27,7 @@ export default class UpdateProject extends React.Component {
         axios.get(`http://localhost:8080/api/v1/project/${this.state.id}`,
             {withCredentials: true})
                 .then(response => {
-                    this.setState(
-                        {project: response.data}
-                    )
-                    console.log("in project")
+                    this.setState({...response.data} )
                 })
     };
 
@@ -40,9 +36,8 @@ export default class UpdateProject extends React.Component {
             {withCredentials: true})
             .then(response => {
                 this.setState(
-                {fieldsCheck: response.data }
+                {...response.data[0] }
                 )
-                console.log("in field")
             })
     };
 
@@ -51,10 +46,11 @@ export default class UpdateProject extends React.Component {
     componentDidMount() {
         this.getProjectData();
         this.getFieldsCheck();
+
+
     }
 
     render() {
-        console.log(" In render")
         return (
             <div>
 
@@ -68,33 +64,43 @@ export default class UpdateProject extends React.Component {
                             type="text"
                             name="projectName"
                             className="form-control"
-                            defaultValue={this.state.project.name}
-                            readOnly={true}
+                            defaultValue={this.state.name}
+                            readOnly={this.state.nameValid}
                         />
 
 
                         <label htmlFor="projectDescription">Опис проекту :</label>
-                        <input
-                            type="area"
+                        <textarea
                             className="form-control"
                             name="projectDescription"
-                            value={this.state.project.description}
-                            readOnly={true}/>
+                            value={this.state.description}
+                            readOnly={this.state.descriptionValid}
+                            style={{
+                                resize:'none',
+                                width: '100%',
+                                height: '60px',
+                                padding: '12px 20px',
+                                margin: '8px 0',
+                                display: 'inline-block',
+                                border: '1px solid #ccc',
+                                borderRadius: '4px',
+                                boxSizing: 'border-box'}}/>
 
                         <label htmlFor="projectPrice">Необхідні кошти для реалізації проекту :</label>
                         <input
                             type="text"
                             className="form-control"
                             name="projectPrice"
-                            value={this.state.project.moneyNeeded}
-                            readOnly={true}/>
+                            value={this.state.moneyNeeded}
+                            readOnly={this.state.moneyNeededValid}/>
 
                         <label >Адреса :</label>
-                        <input
-                            className="form-control"
-                            value={this.state.project.location}
-                            readOnly={true}
-                        />
+                        <GoogleLocation id="pLocation"   setPlace={this.setPlace} />
+                        {/*<input*/}
+                        {/*    className="form-control"*/}
+                        {/*    value={this.state.location}*/}
+                        {/*    readOnly={this.state.locationValid}*/}
+                        {/*/>*/}
 
                         <label > Необхідні документи :</label>
                         <div>
