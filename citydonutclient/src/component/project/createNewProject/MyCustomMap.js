@@ -1,60 +1,56 @@
-// import React from "react";
-// import {GoogleMap,
-//         withScriptjs,
-//         withGoogleMap,
-//         Marker} from 'react-google-maps';
-//
-//
-// export const API_KEY = 'AIzaSyAS45zUCfvjgf1ebJTN_lTouV-CPjXMArQ';
-//
-//
-// export default class  MyCustomMap extends React.Component{
-//     static defaultProps = {
-//         googleMapURL:"https://maps.googleapis.com/maps/api/js?key="+API_KEY ,
-//         center: {
-//             lat: 49.839681,
-//             lng: 24.029720,
-//         },
-//         zoom: 1
-//     };
-//     // constructor(props){
-//     //     super(props)
-//     //     this.state = {
-//     //         MyMap: this.createMap([])
-//     //     }
-//     // }
-//
-//     createMap = (plases) => withScriptjs(withGoogleMap(props =>
-//         <GoogleMap
-//             defaultZoom={16}
-//             defaultCenter={{ lat: 49.839681, lng: 24.029720 }}>
-//
-//             plases.map(element => <Marker position={element.pl} />)
-//         </GoogleMap>
-//
-//     ));
-//     componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
-//         if(this.props.places !== prevProps.places){
-//             this.setState({MyMA})
-//         }
-//
-//     }
-//
-//     render() {
-//         let location = this.props.location;
-//
-//         return (
-//             <div>
-//                 <this.MyMap
-//                     googleMapURL={this.props.googleMapURL}
-//                     loadingElement={<div style={{ height: `100%` }} />}
-//                     containerElement={<div style={{ height: `400px` }} />}
-//                     mapElement={<div style={{ height: `100%` }} />}
-//                 >
-//
-//
-//                 </this.MyMap>
-//             </div>
-//         );
-//     }
-// }
+import React from "react";
+import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
+
+export const API_KEY = 'AIzaSyAVPjaV3Lhmn_Q65E6dy-jztUkSHB_KGQc';
+
+export default class MyCustomMap extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            MyMap: this.createMap([]),
+            googleMapURL: "https://maps.googleapis.com/maps/api/js?key=" + API_KEY,
+            center: {
+                lat: 49.839681,
+                lng: 24.029720
+            },
+            zoom: 16
+        }
+    }
+
+    createMap = (places) => withScriptjs(withGoogleMap(props =>
+
+            <GoogleMap
+                defaultZoom={this.state.zoom}
+                defaultCenter={{lat: this.state.center.lat, lng: this.state.center.lng}}>
+                <Marker
+                    position={{ lat: this.props.location.coordinates.lat , lng: this.props.location.coordinates.lng }}
+                />
+                {/*{places.map(element => <Marker key={element.index} position={{*/}
+                {/*    lat : element.places.lat,*/}
+                {/*    lng: element.places.lng*/}
+                {/*/>*/}
+
+            </GoogleMap>
+    ));
+    componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
+        console.log("did mount")
+        if(this.props.location !== prevProps.location){
+            this.setState({MyMap:this.createMap()})
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <this.state.MyMap
+                    googleMapURL={this.state.googleMapURL}
+                    loadingElement={<div style={{height: `100%`}}/>}
+                    containerElement={<div style={{height: `400px`}}/>}
+                    mapElement={<div style={{height: `100%`}}/>}
+                >
+                </this.state.MyMap>
+            </div>
+        );
+    }
+}

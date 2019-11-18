@@ -1,60 +1,102 @@
 import React from "react";
 import {Button, Modal} from "react-bootstrap";
-import GoogleLocation from "../createNewProject/GoogleLocation";
 import axios from "axios";
-import SimpleModelComponent from "./SimpleModelComponent";
-
 
 export default class UpdateProject extends React.Component {
-    state = {
-        id: undefined,
-        name: undefined,
-        description: undefined,
-        location: undefined,
-        documents: [],
-        userEmail: 'vanivsky.oleh.lv@gmail.com',
-        password: 'user'
-    };
-
-    componentDidMount() {
-        this.getData()
+        state = {
+            id: 1,
+            project : {
+                creationDate : '',
+                name : '',
+                description : '',
+                moneyNeeded : 0,
+                location : ''
+            },
+            fieldsCheck :{
+                areDocumentsValid : '',
+                arePhotosValid : false,
+                descriptionValid: false,
+                locationValid : false,
+                moneyNeededValid : false,
+                nameValid :false
+            }
     }
 
-    data = {"userEmail": this.state.userEmail,
-        "password": this.state.password}
 
 
-    getData = () => {
-        axios.post('http://localhost:8080/sign-in',
-            this.data,
+    getProjectData = () => {
+        axios.get(`http://localhost:8080/api/v1/project/${this.state.id}`,
             {withCredentials: true})
                 .then(response => {
-                    console.log(response.data);
-                    this.setState({name: response.data}
+                    this.setState(
+                        {project: response.data}
                     )
+                    console.log("in project")
                 })
     };
 
-    render() {
-        return (
+    getFieldsCheck = () => {
+        axios.get(`http://localhost:8080/api/v1/fieldsCheck/get/${this.state.id}`,
+            {withCredentials: true})
+            .then(response => {
+                this.setState(
+                {fieldsCheck: response.data }
+                )
+                console.log("in field")
+            })
+    };
 
+
+
+    componentDidMount() {
+        this.getProjectData();
+        this.getFieldsCheck();
+    }
+
+    render() {
+        console.log(" In render")
+        return (
             <div>
 
                 <Modal.Dialog>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title>Розгляд проекту: </Modal.Title>
 
                     <Modal.Body>
 
-                        <label htmlFor="pName">Назва проекту:</label>
-                        <input type="text" name="name" className="form-control"/>
+                        <label htmlFor="projectName">Назва проекту :</label>
+                        <input
+                            type="text"
+                            name="projectName"
+                            className="form-control"
+                            defaultValue={this.state.project.name}
+                            readOnly={true}
+                        />
 
-                        <label htmlFor="pDescription">Опис проекту:</label>
-                        <input type="area" className="form-control" name="description" placeholder="Про проект..."/>
 
-                        <label htmlFor="pLocation">Адреса :</label>
-                        <GoogleLocation id="pLocation" className="form-control" setPlace={this.setPlace}/>
+                        <label htmlFor="projectDescription">Опис проекту :</label>
+                        <input
+                            type="area"
+                            className="form-control"
+                            name="projectDescription"
+                            value={this.state.project.description}
+                            readOnly={true}/>
 
-                        <label htmlFor="pLocation"> Необхідні документи :</label>
+                        <label htmlFor="projectPrice">Необхідні кошти для реалізації проекту :</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="projectPrice"
+                            value={this.state.project.moneyNeeded}
+                            readOnly={true}/>
+
+                        <label >Адреса :</label>
+                        <input
+                            className="form-control"
+                            value={this.state.project.location}
+                            readOnly={true}
+                        />
+
+                        <label > Необхідні документи :</label>
                         <div>
 
                         </div>

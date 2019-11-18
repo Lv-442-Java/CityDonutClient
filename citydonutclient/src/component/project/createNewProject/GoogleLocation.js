@@ -18,7 +18,7 @@ export default class PlaceComponent extends React.Component {
                     coordinates={true}
                     // locationBoxStyle={'custom-style'}
                     // locationListStyle={'custom-style-list'}
-                    // onChange={this.props.setPlace}
+                    onChange={this.props.setPlace}
                 />
             </div>
         )
