@@ -11,11 +11,11 @@ export class Login extends React.Component {
     };
 
     setEmail = (email) => {
-        this.setState({ email: email.target.value });
+        this.setState({email: email.target.value});
     };
 
     setPassword = (pass) => {
-        this.setState({ pass: pass.target.value });
+        this.setState({pass: pass.target.value});
     };
 
     isVisible = () => this.state.pass !== undefined && this.state.email !== undefined
@@ -24,10 +24,13 @@ export class Login extends React.Component {
     render() {
         return (
             <div>
-                <input type="email" onChange={this.setEmail} />
-                <input type="password" onChange={this.setPassword} />
-                {this.isVisible() && <input type="button" value="submit" onClick={this.ShowAlert} />}
+                <input type="email" onChange={this.setEmail}/>
+                <input type="password" onChange={this.setPassword}/>
+                {this.isVisible() && <input type="button" value="submit" onClick={this.ShowAlert}/>}
+                <div>
+                    <p> Для реєстрації перейдіть сюди => <a href="http://localhost:3000/registration" target="ddd">Реєстрація</a></p>
+                </div>
             </div>
-        );
+    );
     }
-}
+    }
