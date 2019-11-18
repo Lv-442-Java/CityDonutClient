@@ -8,22 +8,26 @@ import {Head} from "./component/head/head";
 import {CreateProject} from "./component/project/CreateProject";
 import {Projects} from "./component/project/projects";
 import {Project} from "./component/project/project";
-import Registration from './component/auth/registration';
+import {Registration} from './component/auth/registration';
+import {ActivationUser} from "./component/auth/activationUser";
 
 
 export class Routers extends React.Component {
     render() {
         return (
             <BrowserRouter>
-                <Head />
+                <Head/>
                 <Switch>
 
-                    <Route exact path ='/' component={Base} />
-                    <Route path ='/login' component={Login} />
-                    <Route path ='/project/create' component={CreateProject} />
-                    <Route path='/registration' component={Registration} />
-                    <Route exact path='/projects' component={Projects} />
-                    <Route path ='/projects/:id' render={(props) => <Project{...props} id = {this.props.id}/>}/>
+                    <Route exact path='/' component={Base}/>
+                    <Route path='/login' component={Login}/>
+                    <Route path='/project/create' component={CreateProject}/>
+                    <Route path='/registration' component={Registration}/>
+                    <Route exact path='/projects' component={Projects}/>
+
+                    <Route path='/activationUser/:activationCode' component={ActivationUser} />
+
+                    <Route path='/projects/:id' render={(props) => <Project{...props} id={this.props.id}/>}/>
                 </Switch>
             </BrowserRouter>
         );
