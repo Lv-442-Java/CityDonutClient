@@ -18,8 +18,8 @@ export class Project extends React.Component{
         axios.get(`http://localhost:8091/api/v1/project/${this.state.projectId}`, { withCredentials: true }).then(response => {
         this.setState({project: response.data})
     })
-
     };
+
 
     componentDidUpdate(prevProps) {
 
@@ -38,7 +38,8 @@ export class Project extends React.Component{
                         <ProjectProgressBar projectId={this.state.projectId} projectName={this.state.project.name}
                         moneyNeeded={this.state.project.moneyNeeded}
                         endDate={this.state.project.donationEndDate}></ProjectProgressBar>
-                        <ProjectScroller></ProjectScroller>
+                        <ProjectScroller description={this.state.project.description} projectId={this.state.projectId}
+                                         status={this.state.project.projectStatus.status}></ProjectScroller>
                     </div>
                     ): (<h1>Something went wrong. Reload the page, please</h1>)}
             </div>

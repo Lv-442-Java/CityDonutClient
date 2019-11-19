@@ -1,14 +1,23 @@
 import React from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
+import Container from "react-bootstrap/Container";
+import {Description} from "./description";
+import ScrollUpButton from "react-scroll-up-button";
+import {Document} from "./documentation"
 
 export class ProjectScroller extends React.Component {
 
+    changeColor=() =>{
+        this.color = "blue";
+    }
     render() {
         return (
+
             <div>
-                <div className="d-flex justify-content-center " style={{width:"100%", height:"35px"}}>
+                <Container>
+                    <div className="d-flex justify-content-center " style={{width:"100%", height:"35px"}}>
                 <div className= "d-flex justify-content-around align-items-center" style = {{background: "#f0f0f0", margin: "20px",
-                    width:"80%", height:"35px"}}>
+                    width:"60%", height:"35px"}}>
                     <Link
                         activeClass="active"
                         to="description"
@@ -28,15 +37,7 @@ export class ProjectScroller extends React.Component {
                         Документація
                     </Link>
                     <Link
-                        activeClass="active"
-                        to="budget"
-                        spy={true}
-                        smooth={true}
-                        offset={-70}
-                        duration={500}>
-                        Бюджет
-                    </Link>
-                    <Link
+
                         activeClass="active"
                         to="map"
                         spy={true}
@@ -45,30 +46,39 @@ export class ProjectScroller extends React.Component {
                         duration={500}>
                         Розташування
                     </Link>
-
+                    {this.props.status === "реалізація" || this.props.status === "виконаний" && <Link
+                        activeClass="active"
+                        to="map"
+                        spy={true}
+                        smooth={true}
+                        offset={-70}
+                        duration={500}>
+                        Сторіборд
+                        </Link>}
+                    </div>
                 </div>
-                </div>
-                <br/>
+                    <br/>
                 <div className="" style={{width:"80%", margin:"30px"}} id= "description">
                     <h3>Опис</h3>
-                    <p>text text text text </p>
+                    <Description description={this.props.description}></Description>
                 </div>
                 <br/>
                 <div className="" style={{width:"80%", margin: "30px"}} id = "docs">
                     <h3>Документація</h3>
-                    <p>docs docs docs</p>
+                    <Document projectId = {this.props.projectId}></Document>
                 </div>
-                <br/>
-                <div className="" style={{width:"80%", margin: "30px"}} id = "budget">
-                    <h3>Бюджет</h3>
-                    <p>numbers numbers numbers</p>
-                </div>
-                <br/>
+                    <br/>
                 <div className="" style={{width:"80%", margin: "30px"}} id = "map">
                     <h3>Розташування</h3>
                     <p>map map map</p>
                 </div>
+                </Container>
+                <div>
+                    <ScrollUpButton />
+                </div>
             </div>
+
+
         );
     }
 }

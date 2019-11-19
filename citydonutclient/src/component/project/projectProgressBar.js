@@ -12,8 +12,6 @@ export class ProjectProgressBar extends React.Component {
         contributors: 0
    }
 
-
-
     getDonatesSum = () => {
         axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.props.projectId}`, { withCredentials: true }).then(response => {
             this.setState({
@@ -61,7 +59,7 @@ export class ProjectProgressBar extends React.Component {
                     <ProgressBar style={{height: "26px", width:"30%", margin: ""}} doneTip="Зібрано!"
                                  donePercent={this.state.donatedPercent}
                                  doneLabel={this.state.donatesSum + " грн"} undoneTip="Потрібно зібрати!"
-                                 undoneLabel={this.props.moneyNeeded - this.state.donatesSum + " грн"}/>
+                                 undoneLabel={this.props.moneyNeeded - this.state.donatesSum}/>
 
                     <h5 style = {{margin:""}}>Доброчинців: {this.state.contributors}</h5>
 
