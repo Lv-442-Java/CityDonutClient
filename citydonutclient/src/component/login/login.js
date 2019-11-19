@@ -4,14 +4,20 @@ import Form from 'react-bootstrap/Form'
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import {Link} from 'react-router-dom';
 
 
 export class Login extends React.Component {
     state = {
         userEmail: undefined,
         password: undefined,
-        status: undefined
-    };
+        status: undefined,
+        errorMessage : undefined
+};
+
+    componentDidMount() {
+        // this.getData()
+    }
 
     setEmail = (e) => {
         this.setState({
@@ -28,25 +34,20 @@ export class Login extends React.Component {
     insertLoginData = () => {
         let data = {
             userEmail: this.state.userEmail,
-            password: this.state.password,
-            status: 0
+            password: this.state.password
         };
         console.log(data);
-        axios.post(`http://localhost:8091/api/v1/sign-in`,
+        axios.post(`http://localhost:8091/sign-in`,
             data,
             {withCredentials: true})
             .then(response => {
                 this.setState({
                     status: response.status
                 })
-                console.log(response.data)
             })
             .catch(err => {
-                console.log(err);
-                let data = err.response.data;
-                let errors = JSON.parse(data.message);
-                this.setState({...errors})
-                console.log(errors);
+                this.setState({errorMessage: err.response.data["message"]});
+               console.log(err.response.data);
             })
     };
 
@@ -56,9 +57,7 @@ export class Login extends React.Component {
     };
 
     render() {
-
         return (
-
             <Modal.Dialog style={{width: '400px', height: '400px'}}>
                 <Modal.Header>
                     <Modal.Title style={{textAlign: 'center'}}>Вхід</Modal.Title>
@@ -69,30 +68,32 @@ export class Login extends React.Component {
                         <Form.Group controlId="formBasicEmail">
                             <Form.Control type="userEmail"
                                           placeholder="Введіть ваш email"
-                                          onChange={this.setEmail}
-                                          isInvalid={!!this.state.invalidData}/>
-                            <Form.Control.Feedback type="invalid">
-                                {this.state}
-                            </Form.Control.Feedback>
+                                          onChange={this.setEmail}/>
                         </Form.Group>
                     </div>
 
                     <div className="col-8">
                         <Form.Group controlId="formPlaintextPassword">
-                            <Form.Control type="password" placeholder="Введіть ваш пароль" onChange={this.setPassword}/>
+                            <Form.Control type="password" placeholder="Введіть ваш пароль"
+                                          onChange={this.setPassword}/>
                         </Form.Group>
                     </div>
 
-                    <div> {!this.isEmptyField() &&
-                    <div className="alert alert-primary" role="alert">Всі поля повинні бути заповненими</div>}
+                    <div>
+                        {
+                            !this.isEmptyField() &&
+                            <div className="alert alert-primary" role="alert">Всі поля повинні бути заповненими</div>
+                        }
+                        {
+                            this.state.errorMessage &&
+                            <div className="alert alert-danger" role="alert">{this.state.errorMessage}</div>
+                        }
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
 
-                    {/*<Button.Item as={Link} to="/registration" >Register</Button.Item>*/}
-                    {/*<Button className="btn btn-success" variant="primary" onClick={this.insertLoginData}   disabled={!this.isValidForm()}*/}
-                    {/*        size="lg">Login</Button>*/}
-                    <button className="btn btn-success" onClick={this.insertLoginData}>Увійти
+                    <Button as={Link} to="/registration" size="lg">Реєстрація</Button>
+                    <button className="btn btn-success" size="lg" onClick={this.insertLoginData}>Увійти
                     </button>
                 </Modal.Footer>
                 <div>
@@ -109,6 +110,5 @@ export class Login extends React.Component {
         )
     }
 }
-
 
 export default Login;
