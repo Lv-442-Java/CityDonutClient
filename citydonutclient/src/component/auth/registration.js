@@ -148,7 +148,7 @@ export class Registration extends React.Component {
                 </button>
 
                 <div> {this.isVisible() &&
-                <div className="alert alert-primary" role="alert">Перевірте вашу почтову скриньку</div>}
+                <div className="alert alert-primary" role="alert">Для активації акаунту перевірте вашу почтову скриньку</div>}
                 </div>
 
             </div>
