@@ -5,42 +5,58 @@ import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
+
 export class Login extends React.Component {
     state = {
-        "userEmail": undefined,
-        "password": undefined
+        userEmail: undefined,
+        password: undefined,
+        status: undefined
     };
 
     setEmail = (e) => {
-        this.setState({userEmail: e.target.value});
+        this.setState({
+            userEmail: e.target.value
+        });
     };
 
-
     setPassword = (e) => {
-        this.setState({password: e.target.value});
+        this.setState({
+            password: e.target.value
+        });
     };
 
     insertLoginData = () => {
         let data = {
-            userEmail: this.state.email,
-            password: this.state.password
+            userEmail: this.state.userEmail,
+            password: this.state.password,
+            status: 0
         };
         console.log(data);
-        axios.post(`http://localhost:8080/sign-in`,
+        axios.post(`http://localhost:8091/api/v1/sign-in`,
             data,
-             {withCredentials: true}).then(response => console.log(response.data))
-            .catch(error => {
-               error.data.error.message });
-            };
-        // (err => {
-            // console.log(err);
-            // let data = err.response.data;
-            // let errors = JSON.parse(data.message);
-            // this.setState({...git errors})
-            // console.log(errors);
+            {withCredentials: true})
+            .then(response => {
+                this.setState({
+                    status: response.status
+                })
+                console.log(response.data)
+            })
+            .catch(err => {
+                console.log(err);
+                let data = err.response.data;
+                let errors = JSON.parse(data.message);
+                this.setState({...errors})
+                console.log(errors);
+            })
+    };
+
+    isEmptyField = () => {
+        return this.state.userEmail !== undefined && this.state.userEmail !== "" &&
+            this.state.password !== undefined && this.state.password !== ""
+    };
 
     render() {
-        console.log(this.state)
+
         return (
 
             <Modal.Dialog style={{width: '400px', height: '400px'}}>
@@ -49,10 +65,15 @@ export class Login extends React.Component {
                 </Modal.Header>
 
                 <Modal.Body>
-
                     <div className="col-8">
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Control type="email" placeholder="Введіть ваш email" onChange={this.setEmail}/>
+                            <Form.Control type="userEmail"
+                                          placeholder="Введіть ваш email"
+                                          onChange={this.setEmail}
+                                          isInvalid={!!this.state.invalidData}/>
+                            <Form.Control.Feedback type="invalid">
+                                {this.state}
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </div>
 
@@ -61,12 +82,18 @@ export class Login extends React.Component {
                             <Form.Control type="password" placeholder="Введіть ваш пароль" onChange={this.setPassword}/>
                         </Form.Group>
                     </div>
+
+                    <div> {!this.isEmptyField() &&
+                    <div className="alert alert-primary" role="alert">Всі поля повинні бути заповненими</div>}
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
 
-                    <Button href="http://localhost:3000/registration" variant="secondary" size="lg">Register</Button>
-                    <Button className="btn btn-success" variant="primary" onClick={this.insertLoginData}
-                            size="lg">Login</Button>
+                    {/*<Button.Item as={Link} to="/registration" >Register</Button.Item>*/}
+                    {/*<Button className="btn btn-success" variant="primary" onClick={this.insertLoginData}   disabled={!this.isValidForm()}*/}
+                    {/*        size="lg">Login</Button>*/}
+                    <button className="btn btn-success" onClick={this.insertLoginData}>Увійти
+                    </button>
                 </Modal.Footer>
                 <div>
                     <div>
