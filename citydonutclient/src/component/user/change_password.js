@@ -34,15 +34,6 @@ export class ChangePassword extends React.Component {
         }
     };
 
-    /*   componentDidUpdate(prevProps, prevState, snapshot) {
-           console.log(this.state.incorrectInputData.incorrectOldPassword + " old")
-           console.log(this.state.incorrectInputData.incorrectNewPassword + " new")
-           console.log(this.state.incorrectInputData.incorrectConfirmPassword+ " confirm")
-           console.log(this.state.incorrectInputData.confirmPasswordEqualNewPassword + " confirmEqNew")
-           console.log(this.state.incorrectInputData.oldPasswordNotEqualPasswordInDB + " db")
-           console.log('')
-       }*/
-
     handleUserInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -114,11 +105,6 @@ export class ChangePassword extends React.Component {
             this.setState({confirmPassword: ''})
         }
     };
-
-    /*
-        checkMatchPassword = () => {
-            return this.state.newPassword === this.state.confirmPassword;
-        }*/
 
     render() {
         return (
