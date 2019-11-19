@@ -9,6 +9,7 @@ import {CreateProject} from "./component/project/CreateProject";
 import {Projects} from "./component/project/projects";
 import {Project} from "./component/project/project";
 import Registration from './component/auth/registration';
+import {UserEdit} from "./component/user_edit";
 
 
 export class Routers extends React.Component {
@@ -24,6 +25,7 @@ export class Routers extends React.Component {
                     <Route path='/registration' component={Registration} />
                     <Route exact path='/projects' component={Projects} />
                     <Route path ='/projects/:id' render={(props) => <Project{...props} id = {this.props.id}/>}/>
+                    <Route path='/user' component={UserEdit} />
                 </Switch>
             </BrowserRouter>
         );
