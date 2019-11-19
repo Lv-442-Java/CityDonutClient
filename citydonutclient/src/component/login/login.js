@@ -15,6 +15,7 @@ export class Login extends React.Component {
         this.setState({userEmail: e.target.value});
     };
 
+
     setPassword = (e) => {
         this.setState({password: e.target.value});
     };
@@ -37,8 +38,6 @@ export class Login extends React.Component {
             // let errors = JSON.parse(data.message);
             // this.setState({...git errors})
             // console.log(errors);
-
-
 
     render() {
         console.log(this.state)
