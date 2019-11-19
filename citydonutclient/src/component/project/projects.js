@@ -7,33 +7,28 @@ export class Projects extends React.Component {
 
     state = {
         projects: [],
-        filters: {
-            page: 0,
-            size: 6,
-            status: "default",
-            moneyFrom: 0,
-            moneyTo: "default",
-            categories: ["default"],
-        }
+        filters: {},
     };
-
-    componentDidMount() {
-        this.getData()
-    }
 
     setFilters = (filters) => {
         this.setState({filters: filters},
             () => this.getData())
     };
 
-    getData = () => {
-        axios.get(`http://localhost:8091/api/v1/project/filter?` +
+    getUrl = () => {
+        let url = `?` +
             `page=${this.state.filters.page}&` +
-            `size=${this.state.filters.size}&` +
-            `status=${this.state.filters.status}&` +
-            `moneyFrom=${this.state.filters.moneyFrom}&` +
-            `moneyTo=${this.state.filters.moneyTo}&` +
-            `categories=${this.state.filters.categories}`,
+            `size=${this.state.filters.size}`;
+        this.state.filters.status !== undefined && (url += `&status=${this.state.filters.status}`);
+        this.state.filters.moneyFrom !== undefined && (url += `&moneyFrom=${this.state.filters.moneyFrom}`);
+        this.state.filters.moneyTo !== undefined && (url += `&moneyTo=${this.state.filters.moneyTo}`);
+        this.state.filters.categories.length !== 0 && (url += `&categories=${this.state.filters.categories}`);
+        this.props.history.push(url);
+        return url;
+    };
+
+    getData = () => {
+        axios.get('http://localhost:8091/api/v1/project/filter' + this.getUrl(),
             {crossDomain: true})
             .then(response => {
                 this.setState({projects: response.data})
@@ -44,7 +39,7 @@ export class Projects extends React.Component {
         return (
             <div className="row">
                 <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
-                    <ProjectsFilter setFilters={this.setFilters}/>
+                    <ProjectsFilter setFilters={this.setFilters} startLink={this.props.location.search}/>
                 </div>
                 <div className="col-md-9 col-sm-9 col-lg-9 col-xs-12">
                     <ProjectsList projects={this.state.projects}/>
@@ -53,3 +48,4 @@ export class Projects extends React.Component {
         )
     }
 }
+

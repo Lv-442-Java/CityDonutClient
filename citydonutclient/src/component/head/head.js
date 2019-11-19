@@ -1,35 +1,52 @@
 import React from 'react';
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
-import 'bootstrap/dist/css/bootstrap.min.css'
-import {Link} from "react-router-dom";
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Link} from 'react-router-dom';
+import logo from '../../img/icon.jpg';
+import {AuthHeader} from "./authHeader";
 
 export class Head extends React.Component {
-
     state = {};
+
+    cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
+        const [key, ...v] = c.split('=');
+        return [key, decodeURIComponent(v.join('='))];
+    }));
+
+    isAuthorized = () => {
+        const jwt = this.cookiesToJson().JWT;
+        return jwt && jwt.length === 160;
+    };
 
     render() {
         return (
-                <Navbar bg="dark" variant="dark" expand="lg">
-                    <Navbar.Brand as={Link} to='/'> CityDonut</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                            <Nav.Link as={Link} to='/'>Home</Nav.Link>
-                            <Nav.Link as={Link} to='/login'>Login</Nav.Link>
-                            <Nav.Link as={Link} to='/project/create'>Create Project</Nav.Link>
-                            <Nav.Link as={Link} to='/projects'>Projects</Nav.Link>
-                            <Nav.Link as={Link} to='/user/change_password'>Change_password</Nav.Link>
-                        </Nav>
-                        <Form inline>
-                            <FormControl type="text" placeholder="Search" className="mr-sm-2"/>
-                            <Button variant="outline-info">Search</Button>
-                        </Form>
-                    </Navbar.Collapse>
-                </Navbar>
-        )
+            <Navbar bg="dark" variant="dark" expand="lg" className="d-flex justify-content-between">
+                <Navbar.Brand as={Link} to="/">
+                    <img
+                        src={logo}
+                        width="30"
+                        height="30"
+                        className="d-inline-block align-top"
+                        alt="React Bootstrap logo"
+                    />
+                    {' '}
+                    CityDonut
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav>
+                        <Nav.Link as={Link} to="/projects">Проекти</Nav.Link>
+                        <Nav.Link as={Link} to="/project/create">Подати проект</Nav.Link>
+                        <Nav.Link as={Link} to="/faq">FAQ</Nav.Link>
+                    </Nav>
+                    <Nav className="ml-auto">
+                        {this.isAuthorized() ?
+                                <AuthHeader />
+                            : <Nav.Link as={Link} to="/login">Увійти</Nav.Link>}
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
+        );
     }
 }
