@@ -15,10 +15,6 @@ export class Login extends React.Component {
         errorMessage : undefined
 };
 
-    componentDidMount() {
-        // this.getData()
-    }
-
     setEmail = (e) => {
         this.setState({
             userEmail: e.target.value
