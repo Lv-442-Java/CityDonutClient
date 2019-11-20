@@ -7,6 +7,8 @@ import FormGroup from "react-bootstrap/FormGroup";
 import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import FormText from "react-bootstrap/FormText";
+import axios from "axios";
+import {Link} from "react-router-dom";
 
 export class UserEdit extends React.Component {
 
@@ -23,7 +25,9 @@ export class UserEdit extends React.Component {
             incorrectFirstName: 'Ім\'я повинне містити від 3 до 30 латинських, або україських літер',
             incorrectLastName: 'Прізвище повинне містити від 3 до 30 латинських, або україських літер',
             incorrectEmail: 'Неправильний email'
-        }
+        },
+        firstNameDisabled: true,
+        lastNameDisabled: true
     };
 
     handleUserInput = (e) => {
@@ -99,7 +103,58 @@ export class UserEdit extends React.Component {
      };*/
 
     editAble = () => {
-         document.getElementsByName('firstName').disabled = false;
+        this.setState({
+            firstNameDisabled: !this.state.firstNameDisabled,
+            lastNameDisabled: !this.state.lastNameDisabled
+        })
+
+    };
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    cancel = () => {
+        this.getData();
+        this.editAble();
+    };
+
+    getData = () => {
+        axios.get('http://localhost:8091/api/v1/user',
+            {withCredentials: true})
+            .then(response => {
+                console.log(response.data);
+                this.setState(
+                    {
+                        firstName: response.data.firstName,
+                        lastName: response.data.lastName,
+                        email: response.data.email,
+                })
+            }).catch(err => {
+            console.log(err.response.data);
+        })
+    };
+    editUser = () => {
+        let data = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email
+        };
+        axios.put('http://localhost:8091/api/v1/user',
+            data,
+            {withCredentials: true})
+            .then(response => {
+                console.log(response.data);
+                this.setState(
+                    {
+                        firstName: response.data.firstName,
+                        lastName: response.data.lastName,
+                        email: response.data.email,
+                    })
+                this.editAble()
+            }).catch(err => {
+            console.log(err.response.data);
+        })
     };
 
     render() {
@@ -146,7 +201,7 @@ export class UserEdit extends React.Component {
                                     }}>
                                 {this.state.errorMessage.incorrectFirstName}</p>
                             </FormText>}
-                            <FormControl disabled
+                            <FormControl disabled={this.state.firstNameDisabled}
                                          name='firstName' value={this.state.firstName} onChange={this.handleUserInput}>
                             </FormControl>
                         </FormGroup>
@@ -167,7 +222,7 @@ export class UserEdit extends React.Component {
                                     }}>
                                 {this.state.errorMessage.incorrectLastName}</p>
                             </FormText>}
-                            <FormControl disabled
+                            <FormControl disabled={this.state.lastNameDisabled}
                                          required name='lastName' value={this.state.lastName}
                                          onChange={this.handleUserInput}>
                             </FormControl>
@@ -195,26 +250,50 @@ export class UserEdit extends React.Component {
                         </FormGroup>
                     </div>
                     <div>
+                        {this.state.lastNameDisabled&&
                         <Button variant="primary"
                                 onClick={this.editAble}
                                 style=
                                     {{
                                         heigth: '15%',
                                         marginTop: '10px'
-                                    }}
-                        >
+                                    }}>
                             Редагувати
-                        </Button>
-                      {/*  <Button variant="primary"
+                        </Button>}
+                        {this.state.lastNameDisabled&&
+                            <Link to="/user/change_password">
+                        <Button variant="primary"
+                                onClick={this.editAble}
                                 style=
                                     {{
                                         heigth: '15%',
                                         marginTop: '10px',
                                         marginLeft: '10px'
-                                    }}
-                        >
+                                    }}>
                             Змінити пароль
-                        </Button>*/}
+                        </Button>
+                            </Link>}
+                        {!this.state.lastNameDisabled&&
+                        <Button variant="primary"
+                                onClick={this.cancel}
+                                style=
+                                    {{
+                                        heigth: '15%',
+                                        marginTop: '10px'
+                                    }}>
+                            Відмінити
+                        </Button>}
+                        {!this.state.lastNameDisabled&&
+                        <Button variant="primary"
+                                onClick={this.editUser}
+                                style=
+                                    {{
+                                        heigth: '15%',
+                                        marginTop: '10px',
+                                        marginLeft: '10px'
+                                    }}>
+                            Зберегти
+                        </Button>}
                     </div>
                 </Form>
             </div>
