@@ -2,6 +2,7 @@ import React from 'react';
 import {SuccessfulProjectsList} from "./successfulProjectsList";
 import Carousel from "react-bootstrap/Carousel";
 import axios from "axios";
+import HomePagePhoto from "./homePagePhoto";
 
 export class Base extends React.Component {
 
@@ -42,7 +43,10 @@ export class Base extends React.Component {
         return (
 
             <div>
+                <HomePagePhoto></HomePagePhoto>
+            <div>
                 {this.getItems()}
+            </div>
             </div>
         )
     }
