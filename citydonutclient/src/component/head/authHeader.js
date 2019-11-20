@@ -18,6 +18,10 @@ export class AuthHeader extends React.Component {
         )
     };
 
+    deleteCookie = () => {
+        axios.get('http://localhost:8091/sign-out', {withCredentials: true})
+    };
+
     componentDidMount() {
         this.getUser();
     }
@@ -27,11 +31,11 @@ export class AuthHeader extends React.Component {
             <Dropdown as={NavItem}>
                 <Dropdown.Toggle as={NavLink}>{this.state.user.firstName}</Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu-right">
-                    <Dropdown.Item as={Link} to="/login">Мої донати</Dropdown.Item>
-                    <Dropdown.Item as={Link} to="/login">Мої проекти</Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/donates/projects">Мої донати</Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/donates/projects">Мої проекти</Dropdown.Item>
                     <Dropdown.Item as={Link} to="/login">Редагувати профіль</Dropdown.Item>
                     <Dropdown.Divider/>
-                    <Dropdown.Item as={Link} to="/login">Вийти</Dropdown.Item>
+                    <Dropdown.Item href="/" onClick={this.deleteCookie}>Вийти</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
 
