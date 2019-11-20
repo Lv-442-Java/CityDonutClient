@@ -10,7 +10,8 @@ import UpdateProject from "./component/project/updateAxistProject/UpdateProject"
 import {Project} from "./component/project/project";
 import {Registration} from './component/auth/registration';
 import {ActivationUser} from "./component/auth/activationUser";
-import {ChangePassword} from "./component/user/change_password";
+import {UserEdit} from "./component/user/user_edit";
+
 
 export class Routers extends React.Component {
     render() {
@@ -26,9 +27,8 @@ export class Routers extends React.Component {
                     <Route path='/registration' component={Registration}/>
                     <Route exact path='/projects' component={Projects}/>
                     <Route path='/projects/:id' render={(props) => <Project{...props} id={this.props.id}/>}/>
-                    <Route path='/user/change_password' component={ChangePassword}/>
                     <Route path='/activationUser/:activationCode' component={ActivationUser}/>
-
+                    <Route path='/user' component={UserEdit} />
                 </Switch>
             </BrowserRouter>
         );
