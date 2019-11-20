@@ -13,7 +13,8 @@ export default class MyModal extends React.Component {
 
         this.state = {
             show: false,
-            sum: undefined
+            sum: undefined,
+            valid: undefined
         };
     }
 
@@ -26,7 +27,8 @@ export default class MyModal extends React.Component {
     }
 
     setSum = (e) => {
-        this.setState({sum: e.target.value})
+        this.setState({sum: e.target.value});
+        /^[+]?\d+(\.\d+)?$/.test(e.target.value) ? this.setState({valid: true}) : this.setState({valid: false})
     };
 
     sendDonate = () => {
@@ -36,15 +38,15 @@ export default class MyModal extends React.Component {
         };
         axios.post(`http://localhost:8091/api/v1/donates/`, data, {withCredentials: true}).then(
             this.handleClose
+        ).then(
+            this.props.getDonatesSum
+            // setTimeout(, 2000)
+        ).then(
+            this.setState({valid: undefined})
         )
     };
 
-    // isValid = () => {
-    //     if (isF this.state.sum)
-    // };
-
     render() {
-        console.log(this.state.sum)
         return (
             <>
                 <Button variant="primary" style={{margin:"17px", height:"45px", width:"125px"}} onClick={this.handleShow}>
@@ -59,11 +61,14 @@ export default class MyModal extends React.Component {
                         <Form>
                             <Form.Group>
                                 <Form.Label>
-                                    Введіть суму донату:
+                                    Введіть суму внеску:
                                 </Form.Label>
-                                <Form.Control isValid={this.isValid} onChange={this.setSum}>
+                                <Form.Control isValid={this.state.valid} isInvalid={!this.state.valid} onChange={this.setSum}>
 
                                 </Form.Control>
+                                <Form.Control.Feedback type="invalid">
+                                    Поле повинне містити лише цифри
+                                </Form.Control.Feedback>
                             </Form.Group>
                         </Form>
                     </Modal.Body>
@@ -71,8 +76,8 @@ export default class MyModal extends React.Component {
                         <Button variant="secondary" onClick={this.handleClose}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={this.sendDonate}>
-                            Save Changes
+                        <Button variant="primary" onClick={this.state.valid && this.sendDonate}>
+                            Send
                         </Button>
                     </Modal.Footer>
                 </Modal>
