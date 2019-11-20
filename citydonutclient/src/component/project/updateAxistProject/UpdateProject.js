@@ -24,7 +24,7 @@ export default class UpdateProject extends React.Component {
 
 
     getProjectData = () => {
-        axios.get(`http://localhost:8080/api/v1/project/${this.state.id}`,
+        axios.get(`http://localhost:8091/api/v1/project/${this.state.id}`,
             {withCredentials: true})
                 .then(response => {
                     this.setState({...response.data} )
@@ -32,7 +32,7 @@ export default class UpdateProject extends React.Component {
     };
 
     getFieldsCheck = () => {
-        axios.get(`http://localhost:8080/api/v1/fieldsCheck/get/${this.state.id}`,
+        axios.get(`http://localhost:8091/api/v1/fieldsCheck/get/${this.state.id}`,
             {withCredentials: true})
             .then(response => {
                 this.setState(
@@ -96,17 +96,11 @@ export default class UpdateProject extends React.Component {
 
                         <label >Адреса :</label>
                         <GoogleLocation id="pLocation"   setPlace={this.setPlace} />
-                        {/*<input*/}
-                        {/*    className="form-control"*/}
-                        {/*    value={this.state.location}*/}
-                        {/*    readOnly={this.state.locationValid}*/}
-                        {/*/>*/}
 
                         <label > Необхідні документи :</label>
                         <div>
 
                         </div>
-
 
                     </Modal.Body>
 
