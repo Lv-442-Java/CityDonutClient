@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 export class Login extends React.Component {
     state = {
@@ -28,7 +29,7 @@ export class Login extends React.Component {
                 <input type="password" onChange={this.setPassword}/>
                 {this.isVisible() && <input type="button" value="submit" onClick={this.ShowAlert}/>}
                 <div>
-                    <p> Для реєстрації перейдіть сюди => <a href="http://localhost:3000/registration" target="ddd">Реєстрація</a></p>
+                    <Link  to="/registration" activeClassName="active"> Для реєстрації перейдіть сюди</Link>
                 </div>
             </div>
     );
