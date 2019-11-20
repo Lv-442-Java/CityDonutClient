@@ -2,6 +2,7 @@ import React from "react";
 import {PhotoSlider} from "./photoSlider";
 import {ProjectProgressBar} from "./projectProgressBar";
 import axios from "axios";
+import {StoryBoardList} from "../storyBoard/storyBoardList";
 
 export class Project extends React.Component{
     state= {
@@ -37,6 +38,7 @@ export class Project extends React.Component{
                         <ProjectProgressBar projectId={this.state.projectId} projectName={this.state.project.name}
                         moneyNeeded={this.state.project.moneyNeeded}
                         endDate={this.state.project.donationEndDate}></ProjectProgressBar>
+                        <StoryBoardList projectId={this.state.projectId}/>
                     </div>
                     ): (<h1>Something went wrong. Reload the page, please</h1>)}
             </div>
