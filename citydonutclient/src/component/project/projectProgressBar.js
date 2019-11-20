@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import ProgressBar from "../progressBar/progressBar";
+import MyModal from "./MyModal";
 
 export class ProjectProgressBar extends React.Component {
 
@@ -15,7 +16,8 @@ export class ProjectProgressBar extends React.Component {
 
 
     getDonatesSum = () => {
-        axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.props.projectId}`, { withCredentials: true }).then(response => {
+        axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.props.projectId}`,
+            { withCredentials: true }).then(response => {
             this.setState({
                 donatesSum: response.data,
                 donatedPercent: response.data * 100 / this.props.moneyNeeded
@@ -57,7 +59,7 @@ export class ProjectProgressBar extends React.Component {
             <div className="row-full "  style={{background: "#f0f0f0", width:"100%", height: "80px"}}>
                 <div className= "d-flex justify-content-around align-items-center">
 
-                    <h5 style ={{margin:"17px"}}>Залишилось днів: {this.getDaysLeft()}</h5>
+                    <h5 style ={{margin:"17px", width:"23%"}}>Залишилось днів: {this.getDaysLeft()}</h5>
                     <ProgressBar style={{height: "26px", width:"30%", margin: ""}} doneTip="Зібрано!"
                                  donePercent={this.state.donatedPercent}
                                  doneLabel={this.state.donatesSum + " грн"} undoneTip="Потрібно зібрати!"
@@ -65,7 +67,7 @@ export class ProjectProgressBar extends React.Component {
 
                     <h5 style = {{margin:""}}>Доброчинців: {this.state.contributors}</h5>
 
-                <button type="button" className="btn btn-primary"  style={{margin:"17px", height:"45px", width:"125px"}}>Підтримати</button>
+                    <MyModal projectId={this.props.projectId} getDonatesSum={this.getDonatesSum}/>
                 </div>
             </div>
         )
