@@ -72,6 +72,13 @@ export class UserEdit extends React.Component {
         this.getData();
     }
 
+    canEdit = () => {
+        return (
+            !this.state.incorrectInputData.email &&
+            !this.state.incorrectInputData.firstName &&
+            !this.state.incorrectInputData.lastName);
+    };
+
     cancel = () => {
         this.getData().then(
             () => this.setState({
@@ -261,16 +268,6 @@ export class UserEdit extends React.Component {
                                     }}>
                             Змінити пароль
                         </Button>}
-                        {this.state.cantEdit &&
-                        <FormText><p
-                            style=
-                                {{
-                                    color: 'red',
-                                    fontSize: '12px',
-                                    textAlign: 'center'
-                                }}>
-                            Заповніть коректно дані!</p>
-                        </FormText>}
                         {!this.state.lastNameDisabled &&
                         <Button variant="primary"
                                 onClick={this.cancel}
@@ -281,7 +278,7 @@ export class UserEdit extends React.Component {
                                     }}>
                             Відмінити
                         </Button>}
-                        {!this.state.lastNameDisabled &&
+                        {!this.state.lastNameDisabled && this.canEdit()&&
                         <Button variant="primary"
                                 onClick={this.editUser}
                                 style=
