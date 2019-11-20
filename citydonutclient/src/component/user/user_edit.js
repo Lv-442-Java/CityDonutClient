@@ -8,7 +8,7 @@ import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import FormText from "react-bootstrap/FormText";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {ChangePassword} from "./change_password";
 
 export class UserEdit extends React.Component {
 
@@ -27,7 +27,9 @@ export class UserEdit extends React.Component {
             incorrectEmail: 'Неправильний email'
         },
         firstNameDisabled: true,
-        lastNameDisabled: true
+        lastNameDisabled: true,
+        showChangePassword: false,
+        cantEdit: false
     };
 
     handleUserInput = (e) => {
@@ -35,72 +37,6 @@ export class UserEdit extends React.Component {
         const value = e.target.value;
         this.setState({[name]: value});
     };
-
-    /*checkPasswordPattern = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        if (this.state.inputName.oldPassword === name) {
-            this.setState({
-                incorrectInputData: {...this.state.incorrectInputData, incorrectOldPassword: !this.checkPassword(value)}
-            })
-        } else if (this.state.inputName.newPassword === name) {
-            this.setState({
-                incorrectInputData: {...this.state.incorrectInputData, incorrectNewPassword: !this.checkPassword(value)}
-            })
-        } else if (this.state.inputName.confirmPassword === name) {
-            this.setState({
-                incorrectInputData: {
-                    ...this.state.incorrectInputData,
-                    incorrectConfirmPassword: !this.checkPassword(value)
-                }
-            })
-        }
-    };*/
-
-    /*checkPassword = (password) => {
-        if (password === '') return true;
-        return /^[a-zA-Z0-9]{4,15}$/.test(password);
-    };*/
-
-    /* changePassword = () => {
-         if (this.state.newPassword === this.state.confirmPassword) {
-             this.setState({
-                 incorrectInputData: {
-                     ...this.state.incorrectInputData,
-                     confirmPasswordEqualNewPassword: true
-                 }
-             });
-             let data = {
-                 password: this.state.oldPassword,
-                 newPassword: this.state.newPassword
-             };
-             axios.put('http://localhost:8091/api/v1/user/change_password',
-                 data,
-                 {withCredentials: true})
-                 .then(response => {
-                     console.log(response.data);
-                     this.setState({
-                         incorrectInputData: {...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: false}
-                     })
-
-                 }).catch(err => {
-                 console.log(err.response.data);
-                 if (err.response.status === 403) {
-                     this.setState({
-                         incorrectInputData: {...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: true}
-                     })
-                 }
-             })
-         } else {
-             this.setState({
-                 incorrectInputData: {
-                     ...this.state.incorrectInputData,
-                     confirmPasswordEqualNewPassword: false
-                 }
-             });
-             this.setState({confirmPassword: ''})
-         }
-     };*/
 
     editAble = () => {
         this.setState({
@@ -110,60 +46,110 @@ export class UserEdit extends React.Component {
 
     };
 
+    checkInputPattern = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        if (name === 'firstName') {
+            this.setState({
+                incorrectInputData: {...this.state.incorrectInputData, firstName: !this.checkInputValue(value)}
+            })
+        } else if (name === 'lastName') {
+            this.setState({
+                incorrectInputData: {...this.state.incorrectInputData, lastName: !this.checkInputValue(value)}
+            })
+        }
+    };
+
+    checkInputValue = (value) => {
+        return /^[a-zA-Z]{3,30}$/.test(value);
+    };
+
+    checkInputValue = (value) => {
+        return /^[a-zA-Z]{3,30}$/.test(value);
+    };
+
     componentDidMount() {
         this.getData();
     }
 
     cancel = () => {
-        this.getData();
+        this.getData().then(
+            () => this.setState({
+                incorrectInputData: {
+                    ...this.state.incorrectInputData,
+                    firstName: !this.checkInputValue(this.state.firstName),
+                    lastName: !this.checkInputValue(this.state.lastName)
+                },
+                cantEdit: false
+            })
+        );
         this.editAble();
+
+    };
+
+    showChangePassword = () => {
+        this.setState({
+            showChangePassword: !this.state.showChangePassword,
+        })
     };
 
     getData = () => {
-        axios.get('http://localhost:8091/api/v1/user',
+        return axios.get('http://localhost:8091/api/v1/user',
             {withCredentials: true})
             .then(response => {
-                console.log(response.data);
-                this.setState(
-                    {
-                        firstName: response.data.firstName,
-                        lastName: response.data.lastName,
-                        email: response.data.email,
-                })
-            }).catch(err => {
-            console.log(err.response.data);
-        })
-    };
-    editUser = () => {
-        let data = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email
-        };
-        axios.put('http://localhost:8091/api/v1/user',
-            data,
-            {withCredentials: true})
-            .then(response => {
-                console.log(response.data);
                 this.setState(
                     {
                         firstName: response.data.firstName,
                         lastName: response.data.lastName,
                         email: response.data.email,
                     })
-                this.editAble()
             }).catch(err => {
-            console.log(err.response.data);
-        })
+                console.log(err.response.data);
+            })
+    };
+    editUser = () => {
+        if (this.state.incorrectInputData.firstName || this.state.incorrectInputData.lastName || this.state.incorrectInputData.email) {
+            this.setState({cantEdit: true})
+        } else {
+            this.setState({cantEdit: false});
+            let data = {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email
+            };
+            axios.put('http://localhost:8091/api/v1/user',
+                data,
+                {withCredentials: true})
+                .then(response => {
+                    console.log(response.data);
+                    this.setState(
+                        {
+                            firstName: response.data.firstName,
+                            lastName: response.data.lastName,
+                            email: response.data.email,
+                        });
+                    this.editAble()
+                }).catch(err => {
+                console.log(err.response.data);
+            })
+        }
+
     };
 
     render() {
         return (
             <div className="d-flex justify-content-end " style={{minHeight: '100vh'}}>
+                {this.state.showChangePassword &&
+                <div style=
+                         {{
+                             width: '75%'
+                         }}>
+                    <ChangePassword/>
+                </div>}
                 <Form className="d-flex justify-content-around flex-column align-items-center "
                       style=
                           {{
-                              width: '20%',
+                              width: '25%',
                               backgroundColor: 'rgba(0,0,0,0.55)',
                               paddingTop: '10px',
                               paddingBottom: '20px',
@@ -202,7 +188,9 @@ export class UserEdit extends React.Component {
                                 {this.state.errorMessage.incorrectFirstName}</p>
                             </FormText>}
                             <FormControl disabled={this.state.firstNameDisabled}
-                                         name='firstName' value={this.state.firstName} onChange={this.handleUserInput}>
+                                         name='firstName' value={this.state.firstName}
+                                         onBlur={this.checkInputPattern}
+                                         onChange={this.handleUserInput}>
                             </FormControl>
                         </FormGroup>
                         <FormGroup className='d-flex flex-column justify-content-around align-items-center'
@@ -224,6 +212,7 @@ export class UserEdit extends React.Component {
                             </FormText>}
                             <FormControl disabled={this.state.lastNameDisabled}
                                          required name='lastName' value={this.state.lastName}
+                                         onBlur={this.checkInputPattern}
                                          onChange={this.handleUserInput}>
                             </FormControl>
                         </FormGroup>
@@ -249,8 +238,9 @@ export class UserEdit extends React.Component {
                                          onChange={this.handleUserInput}></FormControl>
                         </FormGroup>
                     </div>
+                    {!this.state.showChangePassword &&
                     <div>
-                        {this.state.lastNameDisabled&&
+                        {this.state.lastNameDisabled &&
                         <Button variant="primary"
                                 onClick={this.editAble}
                                 style=
@@ -260,10 +250,9 @@ export class UserEdit extends React.Component {
                                     }}>
                             Редагувати
                         </Button>}
-                        {this.state.lastNameDisabled&&
-                            <Link to="/user/change_password">
+                        {this.state.lastNameDisabled &&
                         <Button variant="primary"
-                                onClick={this.editAble}
+                                onClick={this.showChangePassword}
                                 style=
                                     {{
                                         heigth: '15%',
@@ -271,9 +260,18 @@ export class UserEdit extends React.Component {
                                         marginLeft: '10px'
                                     }}>
                             Змінити пароль
-                        </Button>
-                            </Link>}
-                        {!this.state.lastNameDisabled&&
+                        </Button>}
+                        {this.state.cantEdit &&
+                        <FormText><p
+                            style=
+                                {{
+                                    color: 'red',
+                                    fontSize: '12px',
+                                    textAlign: 'center'
+                                }}>
+                            Заповніть коректно дані!</p>
+                        </FormText>}
+                        {!this.state.lastNameDisabled &&
                         <Button variant="primary"
                                 onClick={this.cancel}
                                 style=
@@ -283,7 +281,7 @@ export class UserEdit extends React.Component {
                                     }}>
                             Відмінити
                         </Button>}
-                        {!this.state.lastNameDisabled&&
+                        {!this.state.lastNameDisabled &&
                         <Button variant="primary"
                                 onClick={this.editUser}
                                 style=
@@ -294,7 +292,17 @@ export class UserEdit extends React.Component {
                                     }}>
                             Зберегти
                         </Button>}
-                    </div>
+                    </div>}
+                    {this.state.showChangePassword &&
+                    <Button variant="primary"
+                            onClick={this.showChangePassword}
+                            style=
+                                {{
+                                    heigth: '15%',
+                                    marginTop: '10px'
+                                }}>
+                        Відмінити
+                    </Button>}
                 </Form>
             </div>
         )

@@ -67,42 +67,56 @@ export class ChangePassword extends React.Component {
     };
 
     changePassword = () => {
-        if (this.state.newPassword === this.state.confirmPassword) {
-            this.setState({
-                incorrectInputData: {
-                    ...this.state.incorrectInputData,
-                    confirmPasswordEqualNewPassword: true
-                }
-            });
-            let data = {
-                password: this.state.oldPassword,
-                newPassword: this.state.newPassword
-            };
-            axios.put('http://localhost:8091/api/v1/user/change_password',
-                data,
-                {withCredentials: true})
-                .then(response => {
-                    console.log(response.data);
-                    this.setState({
-                        incorrectInputData: {...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: false}
-                    })
-
-                }).catch(err => {
-                console.log(err.response.data);
-                if (err.response.status === 403) {
-                    this.setState({
-                        incorrectInputData: {...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: true}
-                    })
-                }
-            })
+        if (
+            this.state.incorrectInputData.incorrectConfirmPassword ||
+            this.state.incorrectInputData.incorrectOldPassword ||
+            this.state.incorrectInputData.incorrectNewPassword ||
+            !this.state.incorrectInputData.confirmPasswordEqualNewPassword
+        ) {
         } else {
-            this.setState({
-                incorrectInputData: {
-                    ...this.state.incorrectInputData,
-                    confirmPasswordEqualNewPassword: false
-                }
-            });
-            this.setState({confirmPassword: ''})
+            if (this.state.newPassword === this.state.confirmPassword) {
+                this.setState({
+                    incorrectInputData: {
+                        ...this.state.incorrectInputData,
+                        confirmPasswordEqualNewPassword: true
+                    }
+                });
+                let data = {
+                    password: this.state.oldPassword,
+                    newPassword: this.state.newPassword
+                };
+                axios.put('http://localhost:8091/api/v1/user/change_password',
+                    data,
+                    {withCredentials: true})
+                    .then(response => {
+                        console.log(response.data);
+                        this.setState({
+                            incorrectInputData: {
+                                ...this.state.incorrectInputData,
+                                oldPasswordNotEqualPasswordInDB: false
+                            }
+                        })
+
+                    }).catch(err => {
+                    console.log(err.response.data);
+                    if (err.response.status === 403) {
+                        this.setState({
+                            incorrectInputData: {
+                                ...this.state.incorrectInputData,
+                                oldPasswordNotEqualPasswordInDB: true
+                            }
+                        })
+                    }
+                })
+            } else {
+                this.setState({
+                    incorrectInputData: {
+                        ...this.state.incorrectInputData,
+                        confirmPasswordEqualNewPassword: false
+                    }
+                });
+                this.setState({confirmPassword: ''})
+            }
         }
     };
 
@@ -230,7 +244,7 @@ export class ChangePassword extends React.Component {
                                         marginTop: '10px'
                                     }}
                                 onClick={this.changePassword}>
-                            Submit
+                            Змінити пароль
                         </Button>
                     </div>
                 </Form>
