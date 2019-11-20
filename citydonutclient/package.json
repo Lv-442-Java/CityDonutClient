@@ -20,8 +20,10 @@
     "react-router": "latest",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "react-scroll-up-button": "^1.6.4",
     "react-sharingbuttons": "latest",
-    "resolve-url-loader": "^3.1.0"
+    "resolve-url-loader": "^3.1.0",
+    "react-scroll": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,24 +49,25 @@
     ]
   },
   "devDependencies": {
-    "react-facebook-login": "^4.1.1",
-    "react-google-login": "^5.0.7",
+    "@babel/core": "^7.0.0",
+    "@babel/node": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.0",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-google": "^0.14.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "eslint": "^6.6.0",
-    "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.16.0",
-    "@babel/core": "^7.0.0",
-    "@babel/node": "^7.4.5",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-react": "^7.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "react-facebook-login": "^4.1.1",
+    "react-google-login": "^5.0.7",
+    "react-multi-carousel": "^2.4.2"
   }
 }

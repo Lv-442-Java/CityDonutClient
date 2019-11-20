@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {Route, Switch} from 'react-router';
 import {BrowserRouter} from 'react-router-dom';
 import Login from "./component/login/login";
@@ -11,7 +10,7 @@ import UpdateProject from "./component/project/updateAxistProject/UpdateProject"
 import {Project} from "./component/project/project";
 import {Registration} from './component/auth/registration';
 import {ActivationUser} from "./component/auth/activationUser";
-import {ChangePassword} from "./component/user/change_password";
+import {UserEdit} from "./component/user/user_edit";
 import DonatedProjects from "./component/project/donatedProjects";
 
 export class Routers extends React.Component {
@@ -20,6 +19,7 @@ export class Routers extends React.Component {
             <BrowserRouter>
                 <Head/>
                 <Switch>
+                    <Route path='/project/update' component={UpdateProject} />
                     <Route exact path='/' component={Base}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/project/create' component={CreateProject}/>
@@ -27,9 +27,9 @@ export class Routers extends React.Component {
                     <Route path='/registration' component={Registration}/>
                     <Route exact path='/projects' component={Projects}/>
                     <Route path='/projects/:id' render={(props) => <Project{...props} id={this.props.id}/>}/>
-                    <Route path='/user/change_password' component={ChangePassword}/>
                     <Route path='/activationUser/:activationCode' component={ActivationUser}/>
                     <Route path='/donates/projects' component={DonatedProjects}/>
+                    <Route path='/user' component={UserEdit} />
                 </Switch>
             </BrowserRouter>
         );
