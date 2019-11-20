@@ -80,7 +80,9 @@ export class ProjectScroller extends React.Component {
                     <br/>
                     <div className="" style={{width:"80%", margin: "30px"}} id = "map">
                         <h3>Розташування</h3>
-                        {/*<MyCustomMap location={this.props.coordinates}></MyCustomMap>*/}
+                        <br/>
+                        <MyCustomMap location={this.props.location}></MyCustomMap>
+
                     </div>
 
                     <br/>

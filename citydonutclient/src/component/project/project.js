@@ -5,25 +5,37 @@ import { ProjectProgressBar } from './projectProgressBar';
 import {ProjectScroller} from "./projectScroller";
 
 export class Project extends React.Component {
-    state= {
+    state = {
         project: {},
-            /*coordinates: {
+        street: {
+            place: '',
+            coordinates: {
                 lat: 0,
                 lng: 0
-            },*/
-            projectId: this.props.match.params.id,
+            }
+        },
+        projectId: this.props.match.params.id
+}
 
-    }
 
     componentDidMount() {
         this.getData();
-        this.setCoordinates(this.state.coordinates);
+        this.setStreet();
     }
 
-    // eslint-disable-next-line react/sort-comp
+
     getData = () => {
-        axios.get(`http://localhost:8091/api/v1/project/${this.state.projectId}`, { withCredentials: true }).then((response) => {
-            this.setState({ project: response.data });
+        axios.get(`http://localhost:8091/api/v1/project/${this.state.projectId}`,
+            { withCredentials: true }).then((response) => {
+            this.setState({ project: response.data,
+                street: {
+                    place: response.data.location,
+                    coordinates: {
+                        lat: parseFloat(response.data.locationLatitude),
+                        lng: parseFloat(response.data.locationLongitude)
+
+                    }
+                } });
         });
     };
 
@@ -34,24 +46,29 @@ export class Project extends React.Component {
             this.fetchData(this.props.moneyNeeded);
         }
     }
-    setCoordinates = (coordinates) => {
+    setStreet = () => {
         this.setState({
+            street: {
+                place: this.state.project.location,
+                coordinates: {
+                    lat: parseFloat(this.state.project.locationLatitude),
+                    lng: parseFloat(this.state.project.locationLongitude)
 
-            coordinates: {
-                lat: parseFloat(this.state.project.locationLatitude),
-                lng: parseFloat(this.state.project.locationLongitude)
-
+                }
             }
         })
+
     };
 
     render() {
+
+        console.log(this.state.street.coordinates)
+
         return (
 
             <div>
                 {(this.state.project.moneyNeeded != null) ? (
                     <div>
-                        {/* eslint-disable-next-line max-len */}
                         <PhotoSlider projectId={this.state.projectId} projectName={this.state.project.name} />
                         <ProjectProgressBar
                             projectId={this.state.projectId}
@@ -60,7 +77,8 @@ export class Project extends React.Component {
                             endDate={this.state.project.donationEndDate}
                         />
                         <ProjectScroller projectId={this.state.projectId}
-                                         description={this.state.project.description}></ProjectScroller>
+                                         description={this.state.project.description}
+                                         location={this.state.street}></ProjectScroller>
                     </div>
                 ) : (<h1>Something went wrong. Reload the page, please</h1>)}
             </div>
