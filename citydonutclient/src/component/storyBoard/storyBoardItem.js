@@ -24,10 +24,10 @@ export class StoryBoardItem extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-4 text-center">
-                        <p>{this.props.storyBoard.moneySpent}</p>
+                        <h5>{this.props.storyBoard.moneySpent}₴</h5>
                     </div>
                     <div className="col-8" style={{'border-left': '1px solid grey'}}>
-                        <Carousel>
+                        <Carousel className="text-center">
                             {this.state.photos.map(photo => (
                                 <Carousel.Item>
                                     <img src={photo} style={{width: "50%", margin: "10px"}}/>
