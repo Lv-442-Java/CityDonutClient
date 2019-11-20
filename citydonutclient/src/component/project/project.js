@@ -7,12 +7,17 @@ import {ProjectScroller} from "./projectScroller";
 export class Project extends React.Component {
     state= {
         project: {},
-        // eslint-disable-next-line react/prop-types
-        projectId: this.props.match.params.id,
+            /*coordinates: {
+                lat: 0,
+                lng: 0
+            },*/
+            projectId: this.props.match.params.id,
+
     }
 
     componentDidMount() {
         this.getData();
+        this.setCoordinates(this.state.coordinates);
     }
 
     // eslint-disable-next-line react/sort-comp
@@ -23,12 +28,22 @@ export class Project extends React.Component {
     };
 
     componentDidUpdate(prevProps) {
-        // eslint-disable-next-line react/prop-types
+
         if (this.props.moneyNeeded !== prevProps.moneyNeeded) {
-            // eslint-disable-next-line react/prop-types
+
             this.fetchData(this.props.moneyNeeded);
         }
     }
+    setCoordinates = (coordinates) => {
+        this.setState({
+
+            coordinates: {
+                lat: parseFloat(this.state.project.locationLatitude),
+                lng: parseFloat(this.state.project.locationLongitude)
+
+            }
+        })
+    };
 
     render() {
         return (

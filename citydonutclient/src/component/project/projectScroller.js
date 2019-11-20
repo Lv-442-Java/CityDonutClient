@@ -5,6 +5,8 @@ import ScrollUpButton from "react-scroll-up-button";
 import {Document} from "./documentation"
 import {ProjectDonates} from "./projectDonates";
 import { Link, animateScroll as scroll } from "react-scroll";
+import MyCustomMap from "./createNewProject/MyCustomMap"
+
 
 export class ProjectScroller extends React.Component {
 
@@ -78,7 +80,7 @@ export class ProjectScroller extends React.Component {
                     <br/>
                     <div className="" style={{width:"80%", margin: "30px"}} id = "map">
                         <h3>Розташування</h3>
-                        <p>map map map</p>
+                        {/*<MyCustomMap location={this.props.coordinates}></MyCustomMap>*/}
                     </div>
 
                     <br/>
