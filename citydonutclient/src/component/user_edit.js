@@ -7,7 +7,6 @@ import FormGroup from "react-bootstrap/FormGroup";
 import FormLabel from "react-bootstrap/FormLabel";
 import FormControl from "react-bootstrap/FormControl";
 import FormText from "react-bootstrap/FormText";
-import axios from "axios";
 
 export class UserEdit extends React.Component {
 
@@ -21,17 +20,17 @@ export class UserEdit extends React.Component {
             email: false
         },
         errorMessage: {
-            incorrectFirstName: 'Ім\'я повинне містити від 3 до 30 латинських, або україських літер' ,
+            incorrectFirstName: 'Ім\'я повинне містити від 3 до 30 латинських, або україських літер',
             incorrectLastName: 'Прізвище повинне містити від 3 до 30 латинських, або україських літер',
             incorrectEmail: 'Неправильний email'
         }
     };
 
-    /*handleUserInput = (e) => {
+    handleUserInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value});
-    };*/
+    };
 
     /*checkPasswordPattern = (e) => {
         const name = e.target.name;
@@ -59,45 +58,49 @@ export class UserEdit extends React.Component {
         return /^[a-zA-Z0-9]{4,15}$/.test(password);
     };*/
 
-   /* changePassword = () => {
-        if (this.state.newPassword === this.state.confirmPassword) {
-            this.setState({
-                incorrectInputData: {
-                    ...this.state.incorrectInputData,
-                    confirmPasswordEqualNewPassword: true
-                }
-            });
-            let data = {
-                password: this.state.oldPassword,
-                newPassword: this.state.newPassword
-            };
-            axios.put('http://localhost:8091/api/v1/user/change_password',
-                data,
-                {withCredentials: true})
-                .then(response => {
-                    console.log(response.data);
-                    this.setState({
-                        incorrectInputData: {...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: false}
-                    })
+    /* changePassword = () => {
+         if (this.state.newPassword === this.state.confirmPassword) {
+             this.setState({
+                 incorrectInputData: {
+                     ...this.state.incorrectInputData,
+                     confirmPasswordEqualNewPassword: true
+                 }
+             });
+             let data = {
+                 password: this.state.oldPassword,
+                 newPassword: this.state.newPassword
+             };
+             axios.put('http://localhost:8091/api/v1/user/change_password',
+                 data,
+                 {withCredentials: true})
+                 .then(response => {
+                     console.log(response.data);
+                     this.setState({
+                         incorrectInputData: {...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: false}
+                     })
 
-                }).catch(err => {
-                console.log(err.response.data);
-                if (err.response.status === 403) {
-                    this.setState({
-                        incorrectInputData: {...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: true}
-                    })
-                }
-            })
-        } else {
-            this.setState({
-                incorrectInputData: {
-                    ...this.state.incorrectInputData,
-                    confirmPasswordEqualNewPassword: false
-                }
-            });
-            this.setState({confirmPassword: ''})
-        }
-    };*/
+                 }).catch(err => {
+                 console.log(err.response.data);
+                 if (err.response.status === 403) {
+                     this.setState({
+                         incorrectInputData: {...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: true}
+                     })
+                 }
+             })
+         } else {
+             this.setState({
+                 incorrectInputData: {
+                     ...this.state.incorrectInputData,
+                     confirmPasswordEqualNewPassword: false
+                 }
+             });
+             this.setState({confirmPassword: ''})
+         }
+     };*/
+
+    editAble = () => {
+         document.getElementsByName('firstName').disabled = false;
+    };
 
     render() {
         return (
@@ -143,7 +146,8 @@ export class UserEdit extends React.Component {
                                     }}>
                                 {this.state.errorMessage.incorrectFirstName}</p>
                             </FormText>}
-                            <FormControl name='firstName' value={this.state.firstName} type = "password">
+                            <FormControl disabled
+                                         name='firstName' value={this.state.firstName} onChange={this.handleUserInput}>
                             </FormControl>
                         </FormGroup>
                         <FormGroup className='d-flex flex-column justify-content-around align-items-center'
@@ -163,10 +167,9 @@ export class UserEdit extends React.Component {
                                     }}>
                                 {this.state.errorMessage.incorrectLastName}</p>
                             </FormText>}
-                            <FormControl required name='lastName' value={this.state.lastName}
-                                         /*onChange={}
-                                         onBlur={}*/
-                            >
+                            <FormControl disabled
+                                         required name='lastName' value={this.state.lastName}
+                                         onChange={this.handleUserInput}>
                             </FormControl>
                         </FormGroup>
                         <FormGroup className='d-flex flex-column justify-content-around align-items-center'
@@ -186,33 +189,32 @@ export class UserEdit extends React.Component {
                                     }}>
                                 {this.state.errorMessage.incorrectEmail}</p>
                             </FormText>}
-                            <FormControl name='email' value={this.state.email}
-                                         /*onChange={}
-                                         onBlur={}*/
-                            ></FormControl>
+                            <FormControl disabled
+                                         name='email' value={this.state.email}
+                                         onChange={this.handleUserInput}></FormControl>
                         </FormGroup>
                     </div>
                     <div>
                         <Button variant="primary"
+                                onClick={this.editAble}
                                 style=
                                     {{
                                         heigth: '15%',
                                         marginTop: '10px'
                                     }}
-                                /*onClick={}*/
                         >
                             Редагувати
                         </Button>
-                        <Button variant="primary"
+                      {/*  <Button variant="primary"
                                 style=
                                     {{
                                         heigth: '15%',
                                         marginTop: '10px',
-                                        marginLeft:'10px'
+                                        marginLeft: '10px'
                                     }}
                         >
                             Змінити пароль
-                        </Button>
+                        </Button>*/}
                     </div>
                 </Form>
             </div>
