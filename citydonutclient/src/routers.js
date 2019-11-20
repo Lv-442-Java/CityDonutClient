@@ -18,6 +18,7 @@ export class Routers extends React.Component {
             <BrowserRouter>
                 <Head/>
                 <Switch>
+                    <Route path='/project/update' component={UpdateProject} />
                     <Route exact path='/' component={Base}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/project/create' component={CreateProject}/>
@@ -27,6 +28,7 @@ export class Routers extends React.Component {
                     <Route path='/projects/:id' render={(props) => <Project{...props} id={this.props.id}/>}/>
                     <Route path='/user/change_password' component={ChangePassword}/>
                     <Route path='/activationUser/:activationCode' component={ActivationUser}/>
+
                 </Switch>
             </BrowserRouter>
         );

@@ -5,22 +5,26 @@ import Button from "react-bootstrap/Button";
 import MyCustomMap from "./MyCustomMap";
 import GoogleLocation from "./GoogleLocation";
 import axios from "axios";
+import Dropdown from "react-bootstrap/Dropdown";
 
 
 export class CreateProject extends React.Component {
 
     state = {
         files: [],
+        categoryName: 'Категорія проекту',
+        allCategories: [],
         street: {
             place: '',
             coordinates: {
                 lat: 0,
                 lng: 0
             },
-            "name": undefined,
-            "description": undefined,
-            "moneyNeeded": 0
-        }
+        },
+        "name": undefined,
+        "description": undefined,
+        "moneyNeeded": 0,
+        "categories": undefined
     };
 
     setFile = (e) => {
@@ -50,6 +54,21 @@ export class CreateProject extends React.Component {
         })
     };
 
+    setCategory = (event, e) => {
+        this.setState({
+            categories: e.target.innerText
+        })
+    };
+
+    getCategories = () => {
+        axios.get(`http://localhost:8091/api/v1/category/all`)
+            .then(response =>
+                this.setState({
+                    allCategories: response.data
+                })
+            )
+    };
+
     sendData = () => {
         let data = {
             "name": this.state.name,
@@ -58,30 +77,21 @@ export class CreateProject extends React.Component {
             "locationLatitude": this.state.street.coordinates.lat,
             "locationLongitude": this.state.street.coordinates.lng,
             "moneyNeeded": this.state.moneyNeeded,
-            "categories": [{category: 'спорт'}]
+            "categories": [this.state.categories]
         };
         console.log(data);
 
-        axios.post(`http://localhost:8080/api/v1/project`,
+        axios.post(`http://localhost:8091/api/v1/project`,
             data,
             {withCredentials: true})
             .then(response => {
                 let fileData = new FormData();
                 console.log(fileData);
-                console.log(this.state.files)
-                Array.from( this.state.files).forEach((file, i) => {
+                console.log(this.state.files);
+                Array.from(this.state.files).forEach((file, i) => {
                     console.log(file);
                     fileData.append("files", file);
                 });
-                // this.state.files.forEach((file, i) => {
-                //         console.log(file)
-                //         fileData.append("files[" + i + "]", file)
-                //     }
-                // );
-                // fileData.append()
-                //     {
-                //     'files': this.state.file,
-                // };
                 const config = {
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -89,7 +99,7 @@ export class CreateProject extends React.Component {
                 };
                 console.log(fileData);
                 axios.post(
-                    `http://localhost:8080/api/v1/project/${response.data.id}/uploadMultipleFiles`,
+                    `http://localhost:8091/api/v1/project/${response.data.id}/uploadMultipleFiles`,
                     fileData,
                     config,
                     {withCredentials: true}
@@ -100,23 +110,23 @@ export class CreateProject extends React.Component {
 
     componentDidMount() {
         this.sendData();
+        this.getCategories();
     }
 
 
     render() {
         return (
             <Modal.Dialog style={{width: '600px', height: '500'}}>
-                <Modal.Header closeButton>
-                    <Modal.Title style={{textAlign: 'center'}}>Створити проект</Modal.Title>
-                </Modal.Header>
+                <Modal.Title style={{textAlign: 'center'}}>Створити проект</Modal.Title>
 
                 <Modal.Body>
 
                     <div style={{width: '100%'}}>
                         <label htmlFor="pName"> Назва проекту:</label>
                         <input type="text"
-                               id="pName"
                                name="name"
+                               autocomplete="off"
+                               required={true}
                                placeholder="Назва проекту..."
                                style={{
                                    width: '100%',
@@ -130,39 +140,79 @@ export class CreateProject extends React.Component {
                                onChange={this.setName}/>
 
                         <label htmlFor="pDescription">Опис:</label>
-                        <input type="area"
-                               id="pDescription"
-                               name="description"
-                               placeholder="Про проект..."
-                               style={{
-                                   width: '100%',
-                                   height: '100px',
-                                   padding: '12px 20px',
-                                   margin: '8px 0',
-                                   display: 'inline-block',
-                                   border: '1px solid #ccc',
-                                   borderRadius: '4px',
-                                   boxSizing: 'border-box'
-                               }}
-                               onChange={this.setDescription}/>
+                        <textarea
+                            id="pDescription"
+                            name="description"
+                            autocomplete="off"
+                            required={true}
+                            placeholder="Про проект..."
+                            style={{
+                                resize: 'none',
+                                width: '100%',
+                                height: '100px',
+                                padding: '12px 20px',
+                                margin: '8px 0',
+                                display: 'inline-block',
+                                border: '1px solid #ccc',
+                                borderRadius: '4px',
+                                boxSizing: 'border-box'
+                            }}
+                            onChange={this.setDescription}/>
                         <label htmlFor="projectPrice">Необхідні кошти для реалізації проекту :</label>
                         <input
-                            type="text"
+                            type="number"
+                            autocomplete="off"
+                            required={true}
                             className="form-control"
                             name="projectPrice"
-                            onChange={this.setMoney}/>
+                            onChange={this.setMoney}
+                        />
 
                         <label htmlFor="pLocation">Адреса :</label>
                         <GoogleLocation id="pLocation" setPlace={this.setPlace}/>
 
-                        <label htmlFor="pFile">Додаткові файли :</label>
+                        <label>Категорія проекту :</label>
+
+                        <Dropdown onSelect={this.setCategory}>
+                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                {this.state.categoryName}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                {this.state.allCategories.map((item) =>
+                                    <Dropdown.Item eventKey={item.id}>
+                                        {item.category}</Dropdown.Item>)}
+                                <Dropdown.Item eventKey={null}>статус проекту</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+
+                        <label htmlFor="pFile">Додаткові матеріали :</label><br/>
+
+                        <label htmlFor="file-upload" style={{
+                            border: '1px solid #ccc',
+                            width: '170px',
+                            borderRadius: '4px',
+                            boxSizing: 'border-box',
+                            padding: '6px 12px',
+                            cursor: 'pointer'
+                        }}>Загрузити файли</label>
                         <input type="file"
-                               id="pFile"
-                               name="fileLoad"
-                               style={{margin: '10px 0px 60px 60px'}}
+                               id="file-upload"
+                               style={{display: 'none', margin: '10px 0px 60px 60px'}}
                                multiple={true}
                                onChange={this.setFile}
                         />
+
+                        <div>
+                            {Array.from(this.state.files).map((file) => {
+                             return(   <ul>
+                                    <li>{file.name}</li>
+                                </ul>)
+                        })}
+
+                        </div>
+
+
+
                     </div>
 
                     <div style={{
@@ -180,8 +230,6 @@ export class CreateProject extends React.Component {
                     <Button variant="primary" onClick={this.sendData}>Надіслати</Button>
                 </Modal.Footer>
             </Modal.Dialog>
-
-
         );
     }
 }
