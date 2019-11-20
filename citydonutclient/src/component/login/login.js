@@ -5,6 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import {Link} from 'react-router-dom';
+import FormControl from "react-bootstrap/FormControl";
+import FormGroup from "react-bootstrap/FormGroup";
 
 export class Login extends React.Component {
     state = {
@@ -58,7 +60,7 @@ export class Login extends React.Component {
                 <Modal.Body>
                     <div className="col-8">
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Control type="userEmail"
+                            <Form.Control required type="userEmail"
                                           placeholder="Введіть ваш email"
                                           onChange={this.setEmail}/>
                         </Form.Group>
@@ -66,7 +68,7 @@ export class Login extends React.Component {
 
                     <div className="col-8">
                         <Form.Group controlId="formPlaintextPassword">
-                            <Form.Control type="password" placeholder="Введіть ваш пароль"
+                            <Form.Control required type="password" placeholder="Введіть ваш пароль"
                                           onChange={this.setPassword}/>
                         </Form.Group>
                     </div>
