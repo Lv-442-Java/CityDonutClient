@@ -6,13 +6,11 @@ export class ActivationUser extends React.Component {
 
     state = {
         status: undefined,
-        aaa: this.props.match.params.activationCode
+        errorMessage: undefined
     }
 
     componentDidMount() {
         this.getData()
-        console.log(this.state.aaa);
-
     }
 
     getData = () => {
@@ -22,9 +20,8 @@ export class ActivationUser extends React.Component {
                 this.setState({status: response.status})
             })
             .catch(err => {
-                let data = err.response.data;
-
-                console.log(data);
+                this.setState({errorMessage: err.response.data["message"]});
+                console.log(err.response.data);
             })
     }
 
@@ -32,7 +29,12 @@ export class ActivationUser extends React.Component {
 
         return (
             <div>
-                <div>{this.state.status===204 &&  <Redirect to="/login" />}</div>
+                <div>
+                    {this.state.errorMessage &&
+                        <div className="alert alert-danger" role="alert"> Це провал !!! {this.state.errorMessage}</div>
+                    }
+                </div>
+                <div>{this.state.status === 204 && <Redirect to="/login"/>}</div>
             </div>
         );
     }
