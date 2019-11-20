@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import {StoryBoardItem} from "./storyBoardItem";
-import CardDeck from "react-bootstrap/CardDeck";
 
 export class StoryBoardList extends React.Component {
 

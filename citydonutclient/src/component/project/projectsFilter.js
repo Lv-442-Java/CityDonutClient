@@ -10,10 +10,12 @@ import queryString from 'query-string'
 export class ProjectsFilter extends React.Component {
 
     state = {
-        statusName:"статус проекту",
+        statusName: "статус проекту",
         statusesAfterValidation: [],
-        allCategories: []
+        allCategories: [],
     };
+
+    timeout = null;
 
     componentDidMount() {
         const values = queryString.parse(this.props.startLink);
@@ -57,16 +59,25 @@ export class ProjectsFilter extends React.Component {
     };
 
     setMoneyFrom = (e) => {
-        if (isNaN(e.target.value)) {
-            e.target.value = '';
-            return;
-        }
-        this.setState(
-            {
-                moneyFrom: e.target.value === "" ? undefined : e.target.value,
-            },
-            () => this.props.setFilters(this.state)
-        );
+        let event = e;
+        clearTimeout(this.state.timeout);
+        this.timeout = setTimeout(() => {
+            if (isNaN(event.target.value)) {
+                event.target.value = '';
+                return;
+            }
+            this.setState(
+                {
+                    moneyFrom: event.target.value === "" ? undefined : event.target.value,
+                },
+                () => {
+
+                    this.props.setFilters(this.state)
+
+                }
+            );
+        },2000)
+
     };
 
     setMoneyTo = (e) => {
