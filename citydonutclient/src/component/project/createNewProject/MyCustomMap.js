@@ -1,7 +1,7 @@
 import React from "react";
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 
-export const API_KEY = 'AIzaSyCzRGiyExLsjai7JXtonhb1AX7VMXsV-30';
+export const API_KEY = 'AIzaSyBavn6479ndQA4VVOYPN7t42D_SDxNupW8';
 
 export default class MyCustomMap extends React.Component {
 

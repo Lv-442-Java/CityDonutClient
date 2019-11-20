@@ -24,6 +24,7 @@ export class Routers extends React.Component {
                     <Route path='/registration' component={Registration} />
                     <Route exact path='/projects' component={Projects} />
                     <Route path ='/projects/:id' render={(props) => <Project{...props} id = {this.props.id}/>}/>
+                    <Route path='/project/update' component={UpdateProject} />
                 </Switch>
             </BrowserRouter>
         );
