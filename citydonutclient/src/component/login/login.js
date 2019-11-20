@@ -5,8 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import {Link} from 'react-router-dom';
-import FormControl from "react-bootstrap/FormControl";
-import FormGroup from "react-bootstrap/FormGroup";
 
 export class Login extends React.Component {
     state = {
@@ -50,6 +48,9 @@ export class Login extends React.Component {
 
     };
 
+    toReddirect = () => {
+        return this.state.status === 200
+    };
     render() {
         return (
             <Modal.Dialog style={{width: '400px', height: '400px'}}>
@@ -99,6 +100,9 @@ export class Login extends React.Component {
                             </ButtonGroup>
                         </div>
                     </div>
+                </div>
+
+                <div> {this.toReddirect() && this.props.history.push('/projects')}
                 </div>
             </Modal.Dialog>
         )
