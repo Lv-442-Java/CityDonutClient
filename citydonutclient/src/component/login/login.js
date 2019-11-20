@@ -48,6 +48,9 @@ export class Login extends React.Component {
 
     };
 
+    toReddirect = () => {
+        return this.state.status === 200
+    };
     render() {
         return (
             <Modal.Dialog style={{width: '400px', height: '400px'}}>
@@ -58,7 +61,7 @@ export class Login extends React.Component {
                 <Modal.Body>
                     <div className="col-8">
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Control type="userEmail"
+                            <Form.Control required type="userEmail"
                                           placeholder="Введіть ваш email"
                                           onChange={this.setEmail}/>
                         </Form.Group>
@@ -66,7 +69,7 @@ export class Login extends React.Component {
 
                     <div className="col-8">
                         <Form.Group controlId="formPlaintextPassword">
-                            <Form.Control type="password" placeholder="Введіть ваш пароль"
+                            <Form.Control required type="password" placeholder="Введіть ваш пароль"
                                           onChange={this.setPassword}/>
                         </Form.Group>
                     </div>
@@ -97,6 +100,9 @@ export class Login extends React.Component {
                             </ButtonGroup>
                         </div>
                     </div>
+                </div>
+
+                <div> {this.toReddirect() && this.props.history.push('/projects')}
                 </div>
             </Modal.Dialog>
         )

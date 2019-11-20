@@ -1,7 +1,7 @@
 import React from "react";
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 
-export const API_KEY = 'AIzaSyBavn6479ndQA4VVOYPN7t42D_SDxNupW8';
+export const API_KEY = 'AIzaSyBavn6479ndQA4VVOYPN7t42D_SDxNupW6';
 
 export default class MyCustomMap extends React.Component {
 
@@ -25,7 +25,8 @@ export default class MyCustomMap extends React.Component {
                 defaultZoom={this.state.zoom}
                 defaultCenter={{lat: this.state.center.lat, lng: this.state.center.lng}}>
                 <Marker
-                    position={{ lat: this.props.location.coordinates.lat, lng: this.props.location.coordinates.lng }}
+                    position={{ lat: this.props.location.coordinates.lat, lng: this.props.location.coordinates.lng
+                    }}
                 />
             </GoogleMap>
     ));
