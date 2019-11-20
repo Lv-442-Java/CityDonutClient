@@ -6,25 +6,20 @@ import {Button} from "react-bootstrap";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import {Link} from 'react-router-dom';
 
-
 export class Login extends React.Component {
     state = {
         userEmail: undefined,
         password: undefined,
         status: undefined,
-        errorMessage : undefined
-};
-
-    setEmail = (e) => {
-        this.setState({
-            userEmail: e.target.value
-        });
+        errorMessage: undefined
     };
 
-    setPassword = (e) => {
-        this.setState({
-            password: e.target.value
-        });
+    setEmail = (email) => {
+        this.setState({userEmail: email.target.value});
+    };
+
+    setPassword = (pass) => {
+        this.setState({password: pass.target.value});
     };
 
     insertLoginData = () => {
@@ -32,7 +27,7 @@ export class Login extends React.Component {
             userEmail: this.state.userEmail,
             password: this.state.password
         };
-        console.log(data);
+
         axios.post(`http://localhost:8091/sign-in`,
             data,
             {withCredentials: true})
@@ -43,13 +38,14 @@ export class Login extends React.Component {
             })
             .catch(err => {
                 this.setState({errorMessage: err.response.data["message"]});
-               console.log(err.response.data);
+                console.log(err.response.data);
             })
     };
 
     isEmptyField = () => {
         return this.state.userEmail !== undefined && this.state.userEmail !== "" &&
             this.state.password !== undefined && this.state.password !== ""
+
     };
 
     render() {
@@ -96,8 +92,8 @@ export class Login extends React.Component {
                     <div>
                         <div className="d-flex flex-column">
                             <ButtonGroup size="lg">
-                                <Button  href="http://localhost:8091/facebooklogin">Login with Facebook</Button>
-                                <Button  href="http://localhost:8091/googlelogin">Login with Google</Button>
+                                <Button href="http://localhost:8091/facebooklogin">Login with Facebook</Button>
+                                <Button href="http://localhost:8091/googlelogin">Login with Google</Button>
                             </ButtonGroup>
                         </div>
                     </div>
