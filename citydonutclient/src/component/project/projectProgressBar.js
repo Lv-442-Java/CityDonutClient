@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import ProgressBar from "../progressBar/progressBar";
+import MyModal from "./MyModal";
 
 export class ProjectProgressBar extends React.Component {
 
@@ -66,7 +67,7 @@ export class ProjectProgressBar extends React.Component {
 
                     <h5 style = {{margin:""}}>Доброчинців: {this.state.contributors}</h5>
 
-                <button type="button" className="btn btn-primary"  style={{margin:"17px", height:"45px", width:"125px"}}>Підтримати</button>
+                    <MyModal projectId={this.props.projectId} getDonatesSum={this.getDonatesSum}/>
                 </div>
             </div>
         )
