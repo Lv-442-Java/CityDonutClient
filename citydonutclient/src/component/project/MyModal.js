@@ -19,11 +19,14 @@ export default class MyModal extends React.Component {
     }
 
     handleClose() {
-        this.setState({ show: false });
+        this.setState({
+            show: false,
+            valid: undefined
+        });
     }
 
     handleShow() {
-        this.setState({ show: true });
+        this.setState({show: true});
     }
 
     setSum = (e) => {
@@ -40,16 +43,16 @@ export default class MyModal extends React.Component {
             this.handleClose
         ).then(
             this.props.getDonatesSum
-            // setTimeout(, 2000)
         ).then(
-            this.setState({valid: undefined})
+            this.props.getContributors
         )
     };
 
     render() {
         return (
             <>
-                <Button variant="primary" style={{margin:"17px", height:"45px", width:"125px"}} onClick={this.handleShow}>
+                <Button variant="primary" style={{margin: "17px", height: "45px", width: "125px"}}
+                        onClick={this.handleShow}>
                     Підтримати
                 </Button>
 
@@ -63,7 +66,8 @@ export default class MyModal extends React.Component {
                                 <Form.Label>
                                     Введіть суму внеску:
                                 </Form.Label>
-                                <Form.Control isValid={this.state.valid} isInvalid={!this.state.valid} onChange={this.setSum}>
+                                <Form.Control isValid={this.state.valid} isInvalid={!this.state.valid}
+                                              onChange={this.setSum}>
 
                                 </Form.Control>
                                 <Form.Control.Feedback type="invalid">
