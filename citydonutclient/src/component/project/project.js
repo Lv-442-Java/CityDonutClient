@@ -1,9 +1,7 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
 import { PhotoSlider } from './photoSlider';
 import { ProjectProgressBar } from './projectProgressBar';
 import {ProjectScroller} from "./projectScroller";
-import React from "react";
 import {PhotoSlider} from "./photoSlider";
 import {ProjectProgressBar} from "./projectProgressBar";
 import axios from "axios";

@@ -21,7 +21,7 @@ export class Document extends React.Component {
         return(
             <div>
                 {files.map(file => (
-                    <a href = {file.fileDownloadUri}>{file.fileName}</a>
+                    <a href = {file.fileDownloadUri}>{file.fileName}<br/></a>
 
                 ))}
             </div>
