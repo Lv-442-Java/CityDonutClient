@@ -55,7 +55,7 @@ export class ProjectsItem extends React.Component {
                             </Card.Text>
 
                             <Card.Text>
-                                {this.props.donateCount && `Кількість пожертв: ${this.props.donateCount}`}
+                                {this.props.donateCount && `Кількість внесків: ${this.props.donateCount}`}
                             </Card.Text>
 
                             <Card.Text>
