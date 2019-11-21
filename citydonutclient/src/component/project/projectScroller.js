@@ -6,6 +6,7 @@ import {Document} from "./documentation"
 import {ProjectDonates} from "./projectDonates";
 import { Link, animateScroll as scroll } from "react-scroll";
 import MyCustomMap from "./createNewProject/MyCustomMap"
+import {StoryBoardList} from "../storyBoard/storyBoardList";
 
 
 export class ProjectScroller extends React.Component {
@@ -56,7 +57,7 @@ export class ProjectScroller extends React.Component {
                                 duration={500}>
                                 Внески
                             </Link>
-                            {this.props.status === "реалізація" || this.props.status === "виконаний" && <Link
+                            {(this.props.status === "реалізація" || this.props.status === "виконаний") && <Link
                                 activeClass="active"
                                 to="storyboard"
                                 spy={true}
@@ -93,6 +94,14 @@ export class ProjectScroller extends React.Component {
                             <ProjectDonates projectId={this.props.projectId}></ProjectDonates>
                         </div>
                     </div>
+                    {(this.props.status === "реалізація" || this.props.status === "виконаний") &&
+                    <div  style={{width:"80%", margin: "30px"}} id = "storyboard">
+                        <h3>Внески</h3>
+                        <br/>
+                        <div className="">
+                            <StoryBoardList projectId={this.props.projectId}/>
+                        </div>
+                    </div>}
 
                 </Container>
                 <div>
