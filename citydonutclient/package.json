@@ -12,6 +12,7 @@
     "popper.js": "^1.16.0",
     "react": "^16.11.0",
     "react-bootstrap": "^1.0.0-beta.14",
+    "react-contextmenu": "^2.13.0",
     "react-cookie": "^4.0.1",
     "react-dom": "^16.11.0",
     "react-geocode": "^0.2.1",
@@ -20,10 +21,10 @@
     "react-router": "latest",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "react-scroll": "latest",
     "react-scroll-up-button": "^1.6.4",
     "react-sharingbuttons": "latest",
-    "resolve-url-loader": "^3.1.0",
-    "react-scroll": "latest"
+    "resolve-url-loader": "^3.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
