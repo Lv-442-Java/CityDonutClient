@@ -9,7 +9,6 @@ export class StoryBoardItem extends React.Component {
     };
 
     componentDidMount() {
-        console.log(this.props.storyBoard.id);
         this.getData();
     }
 
