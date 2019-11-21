@@ -175,13 +175,13 @@ export class CreateProject extends React.Component {
 
                         <Dropdown onSelect={this.setCategory}>
                             <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                {this.state.categoryName}
+                                {this.state.categories}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {this.state.allCategories.map((item) =>
                                     <Dropdown.Item eventKey={item.id}>
-                                        {item.category}</Dropdown.Item>)}
-                                <Dropdown.Item eventKey={null}>статус проекту</Dropdown.Item>
+                                        {item.category}
+                                    </Dropdown.Item>)}
                             </Dropdown.Menu>
                         </Dropdown>
 
@@ -189,10 +189,10 @@ export class CreateProject extends React.Component {
 
                         <label htmlFor="file-upload" style={{
                             border: '1px solid #ccc',
-                            width: '170px',
+                            width: '200px',
                             borderRadius: '4px',
                             boxSizing: 'border-box',
-                            padding: '6px 12px',
+                            padding: '6px 30px',
                             cursor: 'pointer'
                         }}>Загрузити файли</label>
                         <input type="file"
@@ -204,7 +204,8 @@ export class CreateProject extends React.Component {
 
                         <div>
                             {Array.from(this.state.files).map((file) => {
-                             return(   <ul>
+                             return(
+                                 <ul>
                                     <li>{file.name}</li>
                                 </ul>)
                         })}
