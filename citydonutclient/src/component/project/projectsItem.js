@@ -3,7 +3,6 @@ import Card from "react-bootstrap/Card";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import ProgressBar from "../progressBar/progressBar";
-import img from "../../img/test.png"
 
 export class ProjectsItem extends React.Component {
 
@@ -15,7 +14,7 @@ export class ProjectsItem extends React.Component {
     };
 
     getDonatesSum = () => {
-        axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.props.id}`, {crossDomain: true}).then(response => {
+        axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.props.id}`, {withCredentials: true}).then(response => {
             this.setState({
                 donatesSum: response.data,
                 donatedPercent: response.data * 100 / this.props.moneyNeeded
@@ -38,8 +37,8 @@ export class ProjectsItem extends React.Component {
 
     render() {
         return (
-            <div>
-                <Link to={`projects/${this.props.id}`} style={{textDecoration: 'none', color: 'black'}}>
+            <div className="px-2">
+                <Link to={`/projects/${this.props.id}`} style={{textDecoration: 'none', color: 'black'}}>
                     <Card border="primary" className="text-center mx-auto"
                           style={{width: '18rem', marginTop: '2rem'}}>
                         <Card.Img variant="top"
@@ -53,6 +52,14 @@ export class ProjectsItem extends React.Component {
 
                             <Card.Text>
                                 Статус: {this.props.status.status}
+                            </Card.Text>
+
+                            <Card.Text>
+                                {this.props.donateCount && `Кількість внесків: ${this.props.donateCount}`}
+                            </Card.Text>
+
+                            <Card.Text>
+                                {this.props.donateSum && `Сума: ${this.props.donateSum + " ₴"}`}
                             </Card.Text>
 
                             <ProgressBar doneTip="Зібрано!" donePercent={this.state.donatedPercent}

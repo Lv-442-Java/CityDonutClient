@@ -62,9 +62,19 @@ export class ChangePassword extends React.Component {
     };
 
     checkPassword = (password) => {
-        if (password === '') return true;
         return /^[a-zA-Z0-9]{4,15}$/.test(password);
     };
+
+    canChange = () =>{
+        return (
+            !this.state.incorrectInputData.incorrectNewPassword&&
+            !this.state.incorrectInputData.incorrectOldPassword&&
+            !this.state.incorrectInputData.incorrectConfirmPassword&&
+            this.state.newPassword!==''&&
+            this.state.oldPassword!==''&&
+            this.state.confirmPassword!==''
+        )
+    }
 
     changePassword = () => {
         if (this.state.newPassword === this.state.confirmPassword) {
@@ -223,6 +233,7 @@ export class ChangePassword extends React.Component {
                         </FormText>}
                     </div>
                     <div>
+                        {this.canChange() &&
                         <Button variant="primary"
                                 style=
                                     {{
@@ -230,8 +241,9 @@ export class ChangePassword extends React.Component {
                                         marginTop: '10px'
                                     }}
                                 onClick={this.changePassword}>
-                            Submit
+                            Змінити пароль
                         </Button>
+                        }
                     </div>
                 </Form>
             </div>

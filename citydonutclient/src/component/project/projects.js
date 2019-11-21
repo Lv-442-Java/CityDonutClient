@@ -29,7 +29,7 @@ export class Projects extends React.Component {
 
     getData = () => {
         axios.get('http://localhost:8091/api/v1/project/filter' + this.getUrl(),
-            {crossDomain: true})
+            {withCredentials: true})
             .then(response => {
                 this.setState({projects: response.data})
             })

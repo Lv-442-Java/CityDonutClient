@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 import CardDeck from 'react-bootstrap/CardDeck';
 import { ProjectsItem } from './projectsItem';
 

@@ -58,7 +58,7 @@ export class ProjectScroller extends React.Component {
                             </Link>
                             {this.props.status === "реалізація" || this.props.status === "виконаний" && <Link
                                 activeClass="active"
-                                to="map"
+                                to="storyboard"
                                 spy={true}
                                 smooth={true}
                                 offset={-70}
