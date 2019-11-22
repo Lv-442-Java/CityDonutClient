@@ -16,7 +16,7 @@ export class Head extends React.Component {
 
     isAuthorized = () => {
         const jwt = this.cookiesToJson().JWT;
-        return jwt && jwt.length === 160;
+        return jwt && jwt.length > 10;
     };
 
     render() {
