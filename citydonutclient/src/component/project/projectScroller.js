@@ -17,7 +17,8 @@ export class ProjectScroller extends React.Component {
             <div>
                 <Container>
                     <div className="d-flex justify-content-center " style={{width:"100%", height:"35px"}}>
-                        <div className= "d-flex justify-content-around align-items-center" style = {{background: "#f0f0f0", margin: "20px",
+                        <div className= "d-flex justify-content-around align-items-center"
+                             style = {{background: "#f0f0f0", margin: "20px",
                             width:"60%", height:"35px"}}>
                             <Link
                                 activeClass="active"
@@ -47,8 +48,7 @@ export class ProjectScroller extends React.Component {
                                 duration={500}>
                                 Розташування
                             </Link>
-                            <Link
-
+                             <Link
                                 activeClass="active"
                                 to="donates"
                                 spy={true}
@@ -71,11 +71,13 @@ export class ProjectScroller extends React.Component {
                     <br/>
                     <div className="" style={{width:"80%", margin:"30px"}} id= "description">
                         <h3>Опис</h3>
+                        <br/>
                         <Description description={this.props.description}></Description>
                     </div>
                     <br/>
                     <div className="" style={{width:"80%", margin: "30px"}} id = "docs">
                         <h3>Документація</h3>
+                        <br/>
                         <Document projectId = {this.props.projectId}></Document>
                     </div>
                     <br/>
@@ -87,6 +89,7 @@ export class ProjectScroller extends React.Component {
                     </div>
 
                     <br/>
+
                     <div  style={{width:"80%", margin: "30px"}} id = "donates">
                         <h3>Внески</h3>
                         <br/>
@@ -96,7 +99,7 @@ export class ProjectScroller extends React.Component {
                     </div>
                     {(this.props.status === "реалізація" || this.props.status === "виконаний") &&
                     <div  style={{width:"80%", margin: "30px"}} id = "storyboard">
-                        <h3>Внески</h3>
+                        <h3>Сторіборд</h3>
                         <br/>
                         <div className="">
                             <StoryBoardList projectId={this.props.projectId}/>

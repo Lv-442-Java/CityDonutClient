@@ -11,7 +11,7 @@ export class ProjectProgressBar extends React.Component {
         today: new Date(),
         days: undefined,
         contributors: 0
-   }
+   };
 
 
 
@@ -36,8 +36,7 @@ export class ProjectProgressBar extends React.Component {
         }
         return this.days;
 
-    }
-
+    };
     getContributors = () => {
         axios.get(`http://localhost:8091/api/v1/donates/count/project/${this.props.projectId}`,
             { withCredentials: true }).then(response => {
@@ -45,15 +44,13 @@ export class ProjectProgressBar extends React.Component {
             )
         })
 
-    }
+    };
     componentDidMount() {
         this.getDonatesSum();
         this.getContributors();
     }
 
     render(){
-        console.log(this.props.moneyNeeded + "@@@");
-        console.log(this.state.today + "today");
 
         return(
             <div className="row-full "  style={{background: "#f0f0f0", width:"100%", height: "80px"}}>
