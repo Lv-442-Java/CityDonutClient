@@ -11,7 +11,7 @@ export class PhotoSlider extends React.Component{
     photos:[],
     projectId: this.props.projectId,
 
-    }
+    };
 
     componentDidMount() {
         this.getData()
@@ -29,7 +29,8 @@ export class PhotoSlider extends React.Component{
 
 
     getData = () => {
-        axios.get(`http://localhost:8091/api/v1/project/${this.props.projectId}/getUrl`, { withCredentials: true }).then(response => {
+        axios.get(`http://localhost:8091/api/v1/project/${this.props.projectId}/getUrl`,
+            { withCredentials: true }).then(response => {
             this.setState({photos: response.data}
             )
         })
