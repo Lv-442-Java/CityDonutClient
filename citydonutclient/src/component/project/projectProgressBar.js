@@ -67,7 +67,7 @@ export class ProjectProgressBar extends React.Component {
 
                     <h5 style = {{margin:""}}>Доброчинців: {this.state.contributors}</h5>
 
-                    <MyModal projectId={this.props.projectId} getDonatesSum={this.getDonatesSum}/>
+                    <MyModal projectId={this.props.projectId} getDonatesSum={this.getDonatesSum} getContributors={this.getContributors} />
                 </div>
             </div>
         )
