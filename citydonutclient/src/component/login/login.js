@@ -48,8 +48,8 @@ export class Login extends React.Component {
 
     };
 
-    toReddirect = () => {
-        return this.state.status === 200
+    toRedirect = () => {
+        return this.state.status === 200 && window.location.replace("http://localhost:3000/");
     };
     render() {
         return (
@@ -102,7 +102,7 @@ export class Login extends React.Component {
                     </div>
                 </div>
 
-                <div> {this.toReddirect() && this.props.history.push('/projects')}
+                <div> {this.toRedirect()}
                 </div>
             </Modal.Dialog>
         )
