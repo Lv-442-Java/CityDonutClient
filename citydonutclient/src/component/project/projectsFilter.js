@@ -10,9 +10,10 @@ import queryString from 'query-string'
 export class ProjectsFilter extends React.Component {
 
     state = {
-        statusName:"статус проекту",
+        statusName: "статус проекту",
         statusesAfterValidation: [],
-        allCategories: []
+        allCategories: [],
+        timeout: null,
     };
 
     componentDidMount() {
@@ -56,30 +57,31 @@ export class ProjectsFilter extends React.Component {
         );
     };
 
-    setMoneyFrom = (e) => {
-        if (isNaN(e.target.value)) {
-            e.target.value = '';
-            return;
+    setMoney = (event, key) => {
+        if (isNaN(event.target.value)) {
+            event.target.value = '';
+        } else {
+            this.setState(
+                {
+                    [key]: event.target.value === "" ? undefined : event.target.value,
+                },
+                () => {
+                    clearTimeout(this.state.timeout);
+                    this.setState({
+                        timeout: setTimeout(() => {
+                            this.props.setFilters(this.state)
+                        }, 1000)
+                    })
+                });
         }
-        this.setState(
-            {
-                moneyFrom: e.target.value === "" ? undefined : e.target.value,
-            },
-            () => this.props.setFilters(this.state)
-        );
     };
 
-    setMoneyTo = (e) => {
-        if (isNaN(e.target.value)) {
-            e.target.value = '';
-            return;
-        }
-        this.setState(
-            {
-                moneyTo: e.target.value === "" ? undefined : e.target.value,
-            },
-            () => this.props.setFilters(this.state)
-        );
+    setMoneyFrom = (event) => {
+        this.setMoney(event, "moneyFrom");
+    };
+
+    setMoneyTo = (event) => {
+        this.setMoney(event, "moneyTo");
     };
 
     getStatuses = () => {
@@ -136,7 +138,8 @@ export class ProjectsFilter extends React.Component {
                     <InputGroup.Prepend>
                         <InputGroup.Text>₴</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl aria-label="Amount (to the nearest dollar)" placeholder="від 0"
+                    <FormControl aria-label="Amount (to the nearest dollar)"
+                                 placeholder="від 0"
                                  onInput={this.setMoneyFrom}
                                  value={this.state.moneyFrom !== undefined ? this.state.moneyFrom : ""}/>
                     <InputGroup.Append>
