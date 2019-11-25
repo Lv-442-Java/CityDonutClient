@@ -2,7 +2,7 @@ import React from "react";
 import homePage from '../../img/homePage6.jpeg';
 import donut from '../../img/icon.jpg';
 import Button from "react-bootstrap/Button";
-import {Link} from "react-scroll";
+import {Link} from 'react-router-dom';
 
 var sectionStyle = {
     width: "100%",
@@ -11,20 +11,10 @@ var sectionStyle = {
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover"
-    //backgroundRepeat: "no-repeat"
-    //#E8C7DD
 };
 
 export default class HomePagePhoto extends React.Component{
 
-   /* scrollToBottom() {
-        animateScroll.scrollToBottom({
-            containerId: 'containerId'
-    });
-    }*/
-//color:"#525150",
-    //F373C2
-    //#52494F grey
     render(){
         return(
             <div style={sectionStyle}  className="content">
@@ -32,13 +22,15 @@ export default class HomePagePhoto extends React.Component{
                     textAlign:"Left", paddingTop:"100px", paddingLeft:"50px"}}>
                     CityDonut - це краудфандингова платформа <br/> для міських ініціатив. Кожен може <br/>
                     допомогти своєму місту.</h2>
-                <Button style= {{marginTop: "10%", marginRight:"10%", height:"10%",
-                     width:"15%",borderColor:"#B87FA5", backgroundColor: "#792257", opacity:"90%"}}  className = "float-right " variant="primary" size="lg">
-                    Подати проект
-                </Button>
+                <Button style= {{textJustify: "center", marginTop: "10%", marginRight:"10%", height:"10%",
+                     width:"15%",borderColor:"#B87FA5", backgroundColor: "#792257", opacity:"90%"}}
+                        className = "float-right text-center" variant="primary" size="lg">
+                    <Link style={{color: "white"}} to="/projects">Допомогти</Link>
+            </Button>
                 <Button style= {{marginTop: "10%", marginRight:"3%", height:"10%",
-                    width:"15%", borderColor:"#B87FA5", backgroundColor: "#792257", opacity:"90%" }}  className = "float-right " variant="primary" size="lg">
-                    Допомогти
+                    width:"15%", borderColor:"#B87FA5", backgroundColor: "#792257", opacity:"90%" }}
+                        className = "float-right " variant="primary" size="lg">
+                    <Link style={{color: "white"}} to="/project/create">Подати проект</Link>
                 </Button>
                 <div style={{textAlign:"center", marginTop: "25%", marginRight:"3%"}}>
                 <Link style={{fontSize:"30px", color:"white"}}
@@ -60,7 +52,5 @@ export default class HomePagePhoto extends React.Component{
                 </div>
             </div>
         )
-
     }
-
 }

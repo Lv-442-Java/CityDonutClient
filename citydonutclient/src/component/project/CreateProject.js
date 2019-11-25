@@ -32,8 +32,7 @@ export class CreateProject extends React.Component {
                                 border: '1px solid #ccc',
                                 borderRadius: '4px',
 
-                            }}
-                        />
+                            }}/>
 
                         <label htmlFor="pDescription">Опис:</label>
                         <input
@@ -51,8 +50,7 @@ export class CreateProject extends React.Component {
                                 borderRadius: '4px',
                                 boxSizing: 'border-box',
 
-                            }}
-                        />
+                            }}/>
 
                         <label htmlFor="pFile">Загрузити файли:</label>
                         <input type="file" id="pFile" name="fileLoad" />
@@ -62,8 +60,7 @@ export class CreateProject extends React.Component {
                         height: '400px',
                         width: '350px',
                         margin: '50px 0px 60px 60px',
-                    }}
-                    >
+                    }}>
                         <GoogleMap />
                     </div>
                 </Modal.Body>

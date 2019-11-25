@@ -60,12 +60,9 @@ export class Project extends React.Component {
                 }
             }
         })
-
     };
 
     render() {
-
-        console.log(this.state.street.coordinates);
 
         return (
 
@@ -77,14 +74,12 @@ export class Project extends React.Component {
                             projectId={this.state.projectId}
                             projectName={this.state.project.name}
                             moneyNeeded={this.state.project.moneyNeeded}
-                            endDate={this.state.project.donationEndDate}
-                        />
+                            endDate={this.state.project.donationEndDate}/>
                         <ProjectScroller projectId={this.state.projectId}
                                          description={this.state.project.description}
-                                         location={this.state.street} status ={this.state.project.projectStatus.status}></ProjectScroller>
-
-                    </div>
-                ) : (<h1>Something went wrong. Reload the page, please</h1>)}
+                                         location={this.state.street}
+                                         status ={this.state.project.projectStatus.status}></ProjectScroller>
+                    </div>) : (<h1>Something went wrong. Reload the page, please</h1>)}
             </div>
         );
     }
