@@ -78,7 +78,7 @@ export class ProjectScroller extends React.Component {
                     <div className="" style={{width:"80%", margin: "30px"}} id = "docs">
                         <h3>Документація</h3>
                         <br/>
-                        <Document projectId = {this.props.projectId}></Document>
+                        <Document galleryId = {this.props.galleryId}></Document>
                     </div>
                     <br/>
                     <div className="" style={{width:"80%", margin: "30px"}} id = "map">

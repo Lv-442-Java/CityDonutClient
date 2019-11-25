@@ -14,6 +14,7 @@ export class Project extends React.Component {
                 lng: 0
             }
         },
+        galleryId: undefined,
         projectId: this.props.match.params.id
     };
 
@@ -21,8 +22,16 @@ export class Project extends React.Component {
     componentDidMount() {
         this.getData();
         this.setStreet();
+        this.getGallery()
     }
 
+    getGallery = () => {
+        axios.get(`http://localhost:8091/api/v1/project/${this.state.projectId}/gallery`,
+            { withCredentials: true }).then(response => {
+            this.setState({galleryId: response.data}
+            )
+        })
+    };
 
     getData = () => {
         axios.get(`http://localhost:8091/api/v1/project/${this.state.projectId}`,
@@ -69,7 +78,9 @@ export class Project extends React.Component {
             <div>
                 {(this.state.project.moneyNeeded != null) ? (
                     <div>
-                        <PhotoSlider projectId={this.state.projectId} projectName={this.state.project.name}/>
+                        <PhotoSlider projectId={this.state.projectId}
+                                     projectName={this.state.project.name}
+                                     galleryId = {this.state.galleryId}/>
                         <ProjectProgressBar
                             projectId={this.state.projectId}
                             projectName={this.state.project.name}
@@ -78,7 +89,8 @@ export class Project extends React.Component {
                         <ProjectScroller projectId={this.state.projectId}
                                          description={this.state.project.description}
                                          location={this.state.street}
-                                         status ={this.state.project.projectStatus.status}></ProjectScroller>
+                                         status ={this.state.project.projectStatus.status}
+                                         galleryId = {this.state.galleryId}></ProjectScroller>
                     </div>) : (<h1>Something went wrong. Reload the page, please</h1>)}
             </div>
         );
