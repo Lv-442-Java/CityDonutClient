@@ -15,6 +15,17 @@ export class Projects extends React.Component {
             () => this.getData())
     };
 
+    showMoreItems = () => {
+        console.log(this.state.filters.categories);
+        this.setState({filters: {page: this.state.filters.page + 1}}, () => {
+            axios.get('http://localhost:8091/api/v1/project/filter' + this.getUrl(),
+                {withCredentials: true})
+                .then(response => {
+                    this.setState({projects: [...this.state.projects,response.data]})
+                })
+        });
+    };
+
     getUrl = () => {
         let url = `?` +
             `page=${this.state.filters.page}&` +
@@ -42,7 +53,7 @@ export class Projects extends React.Component {
                     <ProjectsFilter setFilters={this.setFilters} startLink={this.props.location.search}/>
                 </div>
                 <div className="col-md-9 col-sm-9 col-lg-9 col-xs-12">
-                    <ProjectsList projects={this.state.projects}/>
+                    <ProjectsList projects={this.state.projects} showMore={this.showMoreItems}/>
                 </div>
             </div>
         )
