@@ -1,7 +1,7 @@
 import React from 'react';
 import CardDeck from 'react-bootstrap/CardDeck';
-import {ProjectsItem} from './projectsItem';
-import {Button} from "react-bootstrap";
+import { ProjectsItem } from './projectsItem';
+import { Button } from "react-bootstrap";
 
 export class ProjectsList extends React.Component {
     render() {
