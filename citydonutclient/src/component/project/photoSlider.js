@@ -41,7 +41,7 @@ export class PhotoSlider extends React.Component {
                 <Carousel>
                     {photos.map(photo => (
                         <Carousel.Item style={{ backgroundColor: '#E5E5E5' }}>
-                            <img src={photo} style={{ width: '50%', margin: '10px' }} />
+                            <img alt="img" src={photo} style={{ width: '50%', margin: '10px' }} />
                             <Carousel.Caption>
                                 <h2>{this.props.projectName}</h2>
                             </Carousel.Caption>

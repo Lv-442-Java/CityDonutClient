@@ -32,7 +32,7 @@ export class StoryBoardItem extends React.Component {
                         <Carousel className="text-center">
                             {this.state.photos.map(photo => (
                                 <Carousel.Item>
-                                    <img src={photo} style={{ width: '50%', margin: '10px' }} />
+                                    <img alt="img" src={photo} style={{ width: '50%', margin: '10px' }} />
                                 </Carousel.Item>
                             ))}
                         </Carousel>

@@ -42,8 +42,8 @@ export class ProjectsFilter extends React.Component {
     };
 
     setStatusName = () => {
-        this.state.statusesAfterValidation.map((status) => {
-            status.id == this.state.status && this.setState({ statusName: status.status });
+        this.state.statusesAfterValidation.forEach((status) => {
+            status.id === this.state.status && this.setState({ statusName: status.status });
         });
     };
 
