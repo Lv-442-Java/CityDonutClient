@@ -1,20 +1,19 @@
-import React from "react";
-import axios from "axios";
-import CardDeck from "react-bootstrap/CardDeck";
-import {ProjectsItem} from "./projectsItem";
-import Container from "react-bootstrap/Container";
+import React from 'react';
+import axios from 'axios';
+import CardDeck from 'react-bootstrap/CardDeck';
+import Container from 'react-bootstrap/Container';
+import { ProjectsItem } from './projectsItem';
 
 export default class DonatedProjects extends React.Component {
-
     state = {
-        donatedProject: []
+        donatedProject: [],
     };
 
     getDonatedProjects = () => (
-        axios.get(`http://localhost:8091/api/v1/donates/projects/users/`, {withCredentials: true}).then(response => {
+        axios.get('http://localhost:8091/api/v1/donates/projects/users/', { withCredentials: true }).then((response) => {
             this.setState({
-                donatedProject: response.data
-            })
+                donatedProject: response.data,
+            });
         })
     );
 
@@ -36,15 +35,13 @@ export default class DonatedProjects extends React.Component {
                                 categories={element.categories}
                                 status={element.projectStatusDto}
                                 moneyNeeded={element.moneyNeeded}
-                                donateSum ={element.donateSum}
+                                donateSum={element.donateSum}
                                 donateCount={element.donateCount}
                             />
                         ))}
                     </CardDeck>
                 </Container>
             </div>
-        )
+        );
     }
 }
-
-

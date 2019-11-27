@@ -1,7 +1,7 @@
 import React from 'react';
-import {SuccessfulProjectItem} from "./successfulProjectItem";
-import CardDeck from "react-bootstrap/CardDeck";
-import {Container} from "react-bootstrap";
+import CardDeck from 'react-bootstrap/CardDeck';
+import { Container } from 'react-bootstrap';
+import { SuccessfulProjectItem } from './successfulProjectItem';
 
 export class SuccessfulProjectsList extends React.Component {
     render() {
@@ -9,10 +9,10 @@ export class SuccessfulProjectsList extends React.Component {
             <div>
                 <Container>
                     <CardDeck className="d-flex justify-content-around">
-                        {this.props.projects.map(project => (<SuccessfulProjectItem project={project}/>))}
+                        {this.props.projects.map(project => (<SuccessfulProjectItem project={project} />))}
                     </CardDeck>
                 </Container>
             </div>
-        )
+        );
     }
 }

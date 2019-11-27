@@ -1,8 +1,7 @@
-import React from "react";
+import React from 'react';
 
 export class Description extends React.Component {
-
-    render(){
+    render() {
         return (
             <p>{this.props.description}</p>
 
