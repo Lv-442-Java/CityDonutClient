@@ -7,7 +7,7 @@ export class Projects extends React.Component {
 
     state = {
         projects: [],
-        filters: {},
+        filters: {}
     };
 
     setFilters = (filters) => {
@@ -15,13 +15,22 @@ export class Projects extends React.Component {
             () => this.getData())
     };
 
+    changePage = (filters) => {
+        filters.page=parseInt(filters.page)+1;
+        return filters;
+    };
+
     showMoreItems = () => {
         console.log(this.state.filters.categories);
-        this.setState({filters: {page: this.state.filters.page + 1}}, () => {
+        console.log(this.state.filters);
+        this.setState({filters: this.changePage(this.state.filters)}, () => {
+            console.log(this.state.filters.page);
+            console.log(this.state.filters);
             axios.get('http://localhost:8091/api/v1/project/filter' + this.getUrl(),
                 {withCredentials: true})
                 .then(response => {
-                    this.setState({projects: [...this.state.projects,response.data]})
+                    console.log(response.data);
+                    this.setState({projects: this.state.projects.concat(response.data)})
                 })
         });
     };
