@@ -1,8 +1,8 @@
-import React from 'react'
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import {Form} from "react-bootstrap";
-import axios from "axios"
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { Form } from 'react-bootstrap';
+import axios from 'axios';
 
 export default class MyModal extends React.Component {
     constructor(props, context) {
@@ -14,45 +14,48 @@ export default class MyModal extends React.Component {
         this.state = {
             show: false,
             sum: undefined,
-            valid: undefined
+            valid: undefined,
         };
     }
 
     handleClose() {
         this.setState({
             show: false,
-            valid: undefined
+            valid: undefined,
         });
     }
 
     handleShow() {
-        this.setState({show: true});
+        this.setState({ show: true });
     }
 
     setSum = (e) => {
-        this.setState({sum: e.target.value});
-        /^[+]?\d+(\.\d+)?$/.test(e.target.value) ? this.setState({valid: true}) : this.setState({valid: false})
+        this.setState({ sum: e.target.value });
+        /^[+]?\d+(\.\d+)?$/.test(e.target.value) ? this.setState({ valid: true }) : this.setState({ valid: false });
     };
 
     sendDonate = () => {
-        let data = {
+        const data = {
             sum: this.state.sum,
             projectId: this.props.projectId,
         };
-        axios.post(`http://localhost:8091/api/v1/donates/`, data, {withCredentials: true}).then(
-            this.handleClose
+        axios.post('http://localhost:8091/api/v1/donates/', data, { withCredentials: true }).then(
+            this.handleClose,
         ).then(
-            this.props.getDonatesSum
+            this.props.getDonatesSum,
         ).then(
-            this.props.getContributors
-        )
+            this.props.getContributors,
+        );
     };
 
     render() {
         return (
             <>
-                <Button variant="primary" style={{margin: "17px", height: "45px", width: "125px"}}
-                        onClick={this.handleShow}>
+                <Button
+                    variant="primary"
+                    style={{ margin: '17px', height: '45px', width: '125px' }}
+                    onClick={this.handleShow}
+                >
                     Підтримати
                 </Button>
 
@@ -66,8 +69,11 @@ export default class MyModal extends React.Component {
                                 <Form.Label>
                                     Введіть суму внеску:
                                 </Form.Label>
-                                <Form.Control isValid={this.state.valid} isInvalid={!this.state.valid}
-                                              onChange={this.setSum}>
+                                <Form.Control
+                                    isValid={this.state.valid}
+                                    isInvalid={!this.state.valid}
+                                    onChange={this.setSum}
+                                >
 
                                 </Form.Control>
                                 <Form.Control.Feedback type="invalid">

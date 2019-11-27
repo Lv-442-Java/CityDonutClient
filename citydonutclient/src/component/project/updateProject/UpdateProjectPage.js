@@ -1,45 +1,46 @@
 import React from 'react';
+import axios from 'axios';
 import UpdateProject from '../updateAxistProject/UpdateProject';
-import {Chat} from '../../chat/chat';
-import axios from "axios";
+import { Chat } from '../../chat/chat';
 
-export class UpdateProjectPage extends React.Component{
-
+export class UpdateProjectPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
 
-        }
+        };
     }
 
     render() {
-        return(
+        return (
             <div style={{
                 verticalAlign: 'top',
                 height: 'calc(100% - 56px)',
-            }}>
+            }}
+            >
                 <div style={{
                     verticalAlign: 'top',
                     width: '50%',
                     height: '100%',
-                    display: "inline-block",
-                    margin: "0 auto",
-                    marginTop: "-25px",
-                }}>
-                    <UpdateProject/>
+                    display: 'inline-block',
+                    margin: '0 auto',
+                    marginTop: '-25px',
+                }}
+                >
+                    <UpdateProject />
                 </div>
                 <div style={{
                     verticalAlign: 'top',
                     width: '50%',
                     height: '100%',
-                    display: "inline-block",
-                    margin: "0 auto",
-                }}>
-                    <Chat/>
+                    display: 'inline-block',
+                    margin: '0 auto',
+                }}
+                >
+                    <Chat />
                 </div>
             </div>
         );
     }
-
 }

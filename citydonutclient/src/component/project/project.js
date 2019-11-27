@@ -1,8 +1,8 @@
-import React from "react";
-import {PhotoSlider} from './photoSlider';
-import {ProjectProgressBar} from './projectProgressBar';
-import {ProjectScroller} from "./projectScroller";
-import axios from "axios";
+import React from 'react';
+import axios from 'axios';
+import { PhotoSlider } from './photoSlider';
+import { ProjectProgressBar } from './projectProgressBar';
+import { ProjectScroller } from './projectScroller';
 
 export class Project extends React.Component {
     state = {
@@ -11,10 +11,10 @@ export class Project extends React.Component {
             place: '',
             coordinates: {
                 lat: 0,
-                lng: 0
-            }
+                lng: 0,
+            },
         },
-        projectId: this.props.match.params.id
+        projectId: this.props.match.params.id,
     };
 
 
@@ -26,25 +26,23 @@ export class Project extends React.Component {
 
     getData = () => {
         axios.get(`http://localhost:8091/api/v1/project/${this.state.projectId}`,
-            {withCredentials: true}).then((response) => {
+            { withCredentials: true }).then((response) => {
             this.setState({
                 project: response.data,
                 street: {
                     place: response.data.location,
                     coordinates: {
                         lat: parseFloat(response.data.locationLatitude),
-                        lng: parseFloat(response.data.locationLongitude)
+                        lng: parseFloat(response.data.locationLongitude),
 
-                    }
-                }
+                    },
+                },
             });
         });
     };
 
     componentDidUpdate(prevProps) {
-
         if (this.props.moneyNeeded !== prevProps.moneyNeeded) {
-
             this.fetchData(this.props.moneyNeeded);
         }
     }
@@ -55,31 +53,34 @@ export class Project extends React.Component {
                 place: this.state.project.location,
                 coordinates: {
                     lat: parseFloat(this.state.project.locationLatitude),
-                    lng: parseFloat(this.state.project.locationLongitude)
+                    lng: parseFloat(this.state.project.locationLongitude),
 
-                }
-            }
-        })
+                },
+            },
+        });
     };
 
     render() {
-
         return (
 
             <div>
                 {(this.state.project.moneyNeeded != null) ? (
                     <div>
-                        <PhotoSlider projectId={this.state.projectId} projectName={this.state.project.name}/>
+                        <PhotoSlider projectId={this.state.projectId} projectName={this.state.project.name} />
                         <ProjectProgressBar
                             projectId={this.state.projectId}
                             projectName={this.state.project.name}
                             moneyNeeded={this.state.project.moneyNeeded}
-                            endDate={this.state.project.donationEndDate}/>
-                        <ProjectScroller projectId={this.state.projectId}
-                                         description={this.state.project.description}
-                                         location={this.state.street}
-                                         status ={this.state.project.projectStatus.status}></ProjectScroller>
-                    </div>) : (<h1>Something went wrong. Reload the page, please</h1>)}
+                            endDate={this.state.project.donationEndDate}
+                        />
+                        <ProjectScroller
+                            projectId={this.state.projectId}
+                            description={this.state.project.description}
+                            location={this.state.street}
+                            status={this.state.project.projectStatus.status}
+                        />
+                    </div>
+                ) : (<h1>Something went wrong. Reload the page, please</h1>)}
             </div>
         );
     }
