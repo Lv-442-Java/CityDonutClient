@@ -19,7 +19,7 @@ export class StoryBoardItem extends React.Component {
                 this.setState({
                     photos: response.data.filter((data) => {
                         return data.mediaType === "photo"
-                    }).map((data) => data.fileDownloadUri);
+                    }).map((data) => data.fileDownloadUri)
                 });
             });
         });
