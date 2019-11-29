@@ -23,6 +23,7 @@ module.exports = {
   parser: 'babel-eslint',
   plugins: ['react'],
   rules: {
+    "react/prop-types": 0,
     "indent": ["error", 4],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": ["error", 4],

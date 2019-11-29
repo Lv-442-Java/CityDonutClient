@@ -13,10 +13,11 @@ class ProgressBar extends React.Component {
                     <div
                         className="progress-bar bg-success"
                         role="progressbar"
-                        style={{ width: `${this.props.donePercent}%`, zIndex: 1000}}
+                        style={{ width: `${this.props.donePercent}%`, zIndex: 1000 }}
                         aria-valuenow={this.props.donePercent}
                         aria-valuemin="0"
-                        aria-valuemax="100">
+                        aria-valuemax="100"
+                    >
                         {`${this.props.doneLabel} ₴`}
                     </div>
                 </OverlayTrigger>
@@ -24,10 +25,11 @@ class ProgressBar extends React.Component {
                     <div
                         className="progress-bar bg-secondary"
                         role="progressbar"
-                        style={{ width: `${100 - this.props.donePercent}%`}}
+                        style={{ width: `${100 - this.props.donePercent}%` }}
                         aria-valuenow={100 - this.props.donePercent}
                         aria-valuemin="0"
-                        aria-valuemax="100">
+                        aria-valuemax="100"
+                    >
                         {`${this.props.undoneLabel} ₴`}
                     </div>
                 </OverlayTrigger>
