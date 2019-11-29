@@ -12,7 +12,6 @@ import { Registration } from './component/auth/registration';
 import { ActivationUser } from './component/auth/activationUser';
 import { UserEdit } from './component/user/user_edit';
 import DonatedProjects from './component/project/donatedProjects';
-import { ChangePassword } from './component/user/change_password';
 import { UpdateProjectPage } from './component/project/updateProject/UpdateProjectPage';
 import { MyProjects } from './component/user/myProjects';
 
@@ -34,7 +33,6 @@ export class Routers extends React.Component {
                     <Route path="/donates/projects" component={DonatedProjects} />
                     <Route path="/user" component={UserEdit} />
                     <Route path="/userprojects" component={MyProjects} />
-
                 </Switch>
             </BrowserRouter>
         );

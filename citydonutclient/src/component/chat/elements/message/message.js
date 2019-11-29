@@ -6,7 +6,6 @@ import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 export class Message extends React.Component {
     constructor(props) {
         super(props);
-        this.constructorCalled = true;
 
         this.state = {
             id: props.messageItem.id,
@@ -17,6 +16,10 @@ export class Message extends React.Component {
             sent: props.messageItem.sent,
             last: props.changeAllowed,
         };
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.props.messageItem.text !== prevProps.messageItem.text &&
+        this.setState({text:  this.props.messageItem.text})
     }
 
     onMessageSent(message, messageObject, date, dateObject) {
@@ -63,7 +66,6 @@ export class Message extends React.Component {
     renderImage(isFirst, isLeft) {
         const avatarUserUrl = 'https://unite.unity.com/themes/contrib/unity_base/images/icons/other/user-default128x128.png';
         const avatarModeratorUrl = 'https://img.icons8.com/wired/2x/admin-settings-male.png';
-        const avatarAdminUrl = 'file:///C:/My/Work/softserve/templates/chat1/Icons8-Ios7-Users-Administrator.png';
 
         const avatarUrl = this.state.fromUser === true ? avatarUserUrl : avatarModeratorUrl;
 
@@ -80,7 +82,6 @@ export class Message extends React.Component {
     render() {
         let messageLiClass = 'message-container';
         messageLiClass += this.state.fromUser ? ' chat-left' : ' chat-right';
-        this.state.text = this.props.messageItem.text;
 
         if (this.state.last === true) {
             return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import CardDeck from 'react-bootstrap/CardDeck';
 import { ProjectsItem } from './projectsItem';
+import { Button } from "react-bootstrap";
 
 export class ProjectsList extends React.Component {
     render() {
@@ -18,6 +19,9 @@ export class ProjectsList extends React.Component {
                         />
                     ))}
                 </CardDeck>
+                <br/>
+                <Button style={{width: '99%'}} onClick={this.props.showMore} variant="secondary"
+                        hidden={this.props.projects.length % 6 > 0 || this.props.projects.length === 0}>БІЛЬШЕ</Button>
             </div>
         );
     }

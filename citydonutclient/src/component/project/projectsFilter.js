@@ -28,8 +28,6 @@ export class ProjectsFilter extends React.Component {
     setStartFilters = (startFilters) => {
         this.setState(
             {
-                page: startFilters.page === undefined ? 0 : startFilters.page,
-                size: startFilters.size === undefined ? 6 : startFilters.size,
                 status: startFilters.status,
                 moneyFrom: startFilters.moneyFrom,
                 moneyTo: startFilters.moneyTo,
@@ -42,8 +40,8 @@ export class ProjectsFilter extends React.Component {
     };
 
     setStatusName = () => {
-        this.state.statusesAfterValidation.map((status) => {
-            status.id == this.state.status && this.setState({ statusName: status.status });
+        this.state.statusesAfterValidation.forEach((status) => {
+            status.id === this.state.status && this.setState({ statusName: status.status });
         });
     };
 
