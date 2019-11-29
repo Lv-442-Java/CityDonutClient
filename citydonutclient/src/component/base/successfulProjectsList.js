@@ -9,7 +9,9 @@ export class SuccessfulProjectsList extends React.Component {
             <div>
                 <Container>
                     <CardDeck className="d-flex justify-content-around">
-                        {this.props.projects.map(project => (<SuccessfulProjectItem project={project} />))}
+                        {this.props.projects.map(project =>
+                            (<SuccessfulProjectItem project={project} />)
+                        )}
                     </CardDeck>
                 </Container>
             </div>
