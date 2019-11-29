@@ -2,15 +2,23 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import ScrollUpButton from 'react-scroll-up-button';
 import { Link } from 'react-scroll';
+import jwt from 'jwt-decode';
 import { Description } from './description';
 import { Document } from './documentation';
 import { ProjectDonates } from './projectDonates';
 import MyCustomMap from './createNewProject/MyCustomMap';
 import { StoryBoardList } from '../storyBoard/storyBoardList';
+import { NewStoryBoard } from '../storyBoard/newStoryBoard';
 
 
 export class ProjectScroller extends React.Component {
+    cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
+        const [key, ...v] = c.split('=');
+        return [key, decodeURIComponent(v.join('='))];
+    }));
+
     render() {
+        console.log(!(this.cookiesToJson().JWT && jwt(this.cookiesToJson().JWT).id === this.props.userId));
         return (
 
             <div>
@@ -75,7 +83,7 @@ export class ProjectScroller extends React.Component {
                                     offset={-70}
                                     duration={500}
                                 >
-                                Сторіборд
+                                    Сторіборд
                                 </Link>
                             )}
                         </div>
@@ -87,11 +95,11 @@ export class ProjectScroller extends React.Component {
                         <Description description={this.props.description} />
                     </div>
                     <br />
-                    <div className="" style={{ width: '80%', margin: '30px' }} id="docs">
-                        <h3>Документація</h3>
-                        <br />
-                        <Document projectId={this.props.projectId} />
-                    </div>
+                    {/* <div className="" style={{ width: '80%', margin: '30px' }} id="docs"> */}
+                    {/*    <h3>Документація</h3> */}
+                    {/*    <br /> */}
+                    {/*    <Document projectId={this.props.projectId} /> */}
+                    {/* </div> */}
                     <br />
                     <div className="" style={{ width: '80%', margin: '30px' }} id="map">
                         <h3>Розташування</h3>
@@ -112,7 +120,16 @@ export class ProjectScroller extends React.Component {
                     {(this.props.status === 'реалізація' || this.props.status === 'виконаний')
                     && (
                         <div style={{ width: '80%', margin: '30px' }} id="storyboard">
-                            <h3>Сторіборд</h3>
+                            <div className="row">
+                                <h3>Сторіборд</h3>
+                                <div
+                                    style={{ 'margin-left': '1rem' }}
+                                    hidden={!(this.cookiesToJson().JWT
+                                         && jwt(this.cookiesToJson().JWT).id === this.props.userId)}
+                                >
+                                    <NewStoryBoard />
+                                </div>
+                            </div>
                             <br />
                             <div className="">
                                 <StoryBoardList projectId={this.props.projectId} />

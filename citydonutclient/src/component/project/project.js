@@ -78,6 +78,7 @@ export class Project extends React.Component {
                             description={this.state.project.description}
                             location={this.state.street}
                             status={this.state.project.projectStatus.status}
+                            userId={this.state.project.owner.id}
                         />
                     </div>
                 ) : (<h1>Something went wrong. Reload the page, please</h1>)}
