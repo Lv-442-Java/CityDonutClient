@@ -1,7 +1,7 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import axios from 'axios';
-import { Button, Form } from 'react-bootstrap';
+import {Button, Form} from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
 export class NewStoryBoard extends React.Component {
@@ -10,7 +10,7 @@ export class NewStoryBoard extends React.Component {
     };
 
     handleShow = () => {
-        this.setState({ show: true });
+        this.setState({show: true});
     };
 
     handleClose = () => {
@@ -20,7 +20,31 @@ export class NewStoryBoard extends React.Component {
     };
 
     handleSend = () => {
+        let body = {
+            "description": document.getElementById('descriptionInput').value,
+            "moneySpent": document.getElementById('moneyInput').value
+        };
+        const files = document.getElementById("fileInput").files;
+        if (body.description === '') {
+            alert("Поле опису є обов'язковим для заповнення");
+            return;
+        }
+        axios.post(`http://localhost:8091/api/v1/project/${this.props.projectId}/storyboard`,
+            body, {withCredentials: true}).then((response) => {
+            if (files.length !== 0) {
+                axios.get(`http://localhost:8091/api/v1/storyboard/${response.data.id}/gallery`,
+                    {withCredentials: true}).then((response) => {
+                    const fileData = new FormData();
+                    Array.from(document.getElementById("fileInput").files).forEach((file, i) => {
+                        fileData.append('files', file);
+                    });
+                    axios.post(`http://localhost:8091/api/v1/gallery/${response.data}/`,
+                        fileData, {withCredentials: true})
+                });
+            }
+        });
 
+        this.handleClose();
     };
 
     render() {
@@ -38,18 +62,19 @@ export class NewStoryBoard extends React.Component {
                                     Фото:
                                 </Form.Label>
 
-                                <Form.Control id="fileInput" type="file" multiple="multiple" accept=".jpeg,.jpg,.tif,.png" />
+                                <Form.Control id="fileInput" type="file" multiple="multiple"
+                                              accept=".jpeg,.jpg,.tif,.png" enctype="multipart/form-data"/>
                                 <Form.Label>
                                     Опис:
                                 </Form.Label>
-                                <Form.Control id="descriptionInput" as="textarea" maxlength="1000" rows="5" />
+                                <Form.Control id="descriptionInput" as="textarea" maxlength="1000" rows="5"/>
                                 <p className="text-muted">
                                     Поле не може містити більше, ніж 1000 символів
                                 </p>
                                 <Form.Label>
                                     Сума витрачених коштів:
                                 </Form.Label>
-                                <Form.Control id="moneyInput" min="0" type="number" />
+                                <Form.Control id="moneyInput" min="0" type="number"/>
                             </Form.Group>
                         </Form>
                     </Modal.Body>

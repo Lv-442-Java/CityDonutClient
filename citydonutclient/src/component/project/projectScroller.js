@@ -127,7 +127,7 @@ export class ProjectScroller extends React.Component {
                                     hidden={!(this.cookiesToJson().JWT
                                          && jwt(this.cookiesToJson().JWT).id === this.props.userId)}
                                 >
-                                    <NewStoryBoard />
+                                    <NewStoryBoard projectId={this.props.projectId}/>
                                 </div>
                             </div>
                             <br />
