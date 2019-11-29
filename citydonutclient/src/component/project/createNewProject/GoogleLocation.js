@@ -1,11 +1,10 @@
-import React from "react";
-import {GoogleComponent} from 'react-google-location';
-import {API_KEY} from "./MyCustomMap";
+import React from 'react';
+import { GoogleComponent } from 'react-google-location';
+import { API_KEY } from './MyCustomMap';
 
 export default class PlaceComponent extends React.Component {
-
     state = {
-        place: null
+        place: null,
     };
 
     render() {
@@ -13,14 +12,14 @@ export default class PlaceComponent extends React.Component {
             <div>
                 <GoogleComponent
                     apiKey={API_KEY}
-                    language={'uk'}
-                    country={'country:in|country:ukr'}
-                    coordinates={true}
+                    language="uk"
+                    country="country:in|country:ukr"
+                    coordinates
                     // locationBoxStyle={'custom-style'}
                     // locationListStyle={'custom-style-list'}
                     onChange={this.props.setPlace}
                 />
             </div>
-        )
+        );
     }
 }
