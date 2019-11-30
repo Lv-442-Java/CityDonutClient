@@ -31,7 +31,7 @@ export class AuthHeader extends React.Component {
                 <Dropdown.Toggle as={NavLink}>{this.state.user.firstName}</Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu-right">
                     <Dropdown.Item as={Link} to="/donates/projects">Мої донати</Dropdown.Item>
-                    <Dropdown.Item as={Link} to="/donates/projects">Мої проекти</Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/userprojects">Мої проекти</Dropdown.Item>
                     <Dropdown.Item as={Link} to="/user">Редагувати профіль</Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item href="/" onClick={this.deleteCookie}>Вийти</Dropdown.Item>

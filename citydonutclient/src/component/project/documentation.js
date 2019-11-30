@@ -3,10 +3,11 @@ import React from 'react';
 export class Document extends React.Component {
     state={
         files: [],
-    }
+    };
+
 
     componentDidMount() {
-        return fetch(`http://localhost:8091/api/v1/project/${this.props.projectId}/fileInfo`)
+        return fetch(`http://localhost:8091/api/v1/gallery/${this.props.galleryId}/`)
             .then(response => response.json())
             .then((responseJson) => {
                 const url = responseJson.filter(obj => obj.mediaType === 'doc');
