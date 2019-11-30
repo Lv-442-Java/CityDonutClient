@@ -35,7 +35,7 @@ export class NewStoryBoard extends React.Component {
                 axios.get(`http://localhost:8091/api/v1/storyboard/${response.data.id}/gallery`,
                     {withCredentials: true}).then((response) => {
                     const fileData = new FormData();
-                    Array.from(document.getElementById("fileInput").files).forEach((file, i) => {
+                    Array.from(files).forEach((file, i) => {
                         fileData.append('files', file);
                     });
                     axios.post(`http://localhost:8091/api/v1/gallery/${response.data}/`,
