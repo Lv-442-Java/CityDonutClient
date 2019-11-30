@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { StoryBoardItem } from './storyBoardItem';
+import {StoryBoardItem} from './storyBoardItem';
 
 export class StoryBoardList extends React.Component {
     state = {
@@ -13,16 +13,18 @@ export class StoryBoardList extends React.Component {
 
     getData = () => {
         axios.get(`http://localhost:8091/api/v1/project/${this.props.projectId}/storyboard/verified`,
-            { withCredentials: true })
+            {withCredentials: true})
             .then((response) => {
-                this.setState({ storyBoards: response.data });
-            });
+                this.setState({storyBoards: response.data});
+            }).then(console.log(this.state.storyBoards));
     };
 
     render() {
         return (
             <div>
-                {this.state.storyBoards.map(storyBoard => <StoryBoardItem storyBoard={storyBoard} />)}
+                {this.state.storyBoards.map(storyBoard => <StoryBoardItem resetStoryBoards={this.getData}
+                                                                          storyBoard={storyBoard}
+                                                                          isUserOwner={this.props.isUserOwner}/>)}
             </div>
         );
     }
