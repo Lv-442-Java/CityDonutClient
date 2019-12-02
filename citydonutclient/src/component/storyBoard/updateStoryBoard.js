@@ -29,7 +29,7 @@ export class UpdateStoryBoard extends React.Component {
         }
         axios.put(
             `http://localhost:8091/api/v1/project/${this.props.storyBoard.projectId}/storyboard`
-            , newStoryBoard, {withCredentials: true}).then(this.props.resetStoryBoards());
+            , newStoryBoard, {withCredentials: true}).then(this.props.resetStoryBoards);
         axios.get(`http://localhost:8091/api/v1/gallery/${this.props.storyBoard.galleryDto.id}/`,
             {withCredentials: true}).then((response) => {
             response.data.map((data) => {

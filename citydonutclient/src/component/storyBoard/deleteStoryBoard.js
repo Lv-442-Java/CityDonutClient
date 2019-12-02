@@ -29,9 +29,7 @@ export class DeleteStoryBoard extends React.Component {
             + `${this.props.storyBoard.projectId}/storyboard/${this.props.storyBoard.id}`,
             {withCredentials: true})
             .then(axios.delete(`http://localhost:8091/api/v1/gallery/${this.props.storyBoard.galleryDto.id}`,
-                {withCredentials: true}));
-
-
+                {withCredentials: true})).then(this.props.resetStoryBoards);
         this.handleClose();
     };
 

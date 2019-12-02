@@ -16,13 +16,14 @@ export class StoryBoardList extends React.Component {
             {withCredentials: true})
             .then((response) => {
                 this.setState({storyBoards: response.data});
-            }).then(console.log(this.state.storyBoards));
+            });
     };
 
     render() {
         return (
             <div>
-                {this.state.storyBoards.map(storyBoard => <StoryBoardItem resetStoryBoards={this.getData}
+                {this.state.storyBoards.map(storyBoard => <StoryBoardItem key={storyBoard.id}
+                                                                          resetStoryBoards={this.getData}
                                                                           storyBoard={storyBoard}
                                                                           isUserOwner={this.props.isUserOwner}/>)}
             </div>

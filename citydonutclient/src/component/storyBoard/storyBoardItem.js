@@ -42,7 +42,8 @@ export class StoryBoardItem extends React.Component {
                              style={{'margin-bottom': '0.3rem', 'margin-left': '0rem'}}>
                             <UpdateStoryBoard resetStoryBoards={this.props.resetStoryBoards}
                                               storyBoard={this.props.storyBoard}>редагувати</UpdateStoryBoard>
-                            <DeleteStoryBoard storyBoard={this.props.storyBoard}>видалити</DeleteStoryBoard>
+                            <DeleteStoryBoard resetStoryBoards={this.props.resetStoryBoards}
+                                              storyBoard={this.props.storyBoard}>видалити</DeleteStoryBoard>
                         </div>
                         {(this.state.photos.length !== 0) &&
                         <Carousel className="text-center" style={{'background-color': 'grey'}}>
