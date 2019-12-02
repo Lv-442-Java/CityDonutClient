@@ -9,6 +9,10 @@ export default class DonatedProjects extends React.Component {
         donatedProject: [],
     };
 
+    componentDidMount() {
+        this.getDonatedProjects();
+    }
+
     getDonatedProjects = () => (
         axios.get('http://localhost:8091/api/v1/donates/projects/users/', { withCredentials: true }).then((response) => {
             this.setState({
@@ -16,10 +20,6 @@ export default class DonatedProjects extends React.Component {
             });
         })
     );
-
-    componentDidMount() {
-        this.getDonatedProjects();
-    }
 
     render() {
         return (
