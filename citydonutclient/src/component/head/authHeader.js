@@ -11,19 +11,17 @@ export class AuthHeader extends React.Component {
         user: '',
     };
 
+    componentDidMount() {
+        this.getUser();
+    }
+
     getUser = () => {
-        axios.get('http://localhost:8091/api/v1/user', { withCredentials: true }).then(response =>
-            // console.log(response.data.firstName)
-            this.setState({ user: response.data }));
+        axios.get('http://localhost:8091/api/v1/user', { withCredentials: true }).then(response => this.setState({ user: response.data }));
     };
 
     deleteCookie = () => {
         axios.get('http://localhost:8091/sign-out', { withCredentials: true });
     };
-
-    componentDidMount() {
-        this.getUser();
-    }
 
     render() {
         return (

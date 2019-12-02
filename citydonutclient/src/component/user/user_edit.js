@@ -179,7 +179,7 @@ export class UserEdit extends React.Component {
                                 width: '80%',
                             }}
                         >
-                            <FormLabel>Ім'я:</FormLabel>
+                            <FormLabel>Ім&aposя:</FormLabel>
                             {this.state.incorrectInputData.firstName
                             && (
                                 <FormText>
