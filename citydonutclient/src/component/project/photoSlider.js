@@ -23,7 +23,7 @@ export class PhotoSlider extends React.Component {
     render() {
         const { photos } = this.state;
         return (
-            <div className="text-center" style={{minHeight: '250px'}}>
+            <div className="text-center" style={{ minHeight: '250px' }}>
                 <Carousel>
                     {photos.map(photo => (
                         <Carousel.Item style={{ backgroundColor: '#E5E5E5' }}>

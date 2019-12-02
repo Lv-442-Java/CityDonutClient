@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import homePage from '../../img/homePage6.jpeg';
 import donut from '../../img/icon.jpg';
 
@@ -26,14 +26,14 @@ export default class HomePagePhoto extends React.Component {
                 >
                     CityDonut - це краудфандингова платформа
                     {' '}
-                    <br/>
+                    <br />
                     {' '}
                     для міських ініціатив. Кожен може
                     {' '}
-                    <br/>
+                    <br />
                     допомогти своєму місту.
                 </h2>
-                <Link style={{color: 'white'}} to="/projects">
+                <Link style={{ color: 'white' }} to="/projects">
                     <Button
                         style={{
                             textJustify: 'center',
@@ -52,7 +52,7 @@ export default class HomePagePhoto extends React.Component {
                         Допомогти
                     </Button>
                 </Link>
-                <Link style={{color: 'white'}} to="/project/create">
+                <Link style={{ color: 'white' }} to="/project/create">
                     <Button
                         style={{
                             marginTop: '10%',
@@ -70,9 +70,9 @@ export default class HomePagePhoto extends React.Component {
                         Подати проект
                     </Button>
                 </Link>
-                <div style={{textAlign: 'center', marginTop: '25%', marginRight: '3%'}}>
+                <div style={{ textAlign: 'center', marginTop: '25%', marginRight: '3%' }}>
                     <Link
-                        style={{fontSize: '30px', color: 'white'}}
+                        style={{ fontSize: '30px', color: 'white' }}
                         activeClass="active"
                         to="#container"
                         spy
@@ -83,7 +83,7 @@ export default class HomePagePhoto extends React.Component {
                         Переглянути успішні проекти
                     </Link>
                     <img
-                        style={{marginTop: '0.7%', marginLeft: '0.5%'}}
+                        style={{ marginTop: '0.7%', marginLeft: '0.5%' }}
                         src={donut}
                         width="30"
                         height="30"

@@ -1,10 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import {ProjectsList} from '../project/projectsList';
 import jwt from 'jwt-decode';
+import { ProjectsList } from '../project/projectsList';
 
 export class MyProjects extends React.Component {
-
     cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
         const [key, ...v] = c.split('=');
         return [key, decodeURIComponent(v.join('='))];
@@ -13,26 +12,24 @@ export class MyProjects extends React.Component {
     state ={
         projects: [],
         id: undefined,
-        url: undefined
+        url: undefined,
 
     };
 
     componentDidMount() {
         this.getRole();
-
-    };
+    }
 
     getRole = () => {
-        if (this.cookiesToJson().JWT !== null){
+        if (this.cookiesToJson().JWT !== null) {
             const role = jwt(this.cookiesToJson().JWT).roles;
-            this.setState({id:jwt(this.cookiesToJson().JWT).id });
-            console.log(role + "-----");
-            role === "user" ? this.setState({url: "ownerId"}, () => this.getData())
-                : this.setState({url: "moderatorId"}, () => this.getData())
+            this.setState({ id: jwt(this.cookiesToJson().JWT).id });
+            console.log(`${role}-----`);
+            role === 'user' ? this.setState({ url: 'ownerId' }, () => this.getData())
+                : this.setState({ url: 'moderatorId' }, () => this.getData());
         } else {
 
         }
-
     };
 
     getData = () => {
@@ -44,7 +41,6 @@ export class MyProjects extends React.Component {
     };
 
     render() {
-
         return (
             <ProjectsList projects={this.state.projects} />
         );

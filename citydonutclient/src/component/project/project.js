@@ -21,7 +21,6 @@ export class Project extends React.Component {
 
     componentDidMount() {
         this.getData();
-
     }
 
     getGallery = () => {
@@ -44,16 +43,18 @@ export class Project extends React.Component {
 
                     },
                 },
-            }, () => {console.log(this.state);this.getGallery();});
+            }, () => { console.log(this.state); this.getGallery(); });
         });
     };
 
     render() {
-        let {project, projectId, galleryId, street} = this.state;
+        const {
+            project, projectId, galleryId, street,
+        } = this.state;
         return (
 
             <div>
-                {(this.state.project.moneyNeeded != null)&&(this.state.galleryId) && (
+                {(this.state.project.moneyNeeded != null) && (this.state.galleryId) && (
                     <div>
                         <PhotoSlider
                             projectId={projectId}
