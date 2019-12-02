@@ -5,7 +5,7 @@ import axios from 'axios';
 export class StoryBoardItem extends React.Component {
     state = {
         galleryId: null,
-        photos: []
+        photos: [],
     };
 
     componentDidMount() {
@@ -17,9 +17,7 @@ export class StoryBoardItem extends React.Component {
         axios.get(`http://localhost:8091/api/v1/storyboard/${this.props.storyBoard.id}/gallery`, { withCredentials: true }).then((response) => {
             axios.get(`http://localhost:8091/api/v1/gallery/${response.data}/`, { withCredentials: true }).then((response) => {
                 this.setState({
-                    photos: response.data.filter((data) => {
-                        return data.mediaType === "photo"
-                    }).map((data) => data.fileDownloadUri)
+                    photos: response.data.filter(data => data.mediaType === 'photo').map(data => data.fileDownloadUri),
                 });
             });
         });
@@ -36,7 +34,7 @@ export class StoryBoardItem extends React.Component {
                         </h5>
                     </div>
                     <div className="col-8" style={{ 'border-left': '1px solid grey' }}>
-                        <Carousel className="text-center" style={{ 'background-color':'grey' }} >
+                        <Carousel className="text-center" style={{ 'background-color': 'grey' }}>
                             {this.state.photos.map(photo => (
                                 <Carousel.Item>
                                     <img alt="img" src={photo} style={{ width: '50%', margin: '10px' }} />

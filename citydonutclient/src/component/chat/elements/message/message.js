@@ -17,9 +17,10 @@ export class Message extends React.Component {
             last: props.changeAllowed,
         };
     }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.props.messageItem.text !== prevProps.messageItem.text &&
-        this.setState({text:  this.props.messageItem.text})
+        this.props.messageItem.text !== prevProps.messageItem.text
+        && this.setState({ text: this.props.messageItem.text });
     }
 
     onMessageSent(message, messageObject, date, dateObject) {

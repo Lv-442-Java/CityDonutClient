@@ -19,6 +19,8 @@ export class Head extends React.Component {
         return jwt && jwt.length > 10;
     };
 
+    linkToAddProject = () => (this.isAuthorized() ? '/project/create' : '/login');
+
     render() {
         return (
             <Navbar bg="dark" variant="dark" expand="lg" className="d-flex justify-content-between">
@@ -37,7 +39,7 @@ export class Head extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
                         <Nav.Link as={Link} to="/projects">Проекти</Nav.Link>
-                        <Nav.Link as={Link} to="/project/create">Подати проект</Nav.Link>
+                        <Nav.Link as={Link} to={this.linkToAddProject}>Подати проект</Nav.Link>
                         <Nav.Link as={Link} to="/faq">FAQ</Nav.Link>
                     </Nav>
                     <Nav className="ml-auto">
