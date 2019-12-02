@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import ScrollUpButton from 'react-scroll-up-button';
-import { Link } from 'react-scroll';
+import { Link, animateScroll as scroll } from 'react-scroll';
 import { Description } from './description';
 import { Document } from './documentation';
 import { ProjectDonates } from './projectDonates';
@@ -90,7 +90,7 @@ export class ProjectScroller extends React.Component {
                     <div className="" style={{ width: '80%', margin: '30px' }} id="docs">
                         <h3>Документація</h3>
                         <br />
-                        <Document projectId={this.props.projectId} />
+                        <Document galleryId={this.props.galleryId} />
                     </div>
                     <br />
                     <div className="" style={{ width: '80%', margin: '30px' }} id="map">

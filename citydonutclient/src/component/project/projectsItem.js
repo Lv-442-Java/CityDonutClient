@@ -12,14 +12,10 @@ export class ProjectsItem extends React.Component {
         arr: this.props.categories.map(category => category.category),
     };
 
-    getDonatesSum = () => {
-        axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.props.id}`, { withCredentials: true }).then((response) => {
-            this.setState({
-                donatesSum: response.data,
-                donatedPercent: response.data * 100 / this.props.moneyNeeded,
-            });
-        });
-    };
+    componentDidMount() {
+        this.getDonatesSum();
+        this.getAvatar();
+    }
 
     getAvatar = () => {
         axios.get(`http://localhost:8091/api/v1/project/${this.props.id}/getAvatar`, { withCredentials: true }).then((response) => {
@@ -29,10 +25,14 @@ export class ProjectsItem extends React.Component {
         });
     };
 
-    componentDidMount() {
-        this.getDonatesSum();
-        this.getAvatar();
-    }
+    getDonatesSum = () => {
+        axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.props.id}`, { withCredentials: true }).then((response) => {
+            this.setState({
+                donatesSum: response.data,
+                donatedPercent: response.data * 100 / this.props.moneyNeeded,
+            });
+        });
+    };
 
     render() {
         return (
