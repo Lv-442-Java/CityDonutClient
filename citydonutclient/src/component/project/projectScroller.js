@@ -83,7 +83,8 @@ export class ProjectScroller extends React.Component {
                     <br />
                     <div className="" style={{ width: '80%', margin: '30px' }} id="description">
                         <h3>Опис</h3>
-                        <br />
+                        <br/>
+                        <h5>Автор: {this.props.ownerFirstName} {this.props.ownerLastName}</h5>
                         <Description description={this.props.description} />
                     </div>
                     <br />
