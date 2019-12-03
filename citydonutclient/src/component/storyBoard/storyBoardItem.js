@@ -67,6 +67,13 @@ export class StoryBoardItem extends React.Component {
                             </Carousel>
                         )
                         }
+                        <Carousel className="text-center" style={{ 'background-color': 'grey' }}>
+                            {this.state.photos.map(photo => (
+                                <Carousel.Item>
+                                    <img alt="img" src={photo} style={{ width: '50%', margin: '10px' }} />
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
                         <p className="text-center">{this.props.storyBoard.description}</p>
                         <p style={{
                             color: 'grey',

@@ -18,17 +18,6 @@ export default class MyModal extends React.Component {
         };
     }
 
-    handleClose() {
-        this.setState({
-            show: false,
-            valid: undefined,
-        });
-    }
-
-    handleShow() {
-        this.setState({ show: true });
-    }
-
     setSum = (e) => {
         this.setState({ sum: e.target.value });
         /^[+]?\d+(\.\d+)?$/.test(e.target.value) ? this.setState({ valid: true }) : this.setState({ valid: false });
@@ -47,6 +36,17 @@ export default class MyModal extends React.Component {
             this.props.getContributors,
         );
     };
+
+    handleShow() {
+        this.setState({ show: true });
+    }
+
+    handleClose() {
+        this.setState({
+            show: false,
+            valid: undefined,
+        });
+    }
 
     render() {
         return (
