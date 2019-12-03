@@ -1,8 +1,8 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import ScrollUpButton from 'react-scroll-up-button';
+import { Link} from 'react-scroll';
 import jwt from 'jwt-decode';
-import { Link } from 'react-scroll';
 import { Description } from './description';
 import { Document } from './documentation';
 import { ProjectDonates } from './projectDonates';
@@ -96,6 +96,12 @@ export class ProjectScroller extends React.Component {
                     <div className="" style={{ width: '80%', margin: '30px' }} id="description">
                         <h3>Опис</h3>
                         <br />
+                        <h5>
+Автор:
+                            {this.props.ownerFirstName}
+                            {' '}
+                            {this.props.ownerLastName}
+                        </h5>
                         <Description description={this.props.description} />
                     </div>
                     <br />
