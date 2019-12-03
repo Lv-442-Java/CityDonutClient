@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ProgressBar from '../progressBar/progressBar';
 
@@ -16,7 +16,7 @@ export class SuccessfulProjectItem extends React.Component {
     getData = () => {
         axios.get(`http://localhost:8091/api/v1/project/${this.props.project.id}/gallery`).then((response) => {
             axios.get(`http://localhost:8091/api/v1/gallery/${response.data}/getAvatar`).then((response) => {
-                this.setState({avatar: response.data});
+                this.setState({ avatar: response.data });
             });
         });
     };
@@ -24,7 +24,7 @@ export class SuccessfulProjectItem extends React.Component {
     render() {
         return (
             <div>
-                <Link to={`projects/${this.props.project.id}`} style={{textDecoration: 'none', color: 'black'}}>
+                <Link to={`projects/${this.props.project.id}`} style={{ textDecoration: 'none', color: 'black' }}>
                     <Card
                         border="primary"
                         className="text-center mx-auto"
@@ -35,7 +35,7 @@ export class SuccessfulProjectItem extends React.Component {
                         <Card.Body>
                             <Card.Img
                                 variant="top"
-                                style={{height: '11.5rem'}}
+                                style={{ height: '11.5rem' }}
                                 src={this.state.avatar}
                             />
 
