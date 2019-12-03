@@ -23,11 +23,11 @@ export class PhotoSlider extends React.Component {
     render() {
         const { photos } = this.state;
         return (
-            <div className="text-center">
+            <div className="text-center" style={{ minHeight: '250px' }}>
                 <Carousel>
                     {photos.map(photo => (
                         <Carousel.Item style={{ backgroundColor: '#E5E5E5' }}>
-                            <img src={photo.fileDownloadUri} style={{ width: '50%', margin: '10px' }} />
+                            <img alt="img" src={photo.fileDownloadUri} style={{ width: '50%', margin: '10px' }} />
                             <Carousel.Caption>
                                 <h2>{this.props.projectName}</h2>
                             </Carousel.Caption>
