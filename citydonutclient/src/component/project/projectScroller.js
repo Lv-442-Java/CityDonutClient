@@ -8,7 +8,6 @@ import { ProjectDonates } from './projectDonates';
 import MyCustomMap from './createNewProject/MyCustomMap';
 import { StoryBoardList } from '../storyBoard/storyBoardList';
 
-
 export class ProjectScroller extends React.Component {
     render() {
         return (
