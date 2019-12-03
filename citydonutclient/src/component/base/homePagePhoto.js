@@ -13,7 +13,7 @@ const sectionStyle = {
     backgroundSize: 'cover',
 };
 
-export default class HomePagePhoto extends React.Component {
+export default class HomePagePhoto extends React.PureComponent {
     render() {
         return (
             <div style={sectionStyle} className="content">

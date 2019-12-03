@@ -4,32 +4,26 @@ import jwt from 'jwt-decode';
 import { ProjectsList } from '../project/projectsList';
 
 export class MyProjects extends React.Component {
-    cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
-        const [key, ...v] = c.split('=');
-        return [key, decodeURIComponent(v.join('='))];
-    }));
-
-    state ={
+    state = {
         projects: [],
         id: undefined,
         url: undefined,
-
     };
 
     componentDidMount() {
         this.getRole();
     }
 
-    getRole = () => {
-        if (this.cookiesToJson().JWT !== null) {
-            const role = jwt(this.cookiesToJson().JWT).roles;
-            this.setState({ id: jwt(this.cookiesToJson().JWT).id });
-            console.log(`${role}-----`);
-            role === 'user' ? this.setState({ url: 'ownerId' }, () => this.getData())
-                : this.setState({ url: 'moderatorId' }, () => this.getData());
-        } else {
+    cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
+        const [key, ...v] = c.split('=');
+        return [key, decodeURIComponent(v.join('='))];
+    }));
 
-        }
+    getRole = () => {
+        const role = jwt(this.cookiesToJson().JWT).roles;
+        this.setState({ id: jwt(this.cookiesToJson().JWT).id });
+        role === 'user' ? this.setState({ url: 'ownerId' }, () => this.getData())
+            : this.setState({ url: 'moderatorId' }, () => this.getData());
     };
 
     getData = () => {

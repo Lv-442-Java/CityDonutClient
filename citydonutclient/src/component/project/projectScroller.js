@@ -1,14 +1,14 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import ScrollUpButton from 'react-scroll-up-button';
-import { Link} from 'react-scroll';
+import { Link } from 'react-scroll';
 import { Description } from './description';
 import { Document } from './documentation';
 import { ProjectDonates } from './projectDonates';
 import MyCustomMap from './createNewProject/MyCustomMap';
 import { StoryBoardList } from '../storyBoard/storyBoardList';
 
-export class ProjectScroller extends React.Component {
+export class ProjectScroller extends React.PureComponent {
     render() {
         return (
 

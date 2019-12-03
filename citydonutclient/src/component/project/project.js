@@ -43,7 +43,7 @@ export class Project extends React.Component {
 
                     },
                 },
-            }, () => { console.log(this.state); this.getGallery(); });
+            }, () => { this.getGallery(); });
         });
     };
 
