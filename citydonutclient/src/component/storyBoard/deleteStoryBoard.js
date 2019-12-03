@@ -21,7 +21,7 @@ export class DeleteStoryBoard extends React.Component {
     handleDelete = () => {
         axios.get(`http://localhost:8091/api/v1/gallery/${this.props.storyBoard.galleryDto.id}/`,
             { withCredentials: true }).then((response) => {
-            response.data.foreach((data) => {
+            Array.from(response.data).forEach((data) => {
                 axios.delete(`${data.fileDownloadUri}`, { withCredentials: true });
             });
         });
@@ -41,11 +41,13 @@ export class DeleteStoryBoard extends React.Component {
                     style={{ 'font-size': '10px', 'margin-right': '0.3rem' }}
                     onClick={this.handleShow}
                 >
-видалити
+                    видалити
                 </Button>
                 <Modal centered show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Ви справді хочете видалити допис? Цю дію неможливо скасувати.</Modal.Title>
+                        <Modal.Title>
+                            Ви справді хочете видалити допис? Цю дію неможливо скасувати.
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleClose}>

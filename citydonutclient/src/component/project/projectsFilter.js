@@ -32,7 +32,7 @@ export class ProjectsFilter extends React.Component {
                 moneyFrom: startFilters.moneyFrom,
                 moneyTo: startFilters.moneyTo,
                 categories: startFilters.categories === undefined ? []
-                    : startFilters.categories.split(',').map(id => parseInt(id)),
+                    : startFilters.categories.split(',').map(id => parseInt(id, 10)),
             }, () => {
                 this.props.setFilters(this.state);
             },
@@ -48,14 +48,14 @@ export class ProjectsFilter extends React.Component {
     setStatus = (event, e) => {
         this.setState(
             {
-                status: event === null ? undefined : parseInt(event),
+                status: event === null ? undefined : parseInt(event, 10),
                 statusName: e.target.innerText,
             }, () => this.props.setFilters(this.state),
         );
     };
 
     setMoney = (event, key) => {
-        if (isNaN(event.target.value)) {
+        if (Number.isNaN(event.target.value)) {
             event.target.value = '';
         } else {
             this.setState(
@@ -101,8 +101,8 @@ export class ProjectsFilter extends React.Component {
     setCategories = (event) => {
         let newCategories = [];
         newCategories.push(...this.state.categories);
-        event.target.checked ? newCategories.push(parseInt(event.target.id))
-            : newCategories = newCategories.filter(elem => elem !== parseInt(event.target.id));
+        event.target.checked ? newCategories.push(parseInt(event.target.id, 10))
+            : newCategories = newCategories.filter(elem => elem !== parseInt(event.target.id, 10));
         this.setState(
             {
                 categories: newCategories,
@@ -121,7 +121,11 @@ export class ProjectsFilter extends React.Component {
                         {this.state.statusName}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {this.state.statusesAfterValidation.map(item => <Dropdown.Item eventKey={item.id}>{item.status}</Dropdown.Item>)}
+                        {this.state.statusesAfterValidation.map(item => (
+                            <Dropdown.Item eventKey={item.id}>
+                                {item.status}
+                            </Dropdown.Item>
+                        ))}
                         <Dropdown.Item eventKey={null}>статус проекту</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>

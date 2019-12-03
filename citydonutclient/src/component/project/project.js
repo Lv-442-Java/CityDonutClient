@@ -74,11 +74,11 @@ export class Project extends React.Component {
             <div>
                 {(this.state.project.moneyNeeded != null) ? (
                     <div>
-                        <PhotoSlider
+                         <PhotoSlider
                             projectId={this.state.projectId}
                             projectName={this.state.project.name}
                             galleryId={this.state.galleryId}
-                        />
+                         />
                         <ProjectProgressBar
                             projectId={this.state.projectId}
                             projectName={this.state.project.name}

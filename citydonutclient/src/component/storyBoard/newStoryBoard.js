@@ -25,19 +25,19 @@ export class NewStoryBoard extends React.Component {
         };
         const { files } = document.getElementById('fileInput');
         if (body.description === '') {
-            alert("Поле опису є обов'язковим для заповнення");
+            document.getElementById('required').hidden = false;
             return;
         }
         axios.post(`http://localhost:8091/api/v1/project/${this.props.projectId}/storyboard`,
             body, { withCredentials: true }).then((response) => {
             if (files.length !== 0) {
                 axios.get(`http://localhost:8091/api/v1/storyboard/${response.data.id}/gallery`,
-                    { withCredentials: true }).then((response) => {
+                    { withCredentials: true }).then((resp) => {
                     const fileData = new FormData();
-                    Array.from(files).forEach((file, i) => {
+                    Array.from(files).forEach((file) => {
                         fileData.append('files', file);
                     });
-                    axios.post(`http://localhost:8091/api/v1/gallery/${response.data}/`,
+                    axios.post(`http://localhost:8091/api/v1/gallery/${resp.data}/`,
                         fileData, { withCredentials: true });
                 });
             }
@@ -74,6 +74,9 @@ export class NewStoryBoard extends React.Component {
                                 <Form.Control id="descriptionInput" as="textarea" maxlength="1000" rows="5" />
                                 <p className="text-muted">
                                     Поле не може містити більше, ніж 1000 символів
+                                </p>
+                                <p id="required" className="text-muted" hidden="true">
+                                    Поле опису є обов`язковим для заповнення
                                 </p>
                                 <Form.Label>
                                     Сума витрачених коштів:

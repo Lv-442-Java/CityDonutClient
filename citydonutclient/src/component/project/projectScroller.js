@@ -1,9 +1,8 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import ScrollUpButton from 'react-scroll-up-button';
-import { Link } from 'react-scroll';
 import jwt from 'jwt-decode';
-import { Link, animateScroll as scroll } from 'react-scroll';
+import { Link } from 'react-scroll';
 import { Description } from './description';
 import { Document } from './documentation';
 import { ProjectDonates } from './projectDonates';
@@ -19,7 +18,8 @@ export class ProjectScroller extends React.Component {
     }));
 
     state = {
-        isUserOwner: (this.cookiesToJson().JWT && jwt(this.cookiesToJson().JWT).id === this.props.userId),
+        isUserOwner:
+            (this.cookiesToJson().JWT && jwt(this.cookiesToJson().JWT).id === this.props.userId),
     };
 
     render() {
@@ -102,7 +102,7 @@ export class ProjectScroller extends React.Component {
                     <div className="" style={{ width: '80%', margin: '30px' }} id="docs">
                         <h3>Документація</h3>
                         <br />
-                        <Document galleryId={this.props.galleryId} />
+                         <Document galleryId={this.props.galleryId} />
                     </div>
                     <br />
                     <div className="" style={{ width: '80%', margin: '30px' }} id="map">
@@ -135,7 +135,10 @@ export class ProjectScroller extends React.Component {
                             </div>
                             <br />
                             <div className="">
-                                <StoryBoardList projectId={this.props.projectId} isUserOwner={this.state.isUserOwner} />
+                                <StoryBoardList
+                                    projectId={this.props.projectId}
+                                    isUserOwner={this.state.isUserOwner}
+                                />
                             </div>
                         </div>
                     )}

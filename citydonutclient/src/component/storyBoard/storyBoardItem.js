@@ -6,12 +6,10 @@ import { DeleteStoryBoard } from './deleteStoryBoard';
 
 export class StoryBoardItem extends React.Component {
     state = {
-        galleryId: null,
         photos: [],
     };
 
     componentDidMount() {
-        console.log(this.props.storyBoard.id);
         this.getData();
     }
 
@@ -19,9 +17,9 @@ export class StoryBoardItem extends React.Component {
         axios.get(`http://localhost:8091/api/v1/storyboard/${this.props.storyBoard.id}/gallery`,
             { withCredentials: true }).then((response) => {
             axios.get(`http://localhost:8091/api/v1/gallery/${response.data}/`,
-                { withCredentials: true }).then((response) => {
+                { withCredentials: true }).then((resp) => {
                 this.setState({
-                    photos: response.data.filter(data => data.mediaType === 'photo').map(data => data.fileDownloadUri),
+                    photos: resp.data.filter(data => data.mediaType === 'photo').map(data => data.fileDownloadUri),
                 });
             });
         });
@@ -47,13 +45,13 @@ export class StoryBoardItem extends React.Component {
                                 resetStoryBoards={this.props.resetStoryBoards}
                                 storyBoard={this.props.storyBoard}
                             >
-редагувати
+                                редагувати
                             </UpdateStoryBoard>
                             <DeleteStoryBoard
                                 resetStoryBoards={this.props.resetStoryBoards}
                                 storyBoard={this.props.storyBoard}
                             >
-видалити
+                                видалити
                             </DeleteStoryBoard>
                         </div>
                         {(this.state.photos.length !== 0)
@@ -67,13 +65,6 @@ export class StoryBoardItem extends React.Component {
                             </Carousel>
                         )
                         }
-                        <Carousel className="text-center" style={{ 'background-color': 'grey' }}>
-                            {this.state.photos.map(photo => (
-                                <Carousel.Item>
-                                    <img alt="img" src={photo} style={{ width: '50%', margin: '10px' }} />
-                                </Carousel.Item>
-                            ))}
-                        </Carousel>
                         <p className="text-center">{this.props.storyBoard.description}</p>
                         <p style={{
                             color: 'grey',

@@ -182,7 +182,7 @@ export default class UpdateProject extends React.Component {
                             onChange={this.setFile}
                         />
                         <div>
-                            <Document projectId={this.state.id} />
+                            {/* <Document projectId={this.state.id} /> */}
                         </div>
 
                         {this.getValidDataLocation()}
