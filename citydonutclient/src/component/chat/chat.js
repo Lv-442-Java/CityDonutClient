@@ -3,6 +3,7 @@ import './chat.css';
 import axios from 'axios';
 import { Message } from './elements/message/message';
 import { SendMessage } from './elements/sendmessage/sendmessage';
+import {Subscribe} from "./elements/subscribe/subscribe";
 
 
 export class Chat extends React.Component {
@@ -19,7 +20,7 @@ export class Chat extends React.Component {
         this.needScroll = true;
 
         this.state = {
-            projectId: 2,
+            projectId: 8,
             userId: 2,
             userName: 'oleg',
             userFirstName: 'user2',
@@ -31,7 +32,8 @@ export class Chat extends React.Component {
 
     loginUser() {
         const user = {
-            userEmail: 'mr.prokipchukk@gmail.com',
+            //userEmail: 'mr.prokipchukk@gmail.com',
+            userEmail: 'user2@gmail.com',
             password: 'user2',
         };
 
@@ -296,11 +298,14 @@ export class Chat extends React.Component {
             <div className="chat-container">
                 <div className="chat-header">
                     <div className="chat-header-description">
-                        <div className="chat-header-description-name">Chat name</div>
-                        <div className="chat-header-description-amount">
-                            {this.userAmount}
-                            {' '}
-members
+                        <div>
+                            <div className="chat-header-description-name">Chat name</div>
+                            <div className="chat-header-description-amount">
+                                {this.userAmount}{' '}members
+                            </div>
+                        </div>
+                        <div className="chat-header-description-subscribe">
+                            <Subscribe port={this.port} project={this.state.projectId}/>
                         </div>
                     </div>
                 </div>
