@@ -16,11 +16,14 @@ export class Project extends React.Component {
         },
         galleryId: undefined,
         projectId: this.props.match.params.id,
+        donatesSum: undefined,
+        donatedPercent: null
     };
 
 
     componentDidMount() {
         this.getData();
+        this.getDonatesSum();
     }
 
     getGallery = () => {
@@ -28,6 +31,18 @@ export class Project extends React.Component {
             { withCredentials: true }).then((response) => {
             this.setState({ galleryId: response.data });
         });
+    };
+
+    getDonatesSum = () => {
+        axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.state.projectId}`,
+            { withCredentials: true }).then((response) => {
+            this.setState({
+                donatesSum: response.data,
+                donatedPercent: response.data * 100 / this.state.project.moneyNeeded,
+            },
+            () => { console.log(this.state); this.getData(); });
+            });
+
     };
 
     getData = () => {
@@ -48,13 +63,14 @@ export class Project extends React.Component {
     };
 
     render() {
+        console.log(this.state.donatedPercent);
         const {
-            project, projectId, galleryId, street,
+            project, projectId, galleryId, street, donatedPercent, donatesSum
         } = this.state;
         return (
 
             <div>
-                {(this.state.project.moneyNeeded != null) && (this.state.galleryId) && (
+                {(this.state.project.moneyNeeded != null) &&(this.state.donatedPercent!=null)&&(this.state.galleryId) && (
                     <div>
                         <PhotoSlider
                             projectId={projectId}
@@ -75,6 +91,8 @@ export class Project extends React.Component {
                             galleryId={galleryId}
                             ownerFirstName={project.owner.firstName}
                             ownerLastName={project.owner.lastName}
+                            donatesSum={donatesSum}
+
                         />
                     </div>
                 )}
