@@ -60,9 +60,9 @@ export class ProjectProgressBar extends React.Component {
                         style={{ height: '26px', width: '30%', margin: '' }}
                         doneTip="Зібрано!"
                         donePercent={this.state.donatedPercent}
-                        doneLabel={`${this.state.donatesSum} грн`}
+                        doneLabel={`${this.state.donatesSum}`}
                         undoneTip="Потрібно зібрати!"
-                        undoneLabel={`${this.props.moneyNeeded - this.state.donatesSum} грн`}
+                        undoneLabel={`${this.props.moneyNeeded - this.state.donatesSum}`}
                     />
 
                     <h5 style={{ margin: '' }}>

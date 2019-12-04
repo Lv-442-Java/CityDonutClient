@@ -28,44 +28,48 @@ export default class HomePagePhoto extends React.Component {
                     {' '}
                     <br />
                     {' '}
-для міських ініціатив. Кожен може
+                    для міських ініціатив. Кожен може
                     {' '}
                     <br />
                     допомогти своєму місту.
                 </h2>
-                <Button
-                    style={{
-                        textJustify: 'center',
-                        marginTop: '10%',
-                        marginRight: '10%',
-                        height: '10%',
-                        width: '15%',
-                        borderColor: '#B87FA5',
-                        backgroundColor: '#792257',
-                        opacity: '90%',
-                    }}
-                    className="float-right text-center"
-                    variant="primary"
-                    size="lg"
-                >
-                    <Link style={{ color: 'white' }} to="/projects">Допомогти</Link>
-                </Button>
-                <Button
-                    style={{
-                        marginTop: '10%',
-                        marginRight: '3%',
-                        height: '10%',
-                        width: '15%',
-                        borderColor: '#B87FA5',
-                        backgroundColor: '#792257',
-                        opacity: '90%',
-                    }}
-                    className="float-right "
-                    variant="primary"
-                    size="lg"
-                >
-                    <Link style={{ color: 'white' }} to="/project/create">Подати проект</Link>
-                </Button>
+                <Link style={{ color: 'white' }} to="/projects">
+                    <Button
+                        style={{
+                            textJustify: 'center',
+                            marginTop: '10%',
+                            marginRight: '10%',
+                            height: '10%',
+                            width: '15%',
+                            borderColor: '#B87FA5',
+                            backgroundColor: '#792257',
+                            opacity: '90%',
+                        }}
+                        className="float-right text-center"
+                        variant="primary"
+                        size="lg"
+                    >
+                        Допомогти
+                    </Button>
+                </Link>
+                <Link style={{ color: 'white' }} to="/project/create">
+                    <Button
+                        style={{
+                            marginTop: '10%',
+                            marginRight: '3%',
+                            height: '10%',
+                            width: '15%',
+                            borderColor: '#B87FA5',
+                            backgroundColor: '#792257',
+                            opacity: '90%',
+                        }}
+                        className="float-right "
+                        variant="primary"
+                        size="lg"
+                    >
+                        Подати проект
+                    </Button>
+                </Link>
                 <div style={{ textAlign: 'center', marginTop: '25%', marginRight: '3%' }}>
                     <Link
                         style={{ fontSize: '30px', color: 'white' }}
@@ -76,7 +80,7 @@ export default class HomePagePhoto extends React.Component {
                         offset={-70}
                         duration={500}
                     >
-                    Переглянути успішні проекти
+                        Переглянути успішні проекти
                     </Link>
                     <img
                         style={{ marginTop: '0.7%', marginLeft: '0.5%' }}

@@ -21,8 +21,6 @@ export class Project extends React.Component {
 
     componentDidMount() {
         this.getData();
-        this.setStreet();
-        this.getGallery();
     }
 
     getGallery = () => {
@@ -45,55 +43,41 @@ export class Project extends React.Component {
 
                     },
                 },
-            });
-        });
-    };
-
-    componentDidUpdate(prevProps) {
-        if (this.props.moneyNeeded !== prevProps.moneyNeeded) {
-            this.fetchData(this.props.moneyNeeded);
-        }
-    }
-
-    setStreet = () => {
-        this.setState({
-            street: {
-                place: this.state.project.location,
-                coordinates: {
-                    lat: parseFloat(this.state.project.locationLatitude),
-                    lng: parseFloat(this.state.project.locationLongitude),
-
-                },
-            },
+            }, () => { console.log(this.state); this.getGallery(); });
         });
     };
 
     render() {
+        const {
+            project, projectId, galleryId, street,
+        } = this.state;
         return (
 
             <div>
-                {(this.state.project.moneyNeeded != null) ? (
+                {(this.state.project.moneyNeeded != null) && (this.state.galleryId) && (
                     <div>
                         <PhotoSlider
-                            projectId={this.state.projectId}
-                            projectName={this.state.project.name}
-                            galleryId={this.state.galleryId}
+                            projectId={projectId}
+                            projectName={project.name}
+                            galleryId={galleryId}
                         />
                         <ProjectProgressBar
-                            projectId={this.state.projectId}
-                            projectName={this.state.project.name}
-                            moneyNeeded={this.state.project.moneyNeeded}
-                            endDate={this.state.project.donationEndDate}
+                            projectId={projectId}
+                            projectName={project.name}
+                            moneyNeeded={project.moneyNeeded}
+                            endDate={project.donationEndDate}
                         />
                         <ProjectScroller
-                            projectId={this.state.projectId}
-                            description={this.state.project.description}
-                            location={this.state.street}
-                            status={this.state.project.projectStatus.status}
-                            galleryId={this.state.galleryId}
+                            projectId={projectId}
+                            description={project.description}
+                            location={street}
+                            status={project.projectStatus.status}
+                            galleryId={galleryId}
+                            ownerFirstName={project.owner.firstName}
+                            ownerLastName={project.owner.lastName}
                         />
                     </div>
-                ) : (<h1>Something went wrong. Reload the page, please</h1>)}
+                )}
             </div>
         );
     }
