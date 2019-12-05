@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export class PhotoSlider extends React.Component {
     state= {
         photos: [],
-        projectId: this.props.projectId,
     };
 
     componentDidMount() {
@@ -18,7 +17,6 @@ export class PhotoSlider extends React.Component {
                 });
             });
     }
-
 
     render() {
         const { photos } = this.state;

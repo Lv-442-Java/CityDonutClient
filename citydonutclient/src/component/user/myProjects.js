@@ -4,11 +4,6 @@ import jwt from 'jwt-decode';
 import { ProjectsList } from '../project/projectsList';
 
 export class MyProjects extends React.Component {
-    cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
-        const [key, ...v] = c.split('=');
-        return [key, decodeURIComponent(v.join('='))];
-    }));
-
     state ={
         projects: [],
         id: undefined,
@@ -19,6 +14,11 @@ export class MyProjects extends React.Component {
     componentDidMount() {
         this.getRole();
     }
+
+    cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
+        const [key, ...v] = c.split('=');
+        return [key, decodeURIComponent(v.join('='))];
+    }));
 
     getRole = () => {
         if (this.cookiesToJson().JWT !== null) {

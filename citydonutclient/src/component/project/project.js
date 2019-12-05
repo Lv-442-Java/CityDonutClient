@@ -17,7 +17,7 @@ export class Project extends React.Component {
         galleryId: undefined,
         projectId: this.props.match.params.id,
         donatesSum: undefined,
-        donatedPercent: null
+        donatedPercent: null,
     };
 
 
@@ -40,9 +40,8 @@ export class Project extends React.Component {
                 donatesSum: response.data,
                 donatedPercent: response.data * 100 / this.state.project.moneyNeeded,
             },
-            () => { console.log(this.state); this.getData(); });
-            });
-
+            () => { this.getData(); });
+        });
     };
 
     getData = () => {
@@ -58,19 +57,19 @@ export class Project extends React.Component {
 
                     },
                 },
-            }, () => { console.log(this.state); this.getGallery(); });
+            }, () => { this.getGallery(); });
         });
     };
 
     render() {
-        console.log(this.state.donatedPercent);
         const {
-            project, projectId, galleryId, street, donatedPercent, donatesSum
+            project, projectId, galleryId, street, donatesSum,
         } = this.state;
         return (
 
             <div>
-                {(this.state.project.moneyNeeded != null) &&(this.state.donatedPercent!=null)&&(this.state.galleryId) && (
+                {(this.state.project.moneyNeeded != null)
+                && (this.state.donatedPercent != null) && (this.state.galleryId) && (
                     <div>
                         <PhotoSlider
                             projectId={projectId}

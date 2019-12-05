@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import ScrollUpButton from 'react-scroll-up-button';
-import { Link} from 'react-scroll';
+import { Link } from 'react-scroll';
 import jwt from 'jwt-decode';
 import { Description } from './description';
 import { Document } from './documentation';
@@ -12,15 +12,15 @@ import { NewStoryBoard } from '../storyBoard/newStoryBoard';
 
 
 export class ProjectScroller extends React.Component {
-    cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
-        const [key, ...v] = c.split('=');
-        return [key, decodeURIComponent(v.join('='))];
-    }));
-
     state = {
         isUserOwner:
             (this.cookiesToJson().JWT && jwt(this.cookiesToJson().JWT).id === this.props.userId),
     };
+
+    cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
+        const [key, ...v] = c.split('=');
+        return [key, decodeURIComponent(v.join('='))];
+    }));
 
     render() {
         return (
@@ -69,16 +69,17 @@ export class ProjectScroller extends React.Component {
                                 Розташування
                             </Link>
                             {(this.props.donatesSum > 0) && (
-                            <Link
-                                activeClass="active"
-                                to="donates"
-                                spy
-                                smooth
-                                offset={-70}
-                                duration={500}
-                            >
+                                <Link
+                                    activeClass="active"
+                                    to="donates"
+                                    spy
+                                    smooth
+                                    offset={-70}
+                                    duration={500}
+                                >
                                 Внески
-                            </Link>)}
+                                </Link>
+                            )}
                             {(this.props.status === 'реалізація' || this.props.status === 'виконаний') && (
                                 <Link
                                     activeClass="active"
@@ -109,7 +110,7 @@ export class ProjectScroller extends React.Component {
                     <div className="" style={{ width: '80%', margin: '30px' }} id="docs">
                         <h3>Документація</h3>
                         <br />
-                         <Document galleryId={this.props.galleryId} />
+                        <Document galleryId={this.props.galleryId} />
                     </div>
                     <br />
                     <div className="" style={{ width: '80%', margin: '30px' }} id="map">
@@ -122,13 +123,14 @@ export class ProjectScroller extends React.Component {
                     <br />
 
                     {(this.props.donatesSum > 0) && (
-                    <div style={{ width: '80%', margin: '30px' }} id="donates">
-                        <h3>Внески</h3>
-                        <br />
-                        <div className="">
-                            <ProjectDonates projectId={this.props.projectId} />
+                        <div style={{ width: '80%', margin: '30px' }} id="donates">
+                            <h3>Внески</h3>
+                            <br />
+                            <div className="">
+                                <ProjectDonates projectId={this.props.projectId} />
+                            </div>
                         </div>
-                    </div> )}
+                    )}
                     {(this.props.status === 'реалізація' || this.props.status === 'виконаний')
                     && (
                         <div style={{ width: '80%', margin: '30px' }} id="storyboard">
