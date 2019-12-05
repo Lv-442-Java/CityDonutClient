@@ -13,6 +13,7 @@ export class Chat extends React.Component {
         this.emailNotifyEnabled = false;
         this.port = 8091;
         this.users = {};
+        this.updates = [];
         this.userAmount = 0;
         this.changeTime = 10 * 60 * 1000;
         this.messagesUpdateTime = 30 * 1000;
@@ -116,6 +117,7 @@ export class Chat extends React.Component {
         return this.getUserData(message.userId).then(user => ({
             id: message.id,
             fromCurrent: this.state.userId === message.userId,
+            userId: message.userId,
             name: `${user.firstName} ${user.lastName}<${user.role}>`,
             text: message.description,
             date: messageDateAfter,
@@ -136,20 +138,35 @@ export class Chat extends React.Component {
         return this.users[userId];
     }
 
+    sendReadMessagesRequest = async () => {
+        let putUrl = `http://localhost:${this.port}/api/v1/chatupdated/${this.state.projectId}`;
+        return axios.put(putUrl, {}, {withCredentials: true});
+    };
+
+    getChatUpdateData = async () => {
+        let getUrl = `http://localhost:${this.port}/api/v1/chatupdated/${this.state.projectId}`;
+        return axios.get(getUrl).then((response) => {this.updates = response.data});
+    };
+
     updateMessagesFunc = () => {
         console.log('update');
         this.initAssignedUsers().then(() => {
             this.needScroll = false;
-            this.initMessages();
+            this.getChatUpdateData().then(() => {
+                this.initMessages().then(this.sendReadMessagesRequest);
+            });
             this.messagesUpdateTimeout = setTimeout(this.updateMessagesFunc, this.messagesUpdateTime);
         });
     };
 
     componentDidMount() {
-        this.loginUser();
+        //this.loginUser();
         this.initAssignedUsers().then(() => {
-            this.initMessages().then(() => {
-                this.messagesUpdateTimeout = setTimeout(this.updateMessagesFunc, this.messagesUpdateTime);
+            this.getChatUpdateData().then(() => {
+                this.initMessages().then(() => {
+                    this.sendReadMessagesRequest();
+                    this.messagesUpdateTimeout = setTimeout(this.updateMessagesFunc, this.messagesUpdateTime);
+                });
             });
         });
 
@@ -202,6 +219,7 @@ export class Chat extends React.Component {
 
         const newMessage = {
             text: textMessage,
+            userId: this.state.userId,
             fromUser: (this.state.userType === 'user'),
             name: `${this.state.userFirstName} ${this.state.userLastName}<${this.state.userType}>`,
             date: 'loading',
@@ -321,6 +339,8 @@ export class Chat extends React.Component {
                                         key={key}
                                         messageItem={message}
                                         changeAllowed={isAllowedChange}
+                                        userNames={this.users}
+                                        updates={this.updates}
                                         changeTime={this.changeTime}
                                         contextMenuActionHandler={this.handleMessageContextMenuAction}
                                     />

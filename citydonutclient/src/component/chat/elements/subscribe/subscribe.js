@@ -37,7 +37,6 @@ export class Subscribe extends React.Component{
     };
 
     handleCheckboxChange = (event) => {
-        let url =`http://localhost:${this.state.port}/api/v1/user/subscribe/${this.state.projectId}`;
 
         if (this.state.subscribed === false) {
             this.subscribeToProject().then(() => {
