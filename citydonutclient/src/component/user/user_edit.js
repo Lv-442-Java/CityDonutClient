@@ -28,8 +28,11 @@ export class UserEdit extends React.Component {
         firstNameDisabled: true,
         lastNameDisabled: true,
         showChangePassword: false,
-        cantEdit: false,
     };
+
+    componentDidMount() {
+        this.getData();
+    }
 
     handleUserInput = (e) => {
         const { name } = e.target;
@@ -49,11 +52,17 @@ export class UserEdit extends React.Component {
         const { value } = e.target;
         if (name === 'firstName') {
             this.setState({
-                incorrectInputData: { ...this.state.incorrectInputData, firstName: !this.checkInputValue(value) },
+                incorrectInputData: {
+                    ...this.state.incorrectInputData,
+                    firstName: !this.checkInputValue(value),
+                },
             });
         } else if (name === 'lastName') {
             this.setState({
-                incorrectInputData: { ...this.state.incorrectInputData, lastName: !this.checkInputValue(value) },
+                incorrectInputData: {
+                    ...this.state.incorrectInputData,
+                    lastName: !this.checkInputValue(value),
+                },
             });
         }
     };
@@ -61,10 +70,6 @@ export class UserEdit extends React.Component {
     checkInputValue = value => /^[a-zA-Z]{3,30}$/.test(value);
 
     checkInputValue = value => /^[a-zA-Z]{3,30}$/.test(value);
-
-    componentDidMount() {
-        this.getData();
-    }
 
     canEdit = () => (
         !this.state.incorrectInputData.email
@@ -79,7 +84,6 @@ export class UserEdit extends React.Component {
                     firstName: !this.checkInputValue(this.state.firstName),
                     lastName: !this.checkInputValue(this.state.lastName),
                 },
-                cantEdit: false,
             }),
         );
         this.editAble();
@@ -101,15 +105,12 @@ export class UserEdit extends React.Component {
                     email: response.data.email,
                 },
             );
-        }).catch((err) => {
-            console.log(err.response.data);
         });
 
     editUser = () => {
-        if (this.state.incorrectInputData.firstName || this.state.incorrectInputData.lastName || this.state.incorrectInputData.email) {
-            this.setState({ cantEdit: true });
-        } else {
-            this.setState({ cantEdit: false });
+        if (!(this.state.incorrectInputData.firstName
+            || this.state.incorrectInputData.lastName
+            || this.state.incorrectInputData.email)) {
             const data = {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
@@ -119,7 +120,6 @@ export class UserEdit extends React.Component {
                 data,
                 { withCredentials: true })
                 .then((response) => {
-                    console.log(response.data);
                     this.setState(
                         {
                             firstName: response.data.firstName,
@@ -128,13 +128,17 @@ export class UserEdit extends React.Component {
                         },
                     );
                     this.editAble();
-                }).catch((err) => {
-                    console.log(err.response.data);
                 });
         }
     };
 
+    changeShowChangePassword = () =>{
+        this.setState({showChangePassword:false});
+    }
+
     render() {
+        const { incorrectInputData, errorMessage } = (this.state);
+
         return (
             <div className="d-flex justify-content-end " style={{ minHeight: '100vh' }}>
                 {this.state.showChangePassword
@@ -143,7 +147,7 @@ export class UserEdit extends React.Component {
                         width: '75%',
                     }}
                     >
-                        <ChangePassword />
+                        <ChangePassword showChangePassword = {this.changeShowChangePassword} />
                     </div>
                 )}
                 <Form
@@ -179,8 +183,8 @@ export class UserEdit extends React.Component {
                                 width: '80%',
                             }}
                         >
-                            <FormLabel>Ім&aposя:</FormLabel>
-                            {this.state.incorrectInputData.firstName
+                            <FormLabel>Ім&#39;я:</FormLabel>
+                            {incorrectInputData.firstName
                             && (
                                 <FormText>
                                     <p
@@ -190,7 +194,7 @@ export class UserEdit extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectFirstName}
+                                        {errorMessage.incorrectFirstName}
                                     </p>
                                 </FormText>
                             )}
@@ -210,7 +214,7 @@ export class UserEdit extends React.Component {
                             }}
                         >
                             <FormLabel>Прізвище:</FormLabel>
-                            {this.state.incorrectInputData.lastName
+                            {incorrectInputData.lastName
                             && (
                                 <FormText>
                                     <p
@@ -220,7 +224,7 @@ export class UserEdit extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectLastName}
+                                        {errorMessage.incorrectLastName}
                                     </p>
                                 </FormText>
                             )}
@@ -241,7 +245,7 @@ export class UserEdit extends React.Component {
                             }}
                         >
                             <FormLabel>Email:</FormLabel>
-                            {this.state.incorrectInputData.email
+                            {incorrectInputData.email
                             && (
                                 <FormText>
                                     <p
@@ -251,7 +255,7 @@ export class UserEdit extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectEmail}
+                                        {errorMessage.incorrectEmail}
                                     </p>
                                 </FormText>
                             )}

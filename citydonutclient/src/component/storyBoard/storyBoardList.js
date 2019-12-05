@@ -22,7 +22,14 @@ export class StoryBoardList extends React.Component {
     render() {
         return (
             <div>
-                {this.state.storyBoards.map(storyBoard => <StoryBoardItem storyBoard={storyBoard} />)}
+                {this.state.storyBoards.map(storyBoard => (
+                    <StoryBoardItem
+                        key={storyBoard.id}
+                        resetStoryBoards={this.getData}
+                        storyBoard={storyBoard}
+                        isUserOwner={this.props.isUserOwner}
+                    />
+                ))}
             </div>
         );
     }

@@ -5,22 +5,12 @@ import MyModal from './MyModal';
 
 export class ProjectProgressBar extends React.Component {
     state={
-        donatesSum: 0,
-        donatedPercent: 0,
+
         today: new Date(),
         days: undefined,
         contributors: 0,
-    };
-
-
-    getDonatesSum = () => {
-        axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.props.projectId}`,
-            { withCredentials: true }).then((response) => {
-            this.setState({
-                donatesSum: response.data,
-                donatedPercent: response.data * 100 / this.props.moneyNeeded,
-            });
-        });
+        donatesSum: 0,
+        donatedPercent: 0
     };
 
     getDaysLeft=() => {
@@ -35,6 +25,17 @@ export class ProjectProgressBar extends React.Component {
         return this.days;
     };
 
+    getDonatesSum = () => {
+        axios.get(`http://localhost:8091/api/v1/donates/all/projects/${this.props.projectId}`,
+            { withCredentials: true }).then((response) => {
+            this.setState({
+                donatesSum: response.data,
+                donatedPercent: response.data * 100 / this.props.moneyNeeded,
+            });
+        });
+
+    };
+
     getContributors = () => {
         axios.get(`http://localhost:8091/api/v1/donates/count/project/${this.props.projectId}`,
             { withCredentials: true }).then((response) => {
@@ -43,8 +44,9 @@ export class ProjectProgressBar extends React.Component {
     };
 
     componentDidMount() {
-        this.getDonatesSum();
+
         this.getContributors();
+        this.getDonatesSum();
     }
 
     render() {
