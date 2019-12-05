@@ -68,6 +68,7 @@ export class ProjectScroller extends React.Component {
                             >
                                 Розташування
                             </Link>
+                            {(this.props.donatesSum > 0) && (
                             <Link
                                 activeClass="active"
                                 to="donates"
@@ -77,7 +78,7 @@ export class ProjectScroller extends React.Component {
                                 duration={500}
                             >
                                 Внески
-                            </Link>
+                            </Link>)}
                             {(this.props.status === 'реалізація' || this.props.status === 'виконаний') && (
                                 <Link
                                     activeClass="active"
@@ -120,13 +121,14 @@ export class ProjectScroller extends React.Component {
 
                     <br />
 
+                    {(this.props.donatesSum > 0) && (
                     <div style={{ width: '80%', margin: '30px' }} id="donates">
                         <h3>Внески</h3>
                         <br />
                         <div className="">
                             <ProjectDonates projectId={this.props.projectId} />
                         </div>
-                    </div>
+                    </div> )}
                     {(this.props.status === 'реалізація' || this.props.status === 'виконаний')
                     && (
                         <div style={{ width: '80%', margin: '30px' }} id="storyboard">
