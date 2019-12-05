@@ -1,26 +1,27 @@
 import React from 'react';
 import axios from 'axios';
-import { ProjectsFilter } from './projectsFilter';
-import { ProjectsList } from './projectsList';
+import {ProjectsFilter} from './projectsFilter';
+import {ProjectsList} from './projectsList';
 
 export class Projects extends React.Component {
     state = {
         projects: [],
+        newProjects: [],
         filters: {},
         page: 0,
     };
 
     setFilters = (filters) => {
-        this.setState({ filters },
+        this.setState({filters},
             () => this.getData());
     };
 
     showMoreItems = () => {
-        this.setState({ page: this.state.page + 1 }, () => {
+        this.setState({page: this.state.page + 1}, () => {
             axios.get(`http://localhost:8091/api/v1/project/filter${this.getUrl()}`,
-                { withCredentials: true })
+                {withCredentials: true})
                 .then((response) => {
-                    this.setState({ projects: this.state.projects.concat(response.data) });
+                    this.setState({projects: this.state.projects.concat(response.data), newProjects: response.data});
                 });
         });
     };
@@ -36,11 +37,11 @@ export class Projects extends React.Component {
     };
 
     getData = () => {
-        this.setState({ page: 0 }, () => {
+        this.setState({page: 0}, () => {
             axios.get(`http://localhost:8091/api/v1/project/filter${this.getUrl()}`,
-                { withCredentials: true })
+                {withCredentials: true})
                 .then((response) => {
-                    this.setState({ projects: response.data });
+                    this.setState({projects: response.data, newProjects: response.data});
                 });
         });
     };
@@ -56,7 +57,8 @@ export class Projects extends React.Component {
                     />
                 </div>
                 <div className="col-md-9 col-sm-9 col-lg-9 col-xs-12">
-                    <ProjectsList projects={this.state.projects} showMore={this.showMoreItems} />
+                    <ProjectsList projects={this.state.projects} showMore={this.showMoreItems}
+                                  newProjects={this.state.newProjects}/>
                 </div>
             </div>
         );
