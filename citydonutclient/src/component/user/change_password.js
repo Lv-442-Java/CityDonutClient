@@ -44,11 +44,17 @@ export class ChangePassword extends React.Component {
         const { value } = e.target;
         if (this.state.inputName.oldPassword === name) {
             this.setState({
-                incorrectInputData: { ...this.state.incorrectInputData, incorrectOldPassword: !this.checkPassword(value) },
+                incorrectInputData: {
+                    ...this.state.incorrectInputData,
+                    incorrectOldPassword: !this.checkPassword(value),
+                },
             });
         } else if (this.state.inputName.newPassword === name) {
             this.setState({
-                incorrectInputData: { ...this.state.incorrectInputData, incorrectNewPassword: !this.checkPassword(value) },
+                incorrectInputData: {
+                    ...this.state.incorrectInputData,
+                    incorrectNewPassword: !this.checkPassword(value),
+                },
             });
         } else if (this.state.inputName.confirmPassword === name) {
             this.setState({
@@ -86,16 +92,22 @@ export class ChangePassword extends React.Component {
             axios.put('http://localhost:8091/api/v1/user/change_password',
                 data,
                 { withCredentials: true })
-                .then((response) => {
-                    console.log(response.data);
+                .then(() => {
                     this.setState({
-                        incorrectInputData: { ...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: false },
+                        incorrectInputData: {
+                            ...this.state.incorrectInputData,
+                            oldPasswordNotEqualPasswordInDB: false,
+                        },
                     });
+                    this.props.showChangePassword();
                 }).catch((err) => {
-                    console.log(err.response.data);
                     if (err.response.status === 403) {
                         this.setState({
-                            incorrectInputData: { ...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: true },
+                            incorrectInputData: {
+                                ...this.state.incorrectInputData,
+                                oldPasswordNotEqualPasswordInDB: true,
+                            },
+                            confirmPassword: ''
                         });
                     }
                 });
@@ -111,6 +123,8 @@ export class ChangePassword extends React.Component {
     };
 
     render() {
+        const { incorrectInputData, errorMessage } = (this.state);
+
         return (
             <div className="d-flex justify-content-center align-items-center " style={{ minHeight: '100vh' }}>
                 <Form
@@ -146,7 +160,7 @@ export class ChangePassword extends React.Component {
                             }}
                         >
                             <FormLabel>Старий пароль:</FormLabel>
-                            {this.state.incorrectInputData.oldPasswordNotEqualPasswordInDB
+                            {incorrectInputData.oldPasswordNotEqualPasswordInDB
                             && (
                                 <FormText>
                                     <p
@@ -156,11 +170,11 @@ export class ChangePassword extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectOldPassword}
+                                        {errorMessage.incorrectOldPassword}
                                     </p>
                                 </FormText>
                             )}
-                            {this.state.incorrectInputData.incorrectOldPassword
+                            {incorrectInputData.incorrectOldPassword
                             && (
                                 <FormText>
                                     <p
@@ -170,7 +184,7 @@ export class ChangePassword extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectPasswordPattern}
+                                        {errorMessage.incorrectPasswordPattern}
                                     </p>
                                 </FormText>
                             )}
@@ -192,7 +206,7 @@ export class ChangePassword extends React.Component {
                             }}
                         >
                             <FormLabel>Новий пароль:</FormLabel>
-                            {this.state.incorrectInputData.incorrectNewPassword
+                            {incorrectInputData.incorrectNewPassword
                             && (
                                 <FormText>
                                     <p
@@ -202,7 +216,7 @@ export class ChangePassword extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectPasswordPattern}
+                                        {errorMessage.incorrectPasswordPattern}
                                     </p>
                                 </FormText>
                             )}
@@ -224,7 +238,7 @@ export class ChangePassword extends React.Component {
                             }}
                         >
                             <FormLabel>Підтвердження паролю:</FormLabel>
-                            {this.state.incorrectInputData.incorrectConfirmPassword
+                            {incorrectInputData.incorrectConfirmPassword
                             && (
                                 <FormText>
                                     <p
@@ -234,7 +248,7 @@ export class ChangePassword extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectPasswordPattern}
+                                        {errorMessage.incorrectPasswordPattern}
                                     </p>
                                 </FormText>
                             )}
@@ -250,8 +264,8 @@ export class ChangePassword extends React.Component {
                         </FormGroup>
                     </div>
                     <div>
-                        {!this.state.incorrectInputData.confirmPasswordEqualNewPassword
-                        && this.state.incorrectInputData.confirmPasswordEqualNewPassword !== undefined
+                        {!incorrectInputData.confirmPasswordEqualNewPassword
+                        && incorrectInputData.confirmPasswordEqualNewPassword !== undefined
                         && (
                             <FormText>
                                 <p
@@ -261,7 +275,7 @@ export class ChangePassword extends React.Component {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    {this.state.errorMessage.passwordsDoNotMatch}
+                                    {errorMessage.passwordsDoNotMatch}
                                 </p>
                             </FormText>
                         )}
