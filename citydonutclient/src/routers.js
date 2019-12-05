@@ -14,6 +14,7 @@ import { UserEdit } from './component/user/user_edit';
 import DonatedProjects from './component/project/donatedProjects';
 import { UpdateProjectPage } from './component/project/updateProject/UpdateProjectPage';
 import { MyProjects } from './component/user/myProjects';
+import FooterPage from "./component/base/footer";
 
 export class Routers extends React.Component {
     render() {
@@ -34,6 +35,7 @@ export class Routers extends React.Component {
                     <Route path="/user" component={UserEdit} />
                     <Route path="/userprojects" component={MyProjects} />
                 </Switch>
+                <FooterPage />
             </BrowserRouter>
         );
     }
