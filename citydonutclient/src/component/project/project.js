@@ -91,6 +91,7 @@ export class Project extends React.Component {
                             galleryId={galleryId}
                             ownerFirstName={project.owner.firstName}
                             ownerLastName={project.owner.lastName}
+                            userId={this.state.project.owner.id}
                             donatesSum={donatesSum}
 
                         />

@@ -15,8 +15,8 @@ export class SuccessfulProjectItem extends React.Component {
 
     getData = () => {
         axios.get(`http://localhost:8091/api/v1/project/${this.props.project.id}/gallery`).then((response) => {
-            axios.get(`http://localhost:8091/api/v1/gallery/${response.data}/getAvatar`).then((response) => {
-                this.setState({ avatar: response.data });
+            axios.get(`http://localhost:8091/api/v1/gallery/${response.data}/getAvatar`).then((resp) => {
+                this.setState({ avatar: resp.data });
             });
         });
     };
