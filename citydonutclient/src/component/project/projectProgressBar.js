@@ -10,7 +10,7 @@ export class ProjectProgressBar extends React.Component {
         days: undefined,
         contributors: 0,
         donatesSum: 0,
-        donatedPercent: 0
+        donatedPercent: 0,
     };
 
     getDaysLeft=() => {
@@ -33,7 +33,6 @@ export class ProjectProgressBar extends React.Component {
                 donatedPercent: response.data * 100 / this.props.moneyNeeded,
             });
         });
-
     };
 
     getContributors = () => {
@@ -44,7 +43,6 @@ export class ProjectProgressBar extends React.Component {
     };
 
     componentDidMount() {
-
         this.getContributors();
         this.getDonatesSum();
     }

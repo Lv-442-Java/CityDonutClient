@@ -107,7 +107,7 @@ export class ChangePassword extends React.Component {
                                 ...this.state.incorrectInputData,
                                 oldPasswordNotEqualPasswordInDB: true,
                             },
-                            confirmPassword: ''
+                            confirmPassword: '',
                         });
                     }
                 });
