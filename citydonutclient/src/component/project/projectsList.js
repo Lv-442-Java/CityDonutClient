@@ -1,7 +1,7 @@
 import React from 'react';
 import CardDeck from 'react-bootstrap/CardDeck';
-import {Button} from 'react-bootstrap';
-import {ProjectsItem} from './projectsItem';
+import { Button } from 'react-bootstrap';
+import { ProjectsItem } from './projectsItem';
 
 export class ProjectsList extends React.Component {
     render() {
@@ -19,12 +19,13 @@ export class ProjectsList extends React.Component {
                         />
                     ))}
                 </CardDeck>
-                <br/>
+                <br />
                 <Button
-                    style={{width: '99%'}}
+                    style={{ width: '99%' }}
                     onClick={this.props.showMore}
                     variant="secondary"
-                    hidden={this.props.newProjects.length % 6 > 0 || this.props.newProjects.length === 0}
+                    hidden={this.props.newProjects.length % 6 > 0
+                    || this.props.newProjects.length === 0}
                 >
                     БІЛЬШЕ
                 </Button>
