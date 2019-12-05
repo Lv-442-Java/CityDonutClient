@@ -50,6 +50,7 @@ export class Projects extends React.Component {
             <div className="row">
                 <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                     <ProjectsFilter
+                        isOwner={false}
                         setFilters={this.setFilters}
                         startLink={this.props.location.search}
                     />
