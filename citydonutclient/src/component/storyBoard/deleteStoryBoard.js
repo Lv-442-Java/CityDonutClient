@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
-import axios from 'axios';
+import axios from '../../utils/services';
 
 export class DeleteStoryBoard extends React.Component {
     state = {

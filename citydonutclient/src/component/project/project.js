@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import { PhotoSlider } from './photoSlider';
 import { ProjectProgressBar } from './projectProgressBar';
 import { ProjectScroller } from './projectScroller';

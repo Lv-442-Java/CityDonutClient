@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import ProgressBar from '../progressBar/progressBar';
 import MyModal from './MyModal';
 

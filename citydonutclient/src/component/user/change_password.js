@@ -7,7 +7,7 @@ import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import FormControl from 'react-bootstrap/FormControl';
 import FormText from 'react-bootstrap/FormText';
-import axios from 'axios';
+import axios from '../../utils/services';
 
 export class ChangePassword extends React.Component {
     state = {

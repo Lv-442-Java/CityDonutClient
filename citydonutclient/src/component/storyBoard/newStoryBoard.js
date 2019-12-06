@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import { Button, Form } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 

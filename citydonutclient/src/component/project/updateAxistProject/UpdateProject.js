@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import axios from 'axios';
+import axios from '../../../utils/services';
 import GoogleLocation from '../createNewProject/GoogleLocation';
 import { Document } from '../documentation';
 import MyCustomMap from '../createNewProject/MyCustomMap';

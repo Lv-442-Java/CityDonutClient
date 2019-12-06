@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import NavItem from 'react-bootstrap/NavItem';
 import NavLink from 'react-bootstrap/NavLink';
-import axios from 'axios';
+import axios from '../../utils/services';
 
 export class AuthHeader extends React.Component {
     state = {

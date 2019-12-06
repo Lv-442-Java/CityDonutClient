@@ -1,6 +1,6 @@
 import React from 'react';
 import './chat.css';
-import axios from 'axios';
+import axios from '../../utils/services';
 import { Message } from './elements/message/message';
 import { SendMessage } from './elements/sendmessage/sendmessage';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import jwt from 'jwt-decode';
 import { ProjectsList } from '../project/projectsList';
 

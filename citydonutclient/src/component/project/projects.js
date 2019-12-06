@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import { ProjectsFilter } from './projectsFilter';
 import { ProjectsList } from './projectsList';
 
