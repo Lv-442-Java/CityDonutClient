@@ -132,8 +132,8 @@ export class UserEdit extends React.Component {
         }
     };
 
-    changeShowChangePassword = () =>{
-        this.setState({showChangePassword:false});
+    changeShowChangePassword = () => {
+        this.setState({ showChangePassword: false });
     }
 
     render() {
@@ -147,7 +147,7 @@ export class UserEdit extends React.Component {
                         width: '75%',
                     }}
                     >
-                        <ChangePassword showChangePassword = {this.changeShowChangePassword} />
+                        <ChangePassword showChangePassword={this.changeShowChangePassword} />
                     </div>
                 )}
                 <Form
