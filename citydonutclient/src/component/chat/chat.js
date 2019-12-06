@@ -22,11 +22,11 @@ export class Chat extends React.Component {
 
         this.state = {
             projectId: 8,
-            userId: 2,
-            userName: 'oleg',
-            userFirstName: 'user2',
-            userLastName: 'user2',
-            userType: 'user',
+            //userId: 2,
+            //userName: 'oleg',
+            //userFirstName: 'user2',
+            //userLastName: 'user2',
+            //userType: 'user',
             messages: [],
         };
     }
@@ -64,7 +64,11 @@ export class Chat extends React.Component {
 
     getUser = () => axios.get('http://localhost:8091/api/v1/user', { withCredentials: true }).then((response) => {
         console.log(response.data.id);
-        this.setState({ userId: response.data.id });
+        this.setState({
+            userId: response.data.id,
+            userFirstName: response.data.firstName,
+            userLastName: response.data.lastName,
+        });
     });
 
     getMessagesFromApi() {
@@ -159,13 +163,26 @@ export class Chat extends React.Component {
         });
     };
 
+    getCurrentUser = async () => {
+        return axios.get('http://localhost:8091/api/v1/user', { withCredentials: true }).then((response) => {
+            console.log(response.data.id);
+            this.setState({
+                userId: response.data.id,
+                userFirstName: response.data.firstName,
+                userLastName: response.data.lastName,
+            });
+        });
+    };
+
     componentDidMount() {
         //this.loginUser();
         this.initAssignedUsers().then(() => {
-            this.getChatUpdateData().then(() => {
-                this.initMessages().then(() => {
-                    this.sendReadMessagesRequest();
-                    this.messagesUpdateTimeout = setTimeout(this.updateMessagesFunc, this.messagesUpdateTime);
+            this.getCurrentUser().then(() => {
+                this.getChatUpdateData().then(() => {
+                    this.initMessages().then(() => {
+                        this.sendReadMessagesRequest();
+                        this.messagesUpdateTimeout = setTimeout(this.updateMessagesFunc, this.messagesUpdateTime);
+                    });
                 });
             });
         });
@@ -213,7 +230,7 @@ export class Chat extends React.Component {
     };
 
     handleMessageSend = (textMessage) => {
-        if (textMessage == null || textMessage === undefined || textMessage === '') return;
+        if (textMessage == null || textMessage === '') return;
 
         this.needScroll = true;
 
@@ -221,7 +238,7 @@ export class Chat extends React.Component {
             text: textMessage,
             userId: this.state.userId,
             fromUser: (this.state.userType === 'user'),
-            name: `${this.state.userFirstName} ${this.state.userLastName}<${this.state.userType}>`,
+            name: `${this.state.userFirstName} ${this.state.userLastName}<${this.users[this.state.userId].role}>`,
             date: 'loading',
             sent: false,
         };
