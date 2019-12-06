@@ -15,7 +15,7 @@ export class Subscribe extends React.Component{
 
     isCurrentUserSubscribed = async () => {
         let getUrl = `http://localhost:${this.state.port}/api/v1/user/subscribe/${this.state.projectId}`;
-        return axios.get(getUrl);
+        return axios.get(getUrl, {withCredentials: true});
     };
 
     componentDidMount() {
@@ -23,7 +23,6 @@ export class Subscribe extends React.Component{
             if (response.data.id !== undefined) this.setState({subscribed: true,});
             else this.setState({subscribed: false,});
         });
-
     }
 
     subscribeToProject = async () => {
@@ -36,8 +35,7 @@ export class Subscribe extends React.Component{
         return axios.delete(deleteUrl, {withCredentials: true});
     };
 
-    handleCheckboxChange = (event) => {
-
+    handleCheckboxChange = () => {
         if (this.state.subscribed === false) {
             this.subscribeToProject().then(() => {
                 this.setState({subscribed: true,});

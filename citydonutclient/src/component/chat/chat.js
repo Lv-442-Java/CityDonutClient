@@ -10,7 +10,7 @@ export class Chat extends React.Component {
     constructor(props) {
         super(props);
 
-        this.emailNotifyEnabled = false;
+        this.emailNotifyEnabled = true;
         this.port = 8091;
         this.users = {};
         this.updates = [];
@@ -21,65 +21,21 @@ export class Chat extends React.Component {
         this.needScroll = true;
 
         this.state = {
-            projectId: 8,
-            //userId: 2,
-            //userName: 'oleg',
-            //userFirstName: 'user2',
-            //userLastName: 'user2',
-            //userType: 'user',
+            //projectId: 8,
+            projectId: this.props.projectId,
             messages: [],
         };
     }
 
-    loginUser() {
-        const user = {
-            //userEmail: 'mr.prokipchukk@gmail.com',
-            userEmail: 'user2@gmail.com',
-            password: 'user2',
-        };
-
-        axios.post(`http://localhost:${this.port}/sign-in`, user, { withCredentials: true }).then(response => console.log(response))
-            .then(() => this.setState(state => ({
-                userId: 2,
-                userFirstName: 'user2',
-                userLastName: 'user2',
-                userType: 'user',
-            })));
-    }
-
-    loginModerator() {
-        const user = {
-            userEmail: 'moderator',
-            password: 'moderator',
-        };
-
-        axios.post(`http://localhost:${this.port}/sign-in`, user, { withCredentials: true }).then(response => console.log(response))
-            .then(() => this.setState(state => ({
-                userId: 3,
-                userFirstName: 'moderator',
-                userLastName: 'moderator',
-                userType: 'moderator',
-            })));
-    }
-
-    getUser = () => axios.get('http://localhost:8091/api/v1/user', { withCredentials: true }).then((response) => {
-        console.log(response.data.id);
-        this.setState({
-            userId: response.data.id,
-            userFirstName: response.data.firstName,
-            userLastName: response.data.lastName,
-        });
-    });
-
     getMessagesFromApi() {
         const url = `http://localhost:${this.port}/api/v1/project/${this.state.projectId}/comment`;
-        return axios.get(url)
+        return axios.get(url, {withCredentials: true})
             .then((response => response.data));
     }
 
     initAssignedUsers = () => {
         const url = `http://localhost:${this.port}/api/v1/user/${this.state.projectId}/roles`;
-        return axios.get(url).then((response) => {
+        return axios.get(url, {withCredentials: true}).then((response) => {
             this.userAmount = response.data.length;
             response.data.forEach(userData => (this.users[userData.id] = userData));
         });
@@ -104,9 +60,7 @@ export class Chat extends React.Component {
             messagesPromises[i] = this.composeMessage(message);
         });
 
-        return axios.all(messagesPromises).then(axios.spread((...args) => args.map(response =>
-        // console.log(response);
-            response)));
+        return axios.all(messagesPromises).then(axios.spread((...args) => args.map(response => response)));
     };
 
     composeMessage = (message) => {
@@ -134,7 +88,7 @@ export class Chat extends React.Component {
         if (this.users[userId] === undefined) {
             console.log('no');
             const url = `http://localhost:${this.port}/api/v1/user/${userId}/role`;
-            const response = await axios.get(url);
+            const response = await axios.get(url, {withCredentials: true});
             this.users[userId] = response.data;
             return response.data;
         }
@@ -149,7 +103,7 @@ export class Chat extends React.Component {
 
     getChatUpdateData = async () => {
         let getUrl = `http://localhost:${this.port}/api/v1/chatupdated/${this.state.projectId}`;
-        return axios.get(getUrl).then((response) => {this.updates = response.data});
+        return axios.get(getUrl, {withCredentials: true}).then((response) => {this.updates = response.data});
     };
 
     updateMessagesFunc = () => {
@@ -175,7 +129,6 @@ export class Chat extends React.Component {
     };
 
     componentDidMount() {
-        //this.loginUser();
         this.initAssignedUsers().then(() => {
             this.getCurrentUser().then(() => {
                 this.getChatUpdateData().then(() => {
@@ -237,7 +190,7 @@ export class Chat extends React.Component {
         const newMessage = {
             text: textMessage,
             userId: this.state.userId,
-            fromUser: (this.state.userType === 'user'),
+            fromUser: (this.users[this.state.userId].role === "user"),
             name: `${this.state.userFirstName} ${this.state.userLastName}<${this.users[this.state.userId].role}>`,
             date: 'loading',
             sent: false,
@@ -281,31 +234,7 @@ export class Chat extends React.Component {
                     }
                 },
             );
-        }, 1000);
-        /* axios.post(newCommentUrl, newCommentData, {withCredentials: true}).then((respone) => {
-            let messageDateBefore = new Date(Date.parse(respone.data.date));
-            let messageDateAfter =  [
-                    messageDateBefore.getDate(),
-                    (messageDateBefore.getMonth()+1),
-                    messageDateBefore.getFullYear()].join('.') +' ' +
-                [messageDateBefore.getHours(),
-                    messageDateBefore.getMinutes()].join(':');
-            //this.needScroll = true;
-            this.newMessageRef.current.onMessageSent(respone.data, newMessage, messageDateAfter, messageDateBefore);
-            this.newMessageRef = undefined;
-            console.log(this.state);
-            return respone.data;
-        }).then(
-            (comment) => {
-                let pathUrl = `http://localhost:` + this.port + `/api/v1/project/`
-                    + this.state.projectId
-                    + `/comment/`
-                    + comment.id
-                    + `/notify`;
-                console.log(pathUrl);
-                axios.patch(pathUrl, {}, {withCredentials: true});
-            }
-        ); */
+        }, 1);
     };
 
     handleMessageContextMenuAction = (event, data) => {
@@ -344,7 +273,7 @@ export class Chat extends React.Component {
                         </div>
                     </div>
                 </div>
-                <ul id="messagesList" className="chat-messages">
+                <ul id="messagesList" style={{height: (document.documentElement.clientHeight - 60 - 100 - 56)}} className="chat-messages">
                     {
                         this.state.messages.map(
                             (message) => {
