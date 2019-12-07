@@ -12,15 +12,16 @@ import { NewStoryBoard } from '../storyBoard/newStoryBoard';
 
 
 export class ProjectScroller extends React.Component {
-    state = {
-        isUserOwner:
-            (this.cookiesToJson().JWT && jwt(this.cookiesToJson().JWT).id === this.props.userId),
-    };
 
     cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
         const [key, ...v] = c.split('=');
         return [key, decodeURIComponent(v.join('='))];
     }));
+
+    state = {
+        isUserOwner:
+            (this.cookiesToJson().JWT && jwt(this.cookiesToJson().JWT).id === this.props.userId),
+    };
 
     render() {
         return (

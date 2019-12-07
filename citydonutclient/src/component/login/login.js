@@ -28,7 +28,7 @@ export class Login extends React.Component {
             password: this.state.password,
         };
 
-        axios.post('http://localhost:8091/sign-in',
+        axios.post('http://localhost:8091/api/v1/sign-in',
             data,
             { withCredentials: true })
             .then((response) => {
