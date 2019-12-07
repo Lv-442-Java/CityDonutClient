@@ -2,17 +2,15 @@ import React from 'react';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 import { ProjectsList } from '../project/projectsList';
-import {ProjectsFilter} from "../project/projectsFilter";
+import { ProjectsFilter } from '../project/projectsFilter';
 
 export class MyProjects extends React.Component {
-
     state ={
         projects: [],
         id: undefined,
         url: undefined,
         page: 0,
         newProjects: [],
-        filters: {}
 
     };
 
@@ -34,7 +32,6 @@ export class MyProjects extends React.Component {
         if (this.cookiesToJson().JWT !== null) {
             const role = jwt(this.cookiesToJson().JWT).roles;
             this.setState({ id: jwt(this.cookiesToJson().JWT).id });
-            console.log(`${role}-----`);
             role === 'user' ? this.setState({ url: 'ownerId' }, () => this.getData())
                 : this.setState({ url: 'moderatorId' }, () => this.getData());
         } else {
@@ -68,15 +65,17 @@ export class MyProjects extends React.Component {
             <div className="row">
                 <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                     <ProjectsFilter
-                        isOwner={true}
+                        isOwner
                         setFilters={this.setFilters}
                         startLink={this.props.location.search}
                     />
                 </div>
                 <div className="col-md-9 col-sm-9 col-lg-9 col-xs-12">
-            <ProjectsList projects={this.state.projects}
-                          showMore={this.showMoreItems}
-                          newProjects={this.state.newProjects}/>
+                    <ProjectsList
+                        projects={this.state.projects}
+                        showMore={this.showMoreItems}
+                        newProjects={this.state.newProjects}
+                    />
                 </div>
             </div>
         );

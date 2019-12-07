@@ -17,7 +17,7 @@ export class Project extends React.Component {
         galleryId: undefined,
         projectId: this.props.match.params.id,
         donatesSum: undefined,
-        donatedPercent: null
+        donatedPercent: null,
     };
 
 
@@ -63,7 +63,7 @@ export class Project extends React.Component {
 
     render() {
         const {
-            project, projectId, galleryId, street, donatedPercent, donatesSum
+            project, projectId, galleryId, street, donatedPercent, donatesSum,
         } = this.state;
         return (
 
