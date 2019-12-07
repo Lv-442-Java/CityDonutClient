@@ -6,6 +6,7 @@ import { ProjectsList } from './projectsList';
 export class Projects extends React.Component {
     state = {
         projects: [],
+        newProjects: [],
         filters: {},
         page: 0,
     };
@@ -20,7 +21,10 @@ export class Projects extends React.Component {
             axios.get(`http://localhost:8091/api/v1/project/filter${this.getUrl()}`,
                 { withCredentials: true })
                 .then((response) => {
-                    this.setState({ projects: this.state.projects.concat(response.data) });
+                    this.setState({
+                        projects: this.state.projects.concat(response.data),
+                        newProjects: response.data,
+                    });
                 });
         });
     };
@@ -40,7 +44,7 @@ export class Projects extends React.Component {
             axios.get(`http://localhost:8091/api/v1/project/filter${this.getUrl()}`,
                 { withCredentials: true })
                 .then((response) => {
-                    this.setState({ projects: response.data });
+                    this.setState({ projects: response.data, newProjects: response.data });
                 });
         });
     };
@@ -50,12 +54,17 @@ export class Projects extends React.Component {
             <div className="row">
                 <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                     <ProjectsFilter
+                        isOwner={false}
                         setFilters={this.setFilters}
                         startLink={this.props.location.search}
                     />
                 </div>
                 <div className="col-md-9 col-sm-9 col-lg-9 col-xs-12">
-                    <ProjectsList projects={this.state.projects} showMore={this.showMoreItems} />
+                    <ProjectsList
+                        projects={this.state.projects}
+                        showMore={this.showMoreItems}
+                        newProjects={this.state.newProjects}
+                    />
                 </div>
             </div>
         );

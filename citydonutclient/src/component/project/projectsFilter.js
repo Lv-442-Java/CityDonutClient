@@ -10,7 +10,7 @@ import queryString from 'query-string';
 export class ProjectsFilter extends React.Component {
     state = {
         statusName: 'статус проекту',
-        statusesAfterValidation: [],
+        statuses: [],
         allCategories: [],
         timeout: null,
     };
@@ -40,8 +40,9 @@ export class ProjectsFilter extends React.Component {
     };
 
     setStatusName = () => {
-        this.state.statusesAfterValidation.forEach((status) => {
-            status.id === this.state.status && this.setState({ statusName: status.status });
+        this.state.statuses.forEach((status) => {
+            status.id === parseInt(this.state.status, 10)
+                && this.setState({ statusName: status.status });
         });
     };
 
@@ -83,9 +84,15 @@ export class ProjectsFilter extends React.Component {
     };
 
     getStatuses = () => {
-        axios.get('http://localhost:8091/api/v1/status/afterValidation')
-            .then(response => this.setState({ statusesAfterValidation: response.data },
-                () => this.setStatusName()));
+        if (this.props.isOwner) {
+            axios.get('http://localhost:8091/api/v1/status/all')
+                .then(response => this.setState({ statuses: response.data },
+                    () => this.setStatusName()));
+        } else {
+            axios.get('http://localhost:8091/api/v1/status/afterValidation')
+                .then(response => this.setState({ statuses: response.data },
+                    () => this.setStatusName()));
+        }
     };
 
     getMaxMoney = () => {
@@ -121,7 +128,7 @@ export class ProjectsFilter extends React.Component {
                         {this.state.statusName}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {this.state.statusesAfterValidation.map(item => (
+                        {this.state.statuses.map(item => (
                             <Dropdown.Item eventKey={item.id}>
                                 {item.status}
                             </Dropdown.Item>
