@@ -38,7 +38,6 @@ export class Login extends React.Component {
             })
             .catch((err) => {
                 this.setState({ errorMessage: err.response.data.message });
-                console.log(err.response.data);
             });
     };
 
@@ -89,11 +88,8 @@ export class Login extends React.Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-
-                    <Button as={Link} to="/registration" size="lg">Реєстрація</Button>
-                    <button className="btn btn-success" size="lg" onClick={this.insertLoginData}>
-Увійти
-                    </button>
+                    <Button size="lg" onClick={this.insertLoginData}>Увійти</Button>
+                    <Button as={Link} to="/registration" className="btn btn-success" size="lg">Реєстрація</Button>
                 </Modal.Footer>
                 <div>
                     <div>
