@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-scroll';
 import homePage from '../../img/homePage6.jpeg';
 import donut from '../../img/icon.jpg';
 
