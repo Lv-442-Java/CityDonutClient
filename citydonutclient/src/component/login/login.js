@@ -99,8 +99,8 @@ export class Login extends React.Component {
                     <div>
                         <div className="d-flex flex-column">
                             <ButtonGroup size="lg">
-                                <Button href="http://localhost:8091/facebooklogin">Login with Facebook</Button>
-                                <Button href="http://localhost:8091/googlelogin">Login with Google</Button>
+                                <Button href="http://localhost:8091/api/v1/facebooklogin">Login with Facebook</Button>
+                                <Button href="http://localhost:8091/api/v1/googlelogin">Login with Google</Button>
                             </ButtonGroup>
                         </div>
                     </div>

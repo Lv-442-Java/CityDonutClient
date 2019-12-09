@@ -9,7 +9,10 @@ export class Message extends React.Component {
 
         this.state = {
             id: props.messageItem.id,
+            userId: props.messageItem.userId,
             text: props.messageItem.text,
+            updates: props.updates,
+            userNames: props.userNames,
             fromUser: props.messageItem.fromUser,
             name: props.messageItem.name,
             date: props.messageItem.date,
@@ -21,6 +24,10 @@ export class Message extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.props.messageItem.text !== prevProps.messageItem.text
         && this.setState({ text: this.props.messageItem.text });
+        this.props.updates !== prevProps.updates
+        && this.setState({ updates: this.props.updates });
+        this.props.userNames !== prevProps.userNames
+        && this.setState({ userNames: this.props.userNames });
     }
 
     onMessageSent(message, messageObject, date, dateObject) {
@@ -80,6 +87,29 @@ export class Message extends React.Component {
         return ('');
     }
 
+    getUsersReadMessage = () => {
+
+        let currentUserId = this.state.userId;
+        let messageDate = this.props.messageItem.dateObject;
+        let updates = this.state.updates;
+
+        let readers = [];
+
+        for (let i = 0; i < updates.length; i++) {
+            if (updates[i].userId === currentUserId) continue;
+            let dateTime = new Date(Date.parse(updates[i].dateTime));
+            console.log(messageDate);
+            console.log(dateTime);
+            if (messageDate < dateTime) readers.push(this.state.userNames[updates[i].userId].firstName);
+        }
+
+        return(
+            <span className="chat-text-readers">
+                {readers.length > 0 ? <span>&#128065;</span> : ''} {readers.join(', ')}
+            </span>
+        );
+    };
+
     render() {
         let messageLiClass = 'message-container';
         messageLiClass += this.state.fromUser ? ' chat-left' : ' chat-right';
@@ -96,6 +126,7 @@ export class Message extends React.Component {
                             </div>
                             <div className="chat-text-message">{this.state.text}</div>
                         </div>
+                        {this.getUsersReadMessage()}
                     </ContextMenuTrigger>
                     {this.renderImage(false, this.state.fromUser)}
                     {this.placeContextMenu()}
@@ -114,6 +145,7 @@ export class Message extends React.Component {
                         </div>
                         <div className="chat-text-message">{this.state.text}</div>
                     </div>
+                    {this.getUsersReadMessage()}
                 </div>
                 {this.renderImage(false, this.state.fromUser)}
                 {this.placeContextMenu()}
