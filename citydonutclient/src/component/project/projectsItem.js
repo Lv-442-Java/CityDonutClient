@@ -35,16 +35,23 @@ export class ProjectsItem extends React.Component {
     };
 
     render() {
-        if (this.props.status === 'збір коштів'  || this.props.status === 'реалізація'){
-
-            let url = `/projects/${this.props.id}`;
+        let url = undefined;
+        if (this.props.status.status === 'збір коштів'
+            || this.props.status.status === 'реалізація'
+            || this.props.status.status === 'виконаний')
+        {
+            url = `/projects/${this.props.id}`;
         }
+        else {
 
+            url = `/project/update/${this.props.id}`;
+        }
+        console.log(url)
 
         return (
             <div className="px-2">
 
-                <Link to={url} style={{ textDecoration: 'none', color: 'black' }}>
+                <Link to= {url} style={{ textDecoration: 'none', color: 'black' }}>
                     <Card
                         border="primary"
                         className="text-center mx-auto"
