@@ -18,7 +18,7 @@ export class ProjectsItem extends React.Component {
     }
 
     getAvatar = () => {
-        axios.get(`http://localhost:8091/api/v1/project/${this.props.id}/getAvatar`, { withCredentials: true }).then((response) => {
+        axios.get(`http://localhost:8091/api/v1/gallery/${this.props.id}/getAvatar`, { withCredentials: true }).then((response) => {
             this.setState({
                 photoUrl: response.data,
             });
