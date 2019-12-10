@@ -26,6 +26,7 @@ export class ProjectsFilter extends React.Component {
     }
 
     setStartFilters = (startFilters) => {
+        startFilters.status = startFilters.status <= 3 ? undefined : startFilters.status;
         this.setState(
             {
                 status: startFilters.status,
