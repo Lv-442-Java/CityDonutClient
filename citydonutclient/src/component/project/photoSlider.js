@@ -6,11 +6,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export class PhotoSlider extends React.Component {
     state= {
         photos: [],
-        projectId: this.props.projectId,
     };
 
     componentDidMount() {
-        return fetch(`http://localhost:8091/api/v1/gallery/${this.props.galleryId}/`)
+        fetch(`http://localhost:8091/api/v1/gallery/${this.props.galleryId}/`)
             .then(response => response.json())
             .then((responseJson) => {
                 const url = responseJson.filter(obj => obj.mediaType === 'photo');
@@ -18,7 +17,6 @@ export class PhotoSlider extends React.Component {
                 });
             });
     }
-
 
     render() {
         const { photos } = this.state;

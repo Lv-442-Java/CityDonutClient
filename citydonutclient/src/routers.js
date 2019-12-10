@@ -6,7 +6,6 @@ import { Base } from './component/base/base';
 import { Head } from './component/head/head';
 import { CreateProject } from './component/project/createNewProject/CreateProject';
 import { Projects } from './component/project/projects';
-import UpdateProject from './component/project/updateAxistProject/UpdateProject';
 import { Project } from './component/project/project';
 import { Registration } from './component/auth/registration';
 import { ActivationUser } from './component/auth/activationUser';
@@ -14,6 +13,7 @@ import { UserEdit } from './component/user/user_edit';
 import DonatedProjects from './component/project/donatedProjects';
 import { UpdateProjectPage } from './component/project/updateProject/UpdateProjectPage';
 import { MyProjects } from './component/user/myProjects';
+import FAQ from './component/base/FAQ';
 import {FreeProjectsList} from "./component/project/FreeProjectsList";
 
 export class Routers extends React.Component {
@@ -27,7 +27,7 @@ export class Routers extends React.Component {
                     <Route exact path="/" component={Base} />
                     <Route path="/login" component={Login} />
                     <Route path="/project/create" component={CreateProject} />
-                    <Route path="/project/updatepage" component={UpdateProjectPage} />
+                    <Route path="/project/update/:projectId" component={UpdateProjectPage} />
                     <Route path="/registration" component={Registration} />
                     <Route exact path="/projects" component={Projects} />
                     <Route path="/projects/:id" render={props => <Project {...props} id={this.props.id} />} />
@@ -35,6 +35,7 @@ export class Routers extends React.Component {
                     <Route path="/donates/projects" component={DonatedProjects} />
                     <Route path="/user" component={UserEdit} />
                     <Route path="/userprojects" component={MyProjects} />
+                    <Route path="/faq" component={FAQ} />
                 </Switch>
             </BrowserRouter>
         );
