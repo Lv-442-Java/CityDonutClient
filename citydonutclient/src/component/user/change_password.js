@@ -130,8 +130,8 @@ export class ChangePassword extends React.Component {
                 <Form
                     className="d-flex justify-content-around flex-column align-items-center "
                     style={{
-                        width: '30%',
-                        backgroundColor: 'rgba(0,0,0,0.55)',
+                        width: '40%',
+                        backgroundColor: '',
                         paddingTop: '10px',
                         paddingBottom: '20px',
                         paddingLeft: '20px',
@@ -139,17 +139,27 @@ export class ChangePassword extends React.Component {
                         borderRadius: '15px',
                         borderColor: '#d2d2d2',
                         borderWidth: '5px',
-                        color: 'white',
+                        color: 'black',
                         boxShadow: '0 1px 0 #cfcfcf',
                     }}
                 >
-                    <div><h2>Зміна паролю:</h2></div>
+                    <div><h2>Зміна паролю</h2></div>
+                    <br/>
                     <div
                         className="d-flex flex-column justify-content-around align-items-center"
                         style={{
-                            width: '80%',
+                            width: '100%',
                             border: '5px solid black',
                             borderRadius: '25px',
+                            paddingTop: '70px',
+                            paddingBottom: '70px',
+                            paddingLeft: '20px',
+                            paddingRight: '20px',
+                            borderTopLeftRadius: '15px',
+                            borderBottomLeftRadius: '15px',
+                            borderWidth: '5px',
+                            color: 'black',
+
                         }}
                     >
                         <FormGroup
@@ -195,7 +205,7 @@ export class ChangePassword extends React.Component {
                                 onChange={this.handleUserInput}
                                 type="password"
                                 onBlur={this.checkPasswordPattern}
-                                placeholder="Старий пароль"
+                                //placeholder="Старий пароль"
                             />
                         </FormGroup>
                         <FormGroup
@@ -227,7 +237,7 @@ export class ChangePassword extends React.Component {
                                 onChange={this.handleUserInput}
                                 type="password"
                                 onBlur={this.checkPasswordPattern}
-                                placeholder="Новий пароль"
+
                             />
                         </FormGroup>
                         <FormGroup
@@ -259,7 +269,7 @@ export class ChangePassword extends React.Component {
                                 onChange={this.handleUserInput}
                                 type="password"
                                 onBlur={this.checkPasswordPattern}
-                                placeholder="Підтвердження паролю"
+                                //placeholder="Підтвердження паролю"
                             />
                         </FormGroup>
                     </div>
