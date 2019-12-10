@@ -13,7 +13,7 @@ import { UserEdit } from './component/user/user_edit';
 import DonatedProjects from './component/project/donatedProjects';
 import { UpdateProjectPage } from './component/project/updateProject/UpdateProjectPage';
 import { MyProjects } from './component/user/myProjects';
-import FAQ from "./component/base/FAQ";
+import FAQ from './component/base/FAQ';
 
 export class Routers extends React.Component {
     render() {
@@ -32,7 +32,7 @@ export class Routers extends React.Component {
                     <Route path="/donates/projects" component={DonatedProjects} />
                     <Route path="/user" component={UserEdit} />
                     <Route path="/userprojects" component={MyProjects} />
-                    <Route path ="/faq" component={FAQ}/>
+                    <Route path="/faq" component={FAQ} />
                 </Switch>
             </BrowserRouter>
         );

@@ -3,7 +3,7 @@ import './chat.css';
 import axios from 'axios';
 import { Message } from './elements/message/message';
 import { SendMessage } from './elements/sendmessage/sendmessage';
-import {Subscribe} from "./elements/subscribe/subscribe";
+import { Subscribe } from './elements/subscribe/subscribe';
 
 
 export class Chat extends React.Component {
@@ -21,7 +21,7 @@ export class Chat extends React.Component {
         this.needScroll = true;
 
         this.state = {
-            //projectId: 8,
+            // projectId: 8,
             projectId: this.props.projectId,
             messages: [],
         };
@@ -29,13 +29,13 @@ export class Chat extends React.Component {
 
     getMessagesFromApi() {
         const url = `http://localhost:${this.port}/api/v1/project/${this.state.projectId}/comment`;
-        return axios.get(url, {withCredentials: true})
+        return axios.get(url, { withCredentials: true })
             .then((response => response.data));
     }
 
     initAssignedUsers = () => {
         const url = `http://localhost:${this.port}/api/v1/user/${this.state.projectId}/roles`;
-        return axios.get(url, {withCredentials: true}).then((response) => {
+        return axios.get(url, { withCredentials: true }).then((response) => {
             this.userAmount = response.data.length;
             response.data.forEach(userData => (this.users[userData.id] = userData));
         });
@@ -88,7 +88,7 @@ export class Chat extends React.Component {
         if (this.users[userId] === undefined) {
             console.log('no');
             const url = `http://localhost:${this.port}/api/v1/user/${userId}/role`;
-            const response = await axios.get(url, {withCredentials: true});
+            const response = await axios.get(url, { withCredentials: true });
             this.users[userId] = response.data;
             return response.data;
         }
@@ -97,13 +97,13 @@ export class Chat extends React.Component {
     }
 
     sendReadMessagesRequest = async () => {
-        let putUrl = `http://localhost:${this.port}/api/v1/chatupdated/${this.state.projectId}`;
-        return axios.put(putUrl, {}, {withCredentials: true});
+        const putUrl = `http://localhost:${this.port}/api/v1/chatupdated/${this.state.projectId}`;
+        return axios.put(putUrl, {}, { withCredentials: true });
     };
 
     getChatUpdateData = async () => {
-        let getUrl = `http://localhost:${this.port}/api/v1/chatupdated/${this.state.projectId}`;
-        return axios.get(getUrl, {withCredentials: true}).then((response) => {this.updates = response.data});
+        const getUrl = `http://localhost:${this.port}/api/v1/chatupdated/${this.state.projectId}`;
+        return axios.get(getUrl, { withCredentials: true }).then((response) => { this.updates = response.data; });
     };
 
     updateMessagesFunc = () => {
@@ -117,16 +117,14 @@ export class Chat extends React.Component {
         });
     };
 
-    getCurrentUser = async () => {
-        return axios.get('http://localhost:8091/api/v1/user', { withCredentials: true }).then((response) => {
-            console.log(response.data.id);
-            this.setState({
-                userId: response.data.id,
-                userFirstName: response.data.firstName,
-                userLastName: response.data.lastName,
-            });
+    getCurrentUser = async () => axios.get('http://localhost:8091/api/v1/user', { withCredentials: true }).then((response) => {
+        console.log(response.data.id);
+        this.setState({
+            userId: response.data.id,
+            userFirstName: response.data.firstName,
+            userLastName: response.data.lastName,
         });
-    };
+    });
 
     componentDidMount() {
         this.initAssignedUsers().then(() => {
@@ -190,7 +188,7 @@ export class Chat extends React.Component {
         const newMessage = {
             text: textMessage,
             userId: this.state.userId,
-            fromUser: (this.users[this.state.userId].role === "user"),
+            fromUser: (this.users[this.state.userId].role === 'user'),
             name: `${this.state.userFirstName} ${this.state.userLastName}<${this.users[this.state.userId].role}>`,
             date: 'loading',
             sent: false,
@@ -265,15 +263,17 @@ export class Chat extends React.Component {
                         <div>
                             <div className="chat-header-description-name">Chat name</div>
                             <div className="chat-header-description-amount">
-                                {this.userAmount}{' '}members
+                                {this.userAmount}
+                                {' '}
+members
                             </div>
                         </div>
                         <div className="chat-header-description-subscribe">
-                            <Subscribe port={this.port} project={this.state.projectId}/>
+                            <Subscribe port={this.port} project={this.state.projectId} />
                         </div>
                     </div>
                 </div>
-                <ul id="messagesList" style={{height: (document.documentElement.clientHeight - 60 - 100 - 56)}} className="chat-messages">
+                <ul id="messagesList" style={{ height: (document.documentElement.clientHeight - 60 - 100 - 56) }} className="chat-messages">
                     {
                         this.state.messages.map(
                             (message) => {
