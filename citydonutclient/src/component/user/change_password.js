@@ -144,12 +144,22 @@ export class ChangePassword extends React.Component {
                     }}
                 >
                     <div><h2>Зміна паролю</h2></div>
+                    <br/>
                     <div
                         className="d-flex flex-column justify-content-around align-items-center"
                         style={{
-                            width: '80%',
+                            width: '100%',
                             border: '5px solid black',
                             borderRadius: '25px',
+                            paddingTop: '70px',
+                            paddingBottom: '70px',
+                            paddingLeft: '20px',
+                            paddingRight: '20px',
+                            borderTopLeftRadius: '15px',
+                            borderBottomLeftRadius: '15px',
+                            borderWidth: '5px',
+                            color: 'black',
+
                         }}
                     >
                         <FormGroup

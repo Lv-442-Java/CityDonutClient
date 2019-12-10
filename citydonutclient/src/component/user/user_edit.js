@@ -154,8 +154,8 @@ export class UserEdit extends React.Component {
                     style={{
                         width: '40%',
                         backgroundColor: '',
-                        paddingTop: '10px',
-                        paddingBottom: '20px',
+                        paddingTop: '70px',
+                        paddingBottom: '70px',
                         paddingLeft: '20px',
                         paddingRight: '20px',
                         borderTopLeftRadius: '15px',
