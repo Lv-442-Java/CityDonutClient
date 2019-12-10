@@ -88,24 +88,25 @@ export class Message extends React.Component {
     }
 
     getUsersReadMessage = () => {
+        const currentUserId = this.state.userId;
+        const messageDate = this.props.messageItem.dateObject;
+        const { updates } = this.state;
 
-        let currentUserId = this.state.userId;
-        let messageDate = this.props.messageItem.dateObject;
-        let updates = this.state.updates;
-
-        let readers = [];
+        const readers = [];
 
         for (let i = 0; i < updates.length; i++) {
             if (updates[i].userId === currentUserId) continue;
-            let dateTime = new Date(Date.parse(updates[i].dateTime));
+            const dateTime = new Date(Date.parse(updates[i].dateTime));
             console.log(messageDate);
             console.log(dateTime);
             if (messageDate < dateTime) readers.push(this.state.userNames[updates[i].userId].firstName);
         }
 
-        return(
+        return (
             <span className="chat-text-readers">
-                {readers.length > 0 ? <span>&#128065;</span> : ''} {readers.join(', ')}
+                {readers.length > 0 ? <span>&#128065;</span> : ''}
+                {' '}
+                {readers.join(', ')}
             </span>
         );
     };

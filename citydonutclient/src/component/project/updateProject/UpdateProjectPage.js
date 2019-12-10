@@ -37,7 +37,7 @@ export class UpdateProjectPage extends React.Component {
                     margin: '0 auto',
                 }}
                 >
-                    <Chat projectId={this.state.projectId}/>
+                    <Chat projectId={this.state.projectId} />
                 </div>
             </div>
         );
