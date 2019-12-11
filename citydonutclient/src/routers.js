@@ -14,7 +14,7 @@ import DonatedProjects from './component/project/donatedProjects';
 import { UpdateProjectPage } from './component/project/updateProject/UpdateProjectPage';
 import { MyProjects } from './component/user/myProjects';
 import FAQ from './component/base/FAQ';
-import {FreeProjectsList} from "./component/project/FreeProjectsList";
+import { FreeProjectsList } from './component/project/FreeProjectsList';
 
 export class Routers extends React.Component {
     render() {
