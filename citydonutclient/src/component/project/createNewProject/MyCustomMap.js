@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-    GoogleMap, Marker, withGoogleMap, withScriptjs,
-} from 'react-google-maps';
+import {GoogleMap, Marker, withGoogleMap, withScriptjs,} from 'react-google-maps';
 
-export const API_KEY = 'AIzaSyAfksJHMuZusRapaiGuvGQQvPajiXgW-6Y ';
+export const API_KEY = 'AIzaSyAvbTdIJ3_fa31zTE9n38UBB5Vd7Ab6JNc';
 
 export default class MyCustomMap extends React.Component {
     constructor(props) {
@@ -32,7 +30,6 @@ export default class MyCustomMap extends React.Component {
     )));
 
     componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
-        console.log('did mount');
         if (this.props.location !== prevProps.location && this.props.location.coordinates.lat) {
             this.setState({
                 center: this.props.location.coordinates,

@@ -7,7 +7,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import MyCustomMap from './MyCustomMap';
 import GoogleLocation from './GoogleLocation';
 
-
 export class CreateProject extends React.Component {
     state = {
         files: [],
@@ -19,28 +18,32 @@ export class CreateProject extends React.Component {
                 lat: 0,
                 lng: 0,
             },
+            status: undefined,
         },
         name: undefined,
         description: undefined,
         moneyNeeded: 0,
         categories: undefined,
+        galleryId: 0,
+        projectId: undefined,
+
     };
 
     setFile = (e) => {
-        this.setState({ files: e.target.files });
+        this.setState({files: e.target.files});
         console.log(e.target.files);
     };
 
     setName = (e) => {
-        this.setState({ name: e.target.value });
+        this.setState({name: e.target.value});
     };
 
     setDescription = (e) => {
-        this.setState({ description: e.target.value });
+        this.setState({description: e.target.value});
     };
 
     setMoney = (e) => {
-        this.setState({ moneyNeeded: parseFloat(e.target.value) });
+        this.setState({moneyNeeded: parseFloat(e.target.value)});
     };
 
     setPlace = (place) => {
@@ -68,6 +71,7 @@ export class CreateProject extends React.Component {
             }));
     };
 
+
     sendData = () => {
         const data = {
             name: this.state.name,
@@ -80,47 +84,74 @@ export class CreateProject extends React.Component {
         };
         console.log(data);
 
+
         axios.post('http://localhost:8091/api/v1/project',
             data,
-            { withCredentials: true })
+            {withCredentials: true})
+            .then((response => {
+                this.setState({
+                        projectId: response.data.id
+                    }
+                )
+            }))
             .then((response) => {
-                const fileData = new FormData();
-                console.log(fileData);
-                console.log(this.state.files);
-                Array.from(this.state.files).forEach((file, i) => {
-                    console.log(file);
-                    fileData.append('files', file);
+                axios.get(`http://localhost:8091/api/v1/project/${this.state.projectId}/gallery`,
+                    {withCredentials: true}).then((response) => {
+
+
+                    this.setState({galleryId: response.data});
+                }).then((response) => {
+                    const fileData = new FormData();
+                    Array.from(this.state.files).forEach((file, i) => {
+                        console.log(file);
+                        fileData.append('files', file);
+                    });
+                    const config = {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    };
+                    console.log(fileData);
+                    axios.post(
+                        `http://localhost:8091/api/v1/gallery/${this.state.galleryId}/`,
+                        fileData,
+                        config,
+                        {withCredentials: true},
+                    ).then((response) => {
+                        this.setState(
+                            {
+                                status: response.status
+                            }
+                        )
+                    })
                 });
-                const config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                };
-                console.log(fileData);
-                axios.post(
-                    `http://localhost:8091/api/v1/project/${response.data.id}/uploadMultipleFiles`,
-                    fileData,
-                    config,
-                    { withCredentials: true },
-                ).then(response => console.log(response.data));
-            });
+
+            })
+
     };
+
+    goodJob(){
+        if(this.state.status === 200)
+            return(
+                    <Button variant="primary" href="http://localhost:3000" style={{marginLeft: '10px'}}>На головну сторінку</Button>
+            )
+    }
 
     componentDidMount() {
         this.sendData();
         this.getCategories();
     }
 
-
     render() {
         return (
-            <Modal.Dialog style={{ width: '600px', height: '500' }}>
-                <Modal.Title style={{ textAlign: 'center' }}>Створити проект</Modal.Title>
+            <Modal.Dialog style={{width: '600px', height: '500'}}>
+                <Modal.Title style={{textAlign: 'center'}}>Створити проект</Modal.Title>
 
                 <Modal.Body>
 
-                    <div style={{ width: '100%' }}>
+                    <div style={{width: '100%'}}>
                         <label htmlFor="pName"> Назва проекту:</label>
+
                         <input
                             type="text"
                             name="name"
@@ -136,6 +167,7 @@ export class CreateProject extends React.Component {
                                 borderRadius: '4px',
 
                             }}
+
                             onChange={this.setName}
                         />
 
@@ -170,7 +202,7 @@ export class CreateProject extends React.Component {
                         />
 
                         <label htmlFor="pLocation">Адреса :</label>
-                        <GoogleLocation id="pLocation" setPlace={this.setPlace} />
+                        <GoogleLocation id="pLocation" setPlace={this.setPlace}/>
 
                         <label>Категорія проекту :</label>
 
@@ -188,7 +220,7 @@ export class CreateProject extends React.Component {
                         </Dropdown>
 
                         <label htmlFor="pFile">Додаткові матеріали :</label>
-                        <br />
+                        <br/>
 
                         <label
                             htmlFor="file-upload"
@@ -201,12 +233,12 @@ export class CreateProject extends React.Component {
                                 cursor: 'pointer',
                             }}
                         >
-Загрузити файли
+                            Загрузити файли
                         </label>
                         <input
                             type="file"
                             id="file-upload"
-                            style={{ display: 'none', margin: '10px 0px 60px 60px' }}
+                            style={{display: 'none', margin: '10px 0px 60px 60px'}}
                             multiple
                             onChange={this.setFile}
                         />
@@ -230,12 +262,15 @@ export class CreateProject extends React.Component {
                     }}
                     >
 
-                        <MyCustomMap style={{ width: '300px', height: '300px' }} location={this.state.street} />
+                        <MyCustomMap style={{width: '300px', height: '300px'}} location={this.state.street}/>
 
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={this.sendData}>Надіслати</Button>
+                <Modal.Footer style={{display: 'inline-block'}}>
+
+                        {this.goodJob()}
+                        <Button variant="primary" onClick={this.sendData} style={{float:'left'}}>Надіслати</Button>
+
                 </Modal.Footer>
             </Modal.Dialog>
         );

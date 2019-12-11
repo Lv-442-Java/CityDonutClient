@@ -1,36 +1,35 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import axios from 'axios';
+import axios from '../../../utils/services';
 import GoogleLocation from '../createNewProject/GoogleLocation';
-import { Document } from '../documentation';
 import MyCustomMap from '../createNewProject/MyCustomMap';
 
 export default class UpdateProject extends React.Component {
-        state = {
-            id: 99,
-            creationDate: '',
-            name: '',
-            description: '',
-            moneyNeeded: 0,
-            allCategories: [],
-            category: '',
+    state = {
+        id: 99,
+        creationDate: '',
+        name: '',
+        description: '',
+        moneyNeeded: 0,
+        allCategories: [],
+        category: '',
 
-            areDocumentsValid: false,
-            arePhotosValid: false,
-            descriptionValid: false,
-            locationValid: false,
-            moneyNeededValid: false,
-            nameValid: false,
-            categoryValid: false,
+        areDocumentsValid: false,
+        arePhotosValid: false,
+        descriptionValid: false,
+        locationValid: false,
+        moneyNeededValid: false,
+        nameValid: false,
+        categoryValid: false,
 
-            street: {
-                place: '',
-                coordinates: {
-                    lat: 0,
-                    lng: 0,
-                },
+        street: {
+            place: '',
+            coordinates: {
+                lat: 0,
+                lng: 0,
             },
-        }
+        },
+    }
 
     getProjectData = () => {
         axios.get(`http://localhost:8091/api/v1/project/${this.state.id}`,
@@ -172,7 +171,7 @@ export default class UpdateProject extends React.Component {
                                 cursor: 'pointer',
                             }}
                         >
-Загрузити файли
+                            Загрузити файли
                         </label>
                         <input
                             type="file"
@@ -181,9 +180,6 @@ export default class UpdateProject extends React.Component {
                             multiple
                             onChange={this.setFile}
                         />
-                        <div>
-                            <Document projectId={this.state.id} />
-                        </div>
 
                         {this.getValidDataLocation()}
 
