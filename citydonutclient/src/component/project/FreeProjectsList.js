@@ -1,10 +1,9 @@
 import React from 'react';
+import CardDeck from 'react-bootstrap/CardDeck';
 import axios from '../../utils/services';
-import {FreeProjectsItem} from "./FreeProjectsItem";
-import CardDeck from "react-bootstrap/CardDeck";
+import { FreeProjectsItem } from './FreeProjectsItem';
 
 export class FreeProjectsList extends React.Component {
-
     state = {
         projects: [],
     };
@@ -14,12 +13,12 @@ export class FreeProjectsList extends React.Component {
     }
 
     getData = () => {
-        axios.get('http://localhost:8091/api/v1/projects/free', {withCredentials: true}).then(
+        axios.get('http://localhost:8091/api/v1/projects/free', { withCredentials: true }).then(
             (response) => {
-                this.setState({projects: response.data});
-                console.log(response.data)
-            }
-        )
+                this.setState({ projects: response.data });
+                console.log(response.data);
+            },
+        );
     };
 
     render() {

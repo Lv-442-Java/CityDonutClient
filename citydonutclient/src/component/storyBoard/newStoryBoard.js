@@ -1,7 +1,7 @@
 import React from 'react';
-import axios from '../../utils/services';
 import { Button, Form } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
+import axios from '../../utils/services';
 
 export class NewStoryBoard extends React.Component {
     state = {

@@ -8,7 +8,7 @@ axios.interceptors.response.use((response) => {
         console.log("403 forbidden");
         document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         document.cookie = 'JWT=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        window.location.replace('http://localhost:3000/login')
+        window.location.replace('http://localhost:3000/login');
     }
     return Promise.reject(error.response);
 });

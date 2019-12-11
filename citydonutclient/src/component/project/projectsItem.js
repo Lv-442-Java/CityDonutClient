@@ -23,7 +23,7 @@ export class ProjectsItem extends React.Component {
             { withCredentials: true }).then((response) => {
             this.setState({ galleryId: response.data });
         }).then(
-            this.getAvatar
+            this.getAvatar,
         );
     };
 
