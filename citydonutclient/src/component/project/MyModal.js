@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Form } from 'react-bootstrap';
-import axios from 'axios';
+import axios from '../../utils/services';
 
 export default class MyModal extends React.Component {
     constructor(props, context) {

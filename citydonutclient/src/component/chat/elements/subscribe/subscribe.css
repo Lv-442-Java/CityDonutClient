@@ -1,0 +1,11 @@
+.subscribe-label {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #212529;
+}
+
+.subscribe-checkbox {
+    margin-left: 5px;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import axios from 'axios';
+import axios from '../../utils/services';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -13,6 +13,7 @@ export class ProjectsFilter extends React.Component {
         statuses: [],
         allCategories: [],
         timeout: null,
+        moneyGatheringStatusId: 4,
     };
 
     componentDidMount() {
@@ -26,6 +27,9 @@ export class ProjectsFilter extends React.Component {
     }
 
     setStartFilters = (startFilters) => {
+        startFilters.status =
+            startFilters.status < this.state.moneyGatheringStatusId && !this.props.isOwner ?
+                undefined : startFilters.status;
         this.setState(
             {
                 status: startFilters.status,
@@ -42,7 +46,7 @@ export class ProjectsFilter extends React.Component {
     setStatusName = () => {
         this.state.statuses.forEach((status) => {
             status.id === parseInt(this.state.status, 10)
-                && this.setState({ statusName: status.status });
+            && this.setState({statusName: status.status});
         });
     };
 
@@ -86,23 +90,23 @@ export class ProjectsFilter extends React.Component {
     getStatuses = () => {
         if (this.props.isOwner) {
             axios.get('http://localhost:8091/api/v1/status/all')
-                .then(response => this.setState({ statuses: response.data },
+                .then(response => this.setState({statuses: response.data},
                     () => this.setStatusName()));
         } else {
             axios.get('http://localhost:8091/api/v1/status/afterValidation')
-                .then(response => this.setState({ statuses: response.data },
+                .then(response => this.setState({statuses: response.data},
                     () => this.setStatusName()));
         }
     };
 
     getMaxMoney = () => {
         axios.get('http://localhost:8091/api/v1/maxMoney')
-            .then(response => this.setState({ maxMoneyNeeded: response.data }));
+            .then(response => this.setState({maxMoneyNeeded: response.data}));
     };
 
     getCategories = () => {
         axios.get('http://localhost:8091/api/v1/category/all')
-            .then(response => this.setState({ allCategories: response.data }));
+            .then(response => this.setState({allCategories: response.data}));
     };
 
     setCategories = (event) => {
@@ -121,7 +125,7 @@ export class ProjectsFilter extends React.Component {
     render() {
         return (
             <div>
-                <br />
+                <br/>
                 <p>СТАТУС ПРОЕКТУ</p>
                 <Dropdown onSelect={this.setStatus}>
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
@@ -136,7 +140,7 @@ export class ProjectsFilter extends React.Component {
                         <Dropdown.Item eventKey={null}>статус проекту</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-                <br />
+                <br/>
 
                 <p>НЕОБХІДНІ КОШТИ</p>
                 <InputGroup className="mb-3">

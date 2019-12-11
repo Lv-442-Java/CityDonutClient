@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import axios from 'axios';
+import axios from '../../utils/services';
 import ScrollUpButton from 'react-scroll-up-button';
 import HomePagePhoto from './homePagePhoto';
 import SuccessfulProjectsList from './successfulProjectsList';
