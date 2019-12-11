@@ -14,14 +14,14 @@ import { UserEdit } from './component/user/user_edit';
 import DonatedProjects from './component/project/donatedProjects';
 import { UpdateProjectPage } from './component/project/updateProject/UpdateProjectPage';
 import { MyProjects } from './component/user/myProjects';
-import FooterPage from "./component/base/footer";
+import FooterPage from './component/base/footer';
 
 export class Routers extends React.Component {
     render() {
         return (
-            <BrowserRouter>
+            <BrowserRouter  >
                 <Head />
-                <Switch>
+                <Switch >
                     <Route path="/project/update" component={UpdateProject} />
                     <Route exact path="/" component={Base} />
                     <Route path="/login" component={Login} />
