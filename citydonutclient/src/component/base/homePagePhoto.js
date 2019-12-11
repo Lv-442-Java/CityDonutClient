@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-scroll';
+import {Link as Links} from 'react-router-dom'
 import homePage from '../../img/homePage6.jpeg';
 import donut from '../../img/icon.jpg';
 
@@ -31,7 +32,7 @@ const HomePagePhoto = () => (
             <br />
                     допомогти своєму місту.
         </h2>
-        <Link style={{ color: 'white' }} to="/projects">
+        <Links style={{ color: 'white' }} to="/projects">
             <Button
                 style={{
                     textJustify: 'center',
@@ -49,8 +50,8 @@ const HomePagePhoto = () => (
             >
                         Допомогти
             </Button>
-        </Link>
-        <Link style={{ color: 'white' }} to="/project/create">
+        </Links>
+        <Links style={{ color: 'white' }} to="/project/create">
             <Button
                 style={{
                     marginTop: '10%',
@@ -67,7 +68,7 @@ const HomePagePhoto = () => (
             >
                         Подати проект
             </Button>
-        </Link>
+        </Links>
         <div style={{ textAlign: 'center', marginTop: '25%', marginRight: '3%' }}>
             <Link
                 style={{ fontSize: '30px', color: 'white' }}
