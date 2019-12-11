@@ -23,7 +23,6 @@ export class Routers extends React.Component {
                 <Head />
                 <Switch>
                     <Route exact path="/projects/free" component={FreeProjectsList} />
-                    <Route path="/project/update" component={UpdateProject} />
                     <Route exact path="/" component={Base} />
                     <Route path="/login" component={Login} />
                     <Route path="/project/create" component={CreateProject} />

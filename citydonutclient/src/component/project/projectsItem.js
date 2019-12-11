@@ -10,15 +10,25 @@ export class ProjectsItem extends React.Component {
         donatedPercent: 0,
         photoUrl: '',
         arr: this.props.categories.map(category => category.category),
+        galleryId: undefined,
     };
 
     componentDidMount() {
         this.getDonatesSum();
-        this.getAvatar();
+        this.getGallery();
     }
 
+    getGallery = () => {
+        axios.get(`http://localhost:8091/api/v1/project/${this.props.id}/gallery`,
+            { withCredentials: true }).then((response) => {
+            this.setState({ galleryId: response.data });
+        }).then(
+            this.getAvatar
+        );
+    };
+
     getAvatar = () => {
-        axios.get(`http://localhost:8091/api/v1/gallery/${this.props.id}/getAvatar`, { withCredentials: true }).then((response) => {
+        axios.get(`http://localhost:8091/api/v1/gallery/${this.state.galleryId}/getAvatar`, { withCredentials: true }).then((response) => {
             this.setState({
                 photoUrl: response.data,
             });

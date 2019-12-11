@@ -16,7 +16,7 @@ export class FreeProjectsList extends React.Component {
     getData = () => {
         axios.get('http://localhost:8091/api/v1/projects/free', {withCredentials: true}).then(
             (response) => {
-                this.setState({projects: response.data})
+                this.setState({projects: response.data});
                 console.log(response.data)
             }
         )
@@ -33,8 +33,6 @@ export class FreeProjectsList extends React.Component {
                             id={element.id}
                             name={element.name}
                             categories={element.categories}
-                            status={element.projectStatusDto}
-                            moneyNeeded={element.moneyNeeded}
                         />
                     ))}
                 </CardDeck>
