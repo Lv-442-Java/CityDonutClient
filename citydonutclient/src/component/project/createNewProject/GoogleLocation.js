@@ -1,10 +1,6 @@
 import React from 'react';
 import { GoogleComponent } from 'react-google-location';
-
 export default class PlaceComponent extends React.Component {
-    state = {
-        place: null,
-    };
 
     render() {
         return (

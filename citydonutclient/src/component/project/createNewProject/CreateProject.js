@@ -2,8 +2,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import axios from '../../../utils/services';
 import Dropdown from 'react-bootstrap/Dropdown';
+import axios from '../../../utils/services';
 import MyCustomMap from './MyCustomMap';
 import GoogleLocation from './GoogleLocation';
 
@@ -30,20 +30,20 @@ export class CreateProject extends React.Component {
     };
 
     setFile = (e) => {
-        this.setState({files: e.target.files});
+        this.setState({ files: e.target.files });
         console.log(e.target.files);
     };
 
     setName = (e) => {
-        this.setState({name: e.target.value});
+        this.setState({ name: e.target.value });
     };
 
     setDescription = (e) => {
-        this.setState({description: e.target.value});
+        this.setState({ description: e.target.value });
     };
 
     setMoney = (e) => {
-        this.setState({moneyNeeded: parseFloat(e.target.value)});
+        this.setState({ moneyNeeded: parseFloat(e.target.value) });
     };
 
     setPlace = (place) => {
@@ -87,19 +87,16 @@ export class CreateProject extends React.Component {
 
         axios.post('http://localhost:8091/api/v1/project',
             data,
-            {withCredentials: true})
-            .then((response => {
+            { withCredentials: true })
+            .then(((response) => {
                 this.setState({
-                        projectId: response.data.id
-                    }
-                )
+                    projectId: response.data.id,
+                });
             }))
             .then((response) => {
                 axios.get(`http://localhost:8091/api/v1/project/${this.state.projectId}/gallery`,
-                    {withCredentials: true}).then((response) => {
-
-
-                    this.setState({galleryId: response.data});
+                    { withCredentials: true }).then((response) => {
+                    this.setState({ galleryId: response.data });
                 }).then((response) => {
                     const fileData = new FormData();
                     Array.from(this.state.files).forEach((file, i) => {
@@ -116,24 +113,34 @@ export class CreateProject extends React.Component {
                         `http://localhost:8091/api/v1/gallery/${this.state.galleryId}/`,
                         fileData,
                         config,
-                        {withCredentials: true},
+                        { withCredentials: true },
                     ).then((response) => {
                         this.setState(
                             {
-                                status: response.status
-                            }
-                        )
-                    })
+                                status: response.status,
+                            },
+                        );
+                    });
                 });
-
-            })
-
+            });
     };
 
-    goodJob(){
-        if(this.state.status === 200)
+    goodJob() {
+        if (this.state.status === 200) {
+            return (
+                <Button variant="primary" href="http://localhost:3000" style={{ marginLeft: '10px' }}>На головну сторінку</Button>
+            );
+        }
+    }
+
+    checkCategory(){
+        if(this.state.categories === undefined){
             return(
-                    <Button variant="primary" href="http://localhost:3000" style={{marginLeft: '10px'}}>На головну сторінку</Button>
+                <label>{this.state.categoryName}</label>
+            )
+        }else
+            return (
+                <label>{this.state.categories}</label>
             )
     }
 
@@ -144,20 +151,20 @@ export class CreateProject extends React.Component {
 
     render() {
         return (
-            <Modal.Dialog style={{width: '600px', height: '500'}}>
-                <Modal.Title style={{textAlign: 'center'}}>Створити проект</Modal.Title>
+            <Modal.Dialog style={{ width: '600px', height: '500' }}>
+                <Modal.Title style={{ textAlign: 'center' }}>Створити проект</Modal.Title>
 
                 <Modal.Body>
 
-                    <div style={{width: '100%'}}>
+                    <div style={{ width: '100%' }}>
                         <label htmlFor="pName"> Назва проекту:</label>
 
                         <input
                             type="text"
                             name="name"
                             autoComplete="off"
-                            required
                             placeholder="Назва проекту..."
+                            maxLength='50'
                             style={{
                                 width: '100%',
                                 padding: '12px 20px',
@@ -176,8 +183,8 @@ export class CreateProject extends React.Component {
                             id="pDescription"
                             name="description"
                             autoComplete="off"
-                            required
                             placeholder="Про проект..."
+                            max='255'
                             style={{
                                 resize: 'none',
                                 width: '100%',
@@ -195,20 +202,21 @@ export class CreateProject extends React.Component {
                         <input
                             type="number"
                             autoComplete="off"
-                            required
                             className="form-control"
+                            min='1'
+                            max="10000000000"
                             name="projectPrice"
                             onChange={this.setMoney}
                         />
 
                         <label htmlFor="pLocation">Адреса :</label>
-                        <GoogleLocation id="pLocation" setPlace={this.setPlace}/>
+                        <GoogleLocation id="pLocation" setPlace={this.setPlace} />
 
                         <label>Категорія проекту :</label>
 
                         <Dropdown onSelect={this.setCategory}>
                             <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                {this.state.categories}
+                                {this.checkCategory()}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {this.state.allCategories.map(item => (
@@ -220,7 +228,7 @@ export class CreateProject extends React.Component {
                         </Dropdown>
 
                         <label htmlFor="pFile">Додаткові матеріали :</label>
-                        <br/>
+                        <br />
 
                         <label
                             htmlFor="file-upload"
@@ -238,7 +246,7 @@ export class CreateProject extends React.Component {
                         <input
                             type="file"
                             id="file-upload"
-                            style={{display: 'none', margin: '10px 0px 60px 60px'}}
+                            style={{ display: 'none', margin: '10px 0px 60px 60px' }}
                             multiple
                             onChange={this.setFile}
                         />
@@ -262,14 +270,14 @@ export class CreateProject extends React.Component {
                     }}
                     >
 
-                        <MyCustomMap style={{width: '300px', height: '300px'}} location={this.state.street}/>
+                        <MyCustomMap style={{ width: '300px', height: '300px' }} location={this.state.street} />
 
                     </div>
                 </Modal.Body>
-                <Modal.Footer style={{display: 'inline-block'}}>
+                <Modal.Footer style={{ display: 'inline-block' }}>
 
-                        {this.goodJob()}
-                        <Button variant="primary" onClick={this.sendData} style={{float:'left'}}>Надіслати</Button>
+                    {this.goodJob()}
+                    <Button variant="primary" onClick={this.sendData} style={{ float: 'left' }}>Надіслати</Button>
 
                 </Modal.Footer>
             </Modal.Dialog>
@@ -277,4 +285,3 @@ export class CreateProject extends React.Component {
     }
 }
 
-export default CreateProject;

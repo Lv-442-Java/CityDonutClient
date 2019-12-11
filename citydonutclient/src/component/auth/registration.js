@@ -1,6 +1,6 @@
 import React from 'react';
-import axios from '../../utils/services';
 import Form from 'react-bootstrap/Form';
+import axios from '../../utils/services';
 
 export class Registration extends React.Component {
     state = {

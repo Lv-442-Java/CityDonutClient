@@ -1,5 +1,7 @@
 import React from 'react';
-import {GoogleMap, Marker, withGoogleMap, withScriptjs,} from 'react-google-maps';
+import {
+    GoogleMap, Marker, withGoogleMap, withScriptjs,
+} from 'react-google-maps';
 
 export const API_KEY = 'AIzaSyAvbTdIJ3_fa31zTE9n38UBB5Vd7Ab6JNc';
 

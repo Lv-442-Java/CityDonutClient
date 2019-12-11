@@ -1,18 +1,18 @@
 import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 import axios from '../../../utils/services';
 import GoogleLocation from '../createNewProject/GoogleLocation';
 import MyCustomMap from '../createNewProject/MyCustomMap';
 
 export default class UpdateProject extends React.Component {
     state = {
-        id: 99,
+        id: this.props.projectId,
         creationDate: '',
-        name: '',
-        description: '',
         moneyNeeded: 0,
         allCategories: [],
-        category: '',
+        category: [],
+        name: '',
+        description: '',
 
         areDocumentsValid: false,
         arePhotosValid: false,
@@ -31,10 +31,15 @@ export default class UpdateProject extends React.Component {
         },
     }
 
+    setMoney = (e) => {
+        this.setState({moneyNeeded: parseFloat(e.target.value)});
+    };
+
     getProjectData = () => {
         axios.get(`http://localhost:8091/api/v1/project/${this.state.id}`,
             { withCredentials: true })
             .then((response) => {
+                console.log(response.data);
                 this.setState({
                     creationDate: response.data.creationDate,
                     name: response.data.name,
@@ -48,34 +53,24 @@ export default class UpdateProject extends React.Component {
                         },
                     },
                 });
-            });
-    }
-    ;
+            })
+            .then(() => {
+                axios.get(`http://localhost:8091/api/v1/fieldsCheck/get/${this.state.id}`,
+                    {withCredentials: true})
+                    .then((response) => {
+                        this.setState(
+                            {...response.data[0]},
+                        );
+                    });
 
-    getFieldsCheck = () => {
-        axios.get(`http://localhost:8091/api/v1/fieldsCheck/get/${this.state.id}`,
-            { withCredentials: true })
-            .then((response) => {
-                this.setState(
-                    { ...response.data[0] },
-                );
-            });
-    };
-
-    getCategories = () => {
-        axios.get('http://localhost:8091/api/v1/category/all')
-            .then(response => this.setState({
-                allCategories: response.data,
-            }));
+            })
     };
 
     componentDidMount() {
         this.getProjectData();
-        this.getFieldsCheck();
-        this.getCategories();
-    }
+    };
 
-    getValidDataLocation() {
+    getApprovedLocation() {
         if (this.state.locationValid) {
             return (
                 <div>
@@ -150,11 +145,14 @@ export default class UpdateProject extends React.Component {
 
                         <label htmlFor="projectPrice">Необхідні кошти для реалізації проекту :</label>
                         <input
-                            type="text"
+                            type="number"
                             className="form-control"
                             name="projectPrice"
+                            min='1'
+                            max='10000000000'
                             value={this.state.moneyNeeded}
                             readOnly={this.state.moneyNeededValid}
+                            onChange={this.setMoney}
                         />
 
                         <label htmlFor="pFile">Додаткові матеріали :</label>
@@ -181,7 +179,7 @@ export default class UpdateProject extends React.Component {
                             onChange={this.setFile}
                         />
 
-                        {this.getValidDataLocation()}
+                        {this.getApprovedLocation()}
 
                     </Modal.Body>
 
@@ -190,7 +188,6 @@ export default class UpdateProject extends React.Component {
                     </Modal.Footer>
                 </Modal.Dialog>
             </div>
-
         );
     }
 }
