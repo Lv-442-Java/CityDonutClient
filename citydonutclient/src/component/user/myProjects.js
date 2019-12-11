@@ -61,7 +61,10 @@ export class MyProjects extends React.Component {
     };
 
     render() {
+        console.log(this.state.projects.length);
         return (
+            <div>
+            {(this.state.projects.length != 0) ?
             <div className="row">
                 <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
                     <ProjectsFilter
@@ -77,7 +80,9 @@ export class MyProjects extends React.Component {
                         newProjects={this.state.newProjects}
                     />
                 </div>
-            </div>
+            </div>  : (<div className= "d-flex justify-content-center p-5">
+                    <h1>Ви не маєте власних проектів.</h1></div>)}
+        </div>
         );
     }
 }
