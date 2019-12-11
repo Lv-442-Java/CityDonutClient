@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import { Redirect } from 'react-router-dom';
 
 export class ActivationUser extends React.Component {

@@ -14,6 +14,7 @@ import DonatedProjects from './component/project/donatedProjects';
 import { UpdateProjectPage } from './component/project/updateProject/UpdateProjectPage';
 import { MyProjects } from './component/user/myProjects';
 import FAQ from './component/base/FAQ';
+import {FreeProjectsList} from "./component/project/FreeProjectsList";
 
 export class Routers extends React.Component {
     render() {
@@ -21,6 +22,7 @@ export class Routers extends React.Component {
             <BrowserRouter>
                 <Head />
                 <Switch>
+                    <Route exact path="/projects/free" component={FreeProjectsList} />
                     <Route exact path="/" component={Base} />
                     <Route path="/login" component={Login} />
                     <Route path="/project/create" component={CreateProject} />

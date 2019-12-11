@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../utils/services';
 import ProgressBar from '../progressBar/progressBar';
 
 export class SuccessfulProjectItem extends React.Component {

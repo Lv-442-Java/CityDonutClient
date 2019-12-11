@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import axios from 'axios';
+import axios from '../../utils/services';
 import { UpdateStoryBoard } from './updateStoryBoard';
 import { DeleteStoryBoard } from './deleteStoryBoard';
 

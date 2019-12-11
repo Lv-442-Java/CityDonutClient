@@ -7,7 +7,7 @@ import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import FormControl from 'react-bootstrap/FormControl';
 import FormText from 'react-bootstrap/FormText';
-import axios from 'axios';
+import axios from '../../utils/services';
 import { ChangePassword } from './change_password';
 
 export class UserEdit extends React.Component {
