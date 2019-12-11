@@ -2,17 +2,22 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import logo from '../../img/icon.jpg';
-import { AuthHeader } from './authHeader';
+import {AuthHeader} from './authHeader';
+import jwt from "jwt-decode";
 
 export class Head extends React.Component {
-    state = {};
-
     cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
         const [key, ...v] = c.split('=');
         return [key, decodeURIComponent(v.join('='))];
     }));
+
+    state = {
+        role:
+            (this.cookiesToJson().JWT && jwt(this.cookiesToJson().JWT).roles),
+    };
+
 
     isAuthorized = () => {
         const jwt = this.cookiesToJson().JWT;
@@ -22,6 +27,7 @@ export class Head extends React.Component {
     linkToAddProject = () => (this.isAuthorized() ? '/project/create' : '/login');
 
     render() {
+        console.log(this.state.role);
         return (
             <Navbar bg="dark" variant="dark" expand="lg" className="d-flex justify-content-between">
                 <Navbar.Brand as={Link} to="/">
@@ -35,16 +41,21 @@ export class Head extends React.Component {
                     {' '}
                     CityDonut
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
                         <Nav.Link as={Link} to="/projects">Проекти</Nav.Link>
-                        <Nav.Link as={Link} to={this.linkToAddProject}>Подати проект</Nav.Link>
+
+                        {this.state.role === "moderator" ?
+                            <Nav.Link as={Link} to={"/projects/free"}>Вільні проекти</Nav.Link> :
+                            <Nav.Link as={Link} to={this.linkToAddProject}>Подати проект</Nav.Link>}
+
+                        {/*<Nav.Link as={Link} to={this.linkToAddProject}>Подати проект</Nav.Link>*/}
                         <Nav.Link as={Link} to="/faq">FAQ</Nav.Link>
                     </Nav>
                     <Nav className="ml-auto">
                         {this.isAuthorized()
-                            ? <AuthHeader />
+                            ? <AuthHeader/>
                             : <Nav.Link as={Link} to="/login">Увійти</Nav.Link>}
                     </Nav>
                 </Navbar.Collapse>

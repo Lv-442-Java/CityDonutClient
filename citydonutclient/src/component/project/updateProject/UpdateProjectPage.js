@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import UpdateProject from '../updateAxistProject/UpdateProject';
 import { Chat } from '../../chat/chat';
 
@@ -8,7 +7,7 @@ export class UpdateProjectPage extends React.Component {
         super(props);
 
         this.state = {
-
+            projectId: parseInt(props.match.params.projectId, 10),
         };
     }
 
@@ -38,7 +37,7 @@ export class UpdateProjectPage extends React.Component {
                     margin: '0 auto',
                 }}
                 >
-                    <Chat />
+                    <Chat projectId={this.state.projectId} />
                 </div>
             </div>
         );

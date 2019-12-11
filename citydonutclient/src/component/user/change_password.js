@@ -7,7 +7,7 @@ import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import FormControl from 'react-bootstrap/FormControl';
 import FormText from 'react-bootstrap/FormText';
-import axios from 'axios';
+import axios from '../../utils/services';
 
 export class ChangePassword extends React.Component {
     state = {
@@ -44,11 +44,17 @@ export class ChangePassword extends React.Component {
         const { value } = e.target;
         if (this.state.inputName.oldPassword === name) {
             this.setState({
-                incorrectInputData: { ...this.state.incorrectInputData, incorrectOldPassword: !this.checkPassword(value) },
+                incorrectInputData: {
+                    ...this.state.incorrectInputData,
+                    incorrectOldPassword: !this.checkPassword(value),
+                },
             });
         } else if (this.state.inputName.newPassword === name) {
             this.setState({
-                incorrectInputData: { ...this.state.incorrectInputData, incorrectNewPassword: !this.checkPassword(value) },
+                incorrectInputData: {
+                    ...this.state.incorrectInputData,
+                    incorrectNewPassword: !this.checkPassword(value),
+                },
             });
         } else if (this.state.inputName.confirmPassword === name) {
             this.setState({
@@ -86,16 +92,22 @@ export class ChangePassword extends React.Component {
             axios.put('http://localhost:8091/api/v1/user/change_password',
                 data,
                 { withCredentials: true })
-                .then((response) => {
-                    console.log(response.data);
+                .then(() => {
                     this.setState({
-                        incorrectInputData: { ...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: false },
+                        incorrectInputData: {
+                            ...this.state.incorrectInputData,
+                            oldPasswordNotEqualPasswordInDB: false,
+                        },
                     });
+                    this.props.showChangePassword();
                 }).catch((err) => {
-                    console.log(err.response.data);
                     if (err.response.status === 403) {
                         this.setState({
-                            incorrectInputData: { ...this.state.incorrectInputData, oldPasswordNotEqualPasswordInDB: true },
+                            incorrectInputData: {
+                                ...this.state.incorrectInputData,
+                                oldPasswordNotEqualPasswordInDB: true,
+                            },
+                            confirmPassword: '',
                         });
                     }
                 });
@@ -111,13 +123,15 @@ export class ChangePassword extends React.Component {
     };
 
     render() {
+        const { incorrectInputData, errorMessage } = (this.state);
+
         return (
             <div className="d-flex justify-content-center align-items-center " style={{ minHeight: '100vh' }}>
                 <Form
                     className="d-flex justify-content-around flex-column align-items-center "
                     style={{
-                        width: '30%',
-                        backgroundColor: 'rgba(0,0,0,0.55)',
+                        width: '40%',
+                        backgroundColor: '',
                         paddingTop: '10px',
                         paddingBottom: '20px',
                         paddingLeft: '20px',
@@ -125,17 +139,27 @@ export class ChangePassword extends React.Component {
                         borderRadius: '15px',
                         borderColor: '#d2d2d2',
                         borderWidth: '5px',
-                        color: 'white',
+                        color: 'black',
                         boxShadow: '0 1px 0 #cfcfcf',
                     }}
                 >
-                    <div><h2>Зміна паролю:</h2></div>
+                    <div><h2>Зміна паролю</h2></div>
+                    <br/>
                     <div
                         className="d-flex flex-column justify-content-around align-items-center"
                         style={{
-                            width: '80%',
+                            width: '100%',
                             border: '5px solid black',
                             borderRadius: '25px',
+                            paddingTop: '70px',
+                            paddingBottom: '70px',
+                            paddingLeft: '20px',
+                            paddingRight: '20px',
+                            borderTopLeftRadius: '15px',
+                            borderBottomLeftRadius: '15px',
+                            borderWidth: '5px',
+                            color: 'black',
+
                         }}
                     >
                         <FormGroup
@@ -146,7 +170,7 @@ export class ChangePassword extends React.Component {
                             }}
                         >
                             <FormLabel>Старий пароль:</FormLabel>
-                            {this.state.incorrectInputData.oldPasswordNotEqualPasswordInDB
+                            {incorrectInputData.oldPasswordNotEqualPasswordInDB
                             && (
                                 <FormText>
                                     <p
@@ -156,11 +180,11 @@ export class ChangePassword extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectOldPassword}
+                                        {errorMessage.incorrectOldPassword}
                                     </p>
                                 </FormText>
                             )}
-                            {this.state.incorrectInputData.incorrectOldPassword
+                            {incorrectInputData.incorrectOldPassword
                             && (
                                 <FormText>
                                     <p
@@ -170,7 +194,7 @@ export class ChangePassword extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectPasswordPattern}
+                                        {errorMessage.incorrectPasswordPattern}
                                     </p>
                                 </FormText>
                             )}
@@ -181,7 +205,7 @@ export class ChangePassword extends React.Component {
                                 onChange={this.handleUserInput}
                                 type="password"
                                 onBlur={this.checkPasswordPattern}
-                                placeholder="Старий пароль"
+                                //placeholder="Старий пароль"
                             />
                         </FormGroup>
                         <FormGroup
@@ -192,7 +216,7 @@ export class ChangePassword extends React.Component {
                             }}
                         >
                             <FormLabel>Новий пароль:</FormLabel>
-                            {this.state.incorrectInputData.incorrectNewPassword
+                            {incorrectInputData.incorrectNewPassword
                             && (
                                 <FormText>
                                     <p
@@ -202,7 +226,7 @@ export class ChangePassword extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectPasswordPattern}
+                                        {errorMessage.incorrectPasswordPattern}
                                     </p>
                                 </FormText>
                             )}
@@ -213,7 +237,7 @@ export class ChangePassword extends React.Component {
                                 onChange={this.handleUserInput}
                                 type="password"
                                 onBlur={this.checkPasswordPattern}
-                                placeholder="Новий пароль"
+
                             />
                         </FormGroup>
                         <FormGroup
@@ -224,7 +248,7 @@ export class ChangePassword extends React.Component {
                             }}
                         >
                             <FormLabel>Підтвердження паролю:</FormLabel>
-                            {this.state.incorrectInputData.incorrectConfirmPassword
+                            {incorrectInputData.incorrectConfirmPassword
                             && (
                                 <FormText>
                                     <p
@@ -234,7 +258,7 @@ export class ChangePassword extends React.Component {
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {this.state.errorMessage.incorrectPasswordPattern}
+                                        {errorMessage.incorrectPasswordPattern}
                                     </p>
                                 </FormText>
                             )}
@@ -245,13 +269,13 @@ export class ChangePassword extends React.Component {
                                 onChange={this.handleUserInput}
                                 type="password"
                                 onBlur={this.checkPasswordPattern}
-                                placeholder="Підтвердження паролю"
+                                //placeholder="Підтвердження паролю"
                             />
                         </FormGroup>
                     </div>
                     <div>
-                        {!this.state.incorrectInputData.confirmPasswordEqualNewPassword
-                        && this.state.incorrectInputData.confirmPasswordEqualNewPassword !== undefined
+                        {!incorrectInputData.confirmPasswordEqualNewPassword
+                        && incorrectInputData.confirmPasswordEqualNewPassword !== undefined
                         && (
                             <FormText>
                                 <p
@@ -261,7 +285,7 @@ export class ChangePassword extends React.Component {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    {this.state.errorMessage.passwordsDoNotMatch}
+                                    {errorMessage.passwordsDoNotMatch}
                                 </p>
                             </FormText>
                         )}

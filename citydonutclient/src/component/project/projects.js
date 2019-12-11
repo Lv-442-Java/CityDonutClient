@@ -1,11 +1,12 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import { ProjectsFilter } from './projectsFilter';
 import { ProjectsList } from './projectsList';
 
 export class Projects extends React.Component {
     state = {
         projects: [],
+        newProjects: [],
         filters: {},
         page: 0,
     };
@@ -16,16 +17,14 @@ export class Projects extends React.Component {
     };
 
     showMoreItems = () => {
-        console.log(this.state.filters.categories);
-        console.log(this.state.filters);
         this.setState({ page: this.state.page + 1 }, () => {
-            console.log(this.state.filters.page);
-            console.log(this.state.filters);
             axios.get(`http://localhost:8091/api/v1/project/filter${this.getUrl()}`,
                 { withCredentials: true })
                 .then((response) => {
-                    console.log(response.data);
-                    this.setState({ projects: this.state.projects.concat(response.data) });
+                    this.setState({
+                        projects: this.state.projects.concat(response.data),
+                        newProjects: response.data,
+                    });
                 });
         });
     };
@@ -45,7 +44,7 @@ export class Projects extends React.Component {
             axios.get(`http://localhost:8091/api/v1/project/filter${this.getUrl()}`,
                 { withCredentials: true })
                 .then((response) => {
-                    this.setState({ projects: response.data });
+                    this.setState({ projects: response.data, newProjects: response.data });
                 });
         });
     };
@@ -54,10 +53,18 @@ export class Projects extends React.Component {
         return (
             <div className="row">
                 <div className="col-md-3 col-sm-3 col-lg-3 col-xs-12">
-                    <ProjectsFilter setFilters={this.setFilters} startLink={this.props.location.search} />
+                    <ProjectsFilter
+                        isOwner={false}
+                        setFilters={this.setFilters}
+                        startLink={this.props.location.search}
+                    />
                 </div>
                 <div className="col-md-9 col-sm-9 col-lg-9 col-xs-12">
-                    <ProjectsList projects={this.state.projects} showMore={this.showMoreItems} />
+                    <ProjectsList
+                        projects={this.state.projects}
+                        showMore={this.showMoreItems}
+                        newProjects={this.state.newProjects}
+                    />
                 </div>
             </div>
         );

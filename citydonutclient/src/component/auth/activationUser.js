@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import { Redirect } from 'react-router-dom';
 
 export class ActivationUser extends React.Component {
@@ -20,7 +20,6 @@ export class ActivationUser extends React.Component {
             })
             .catch((err) => {
                 this.setState({ errorMessage: err.response.data.message });
-                console.log(err.response.data);
             });
     }
 

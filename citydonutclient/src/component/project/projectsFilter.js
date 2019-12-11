@@ -1,6 +1,6 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import axios from 'axios';
+import axios from '../../utils/services';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -10,9 +10,10 @@ import queryString from 'query-string';
 export class ProjectsFilter extends React.Component {
     state = {
         statusName: 'статус проекту',
-        statusesAfterValidation: [],
+        statuses: [],
         allCategories: [],
         timeout: null,
+        moneyGatheringStatusId: 4,
     };
 
     componentDidMount() {
@@ -26,13 +27,16 @@ export class ProjectsFilter extends React.Component {
     }
 
     setStartFilters = (startFilters) => {
+        startFilters.status =
+            startFilters.status < this.state.moneyGatheringStatusId && !this.props.isOwner ?
+                undefined : startFilters.status;
         this.setState(
             {
                 status: startFilters.status,
                 moneyFrom: startFilters.moneyFrom,
                 moneyTo: startFilters.moneyTo,
                 categories: startFilters.categories === undefined ? []
-                    : startFilters.categories.split(',').map(id => parseInt(id)),
+                    : startFilters.categories.split(',').map(id => parseInt(id, 10)),
             }, () => {
                 this.props.setFilters(this.state);
             },
@@ -40,22 +44,23 @@ export class ProjectsFilter extends React.Component {
     };
 
     setStatusName = () => {
-        this.state.statusesAfterValidation.forEach((status) => {
-            status.id === this.state.status && this.setState({ statusName: status.status });
+        this.state.statuses.forEach((status) => {
+            status.id === parseInt(this.state.status, 10)
+            && this.setState({statusName: status.status});
         });
     };
 
     setStatus = (event, e) => {
         this.setState(
             {
-                status: event === null ? undefined : parseInt(event),
+                status: event === null ? undefined : parseInt(event, 10),
                 statusName: e.target.innerText,
             }, () => this.props.setFilters(this.state),
         );
     };
 
     setMoney = (event, key) => {
-        if (isNaN(event.target.value)) {
+        if (Number.isNaN(event.target.value)) {
             event.target.value = '';
         } else {
             this.setState(
@@ -83,26 +88,32 @@ export class ProjectsFilter extends React.Component {
     };
 
     getStatuses = () => {
-        axios.get('http://localhost:8091/api/v1/status/afterValidation')
-            .then(response => this.setState({ statusesAfterValidation: response.data },
-                () => this.setStatusName()));
+        if (this.props.isOwner) {
+            axios.get('http://localhost:8091/api/v1/status/all')
+                .then(response => this.setState({statuses: response.data},
+                    () => this.setStatusName()));
+        } else {
+            axios.get('http://localhost:8091/api/v1/status/afterValidation')
+                .then(response => this.setState({statuses: response.data},
+                    () => this.setStatusName()));
+        }
     };
 
     getMaxMoney = () => {
         axios.get('http://localhost:8091/api/v1/maxMoney')
-            .then(response => this.setState({ maxMoneyNeeded: response.data }));
+            .then(response => this.setState({maxMoneyNeeded: response.data}));
     };
 
     getCategories = () => {
         axios.get('http://localhost:8091/api/v1/category/all')
-            .then(response => this.setState({ allCategories: response.data }));
+            .then(response => this.setState({allCategories: response.data}));
     };
 
     setCategories = (event) => {
         let newCategories = [];
         newCategories.push(...this.state.categories);
-        event.target.checked ? newCategories.push(parseInt(event.target.id))
-            : newCategories = newCategories.filter(elem => elem !== parseInt(event.target.id));
+        event.target.checked ? newCategories.push(parseInt(event.target.id, 10))
+            : newCategories = newCategories.filter(elem => elem !== parseInt(event.target.id, 10));
         this.setState(
             {
                 categories: newCategories,
@@ -114,18 +125,22 @@ export class ProjectsFilter extends React.Component {
     render() {
         return (
             <div>
-                <br />
+                <br/>
                 <p>СТАТУС ПРОЕКТУ</p>
                 <Dropdown onSelect={this.setStatus}>
                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                         {this.state.statusName}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {this.state.statusesAfterValidation.map(item => <Dropdown.Item eventKey={item.id}>{item.status}</Dropdown.Item>)}
+                        {this.state.statuses.map(item => (
+                            <Dropdown.Item eventKey={item.id}>
+                                {item.status}
+                            </Dropdown.Item>
+                        ))}
                         <Dropdown.Item eventKey={null}>статус проекту</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-                <br />
+                <br/>
 
                 <p>НЕОБХІДНІ КОШТИ</p>
                 <InputGroup className="mb-3">

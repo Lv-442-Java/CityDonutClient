@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import axios from 'axios';
+import axios from '../../../utils/services';
 import Dropdown from 'react-bootstrap/Dropdown';
 import MyCustomMap from './MyCustomMap';
 import GoogleLocation from './GoogleLocation';

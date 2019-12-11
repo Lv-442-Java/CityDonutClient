@@ -1,15 +1,27 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import ScrollUpButton from 'react-scroll-up-button';
-import { Link, animateScroll as scroll } from 'react-scroll';
+import { Link } from 'react-scroll';
+import jwt from 'jwt-decode';
 import { Description } from './description';
 import { Document } from './documentation';
 import { ProjectDonates } from './projectDonates';
 import MyCustomMap from './createNewProject/MyCustomMap';
 import { StoryBoardList } from '../storyBoard/storyBoardList';
+import { NewStoryBoard } from '../storyBoard/newStoryBoard';
 
 
 export class ProjectScroller extends React.Component {
+    cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
+        const [key, ...v] = c.split('=');
+        return [key, decodeURIComponent(v.join('='))];
+    }));
+
+    state = {
+        isUserOwner:
+            (this.cookiesToJson().JWT && jwt(this.cookiesToJson().JWT).id === this.props.userId),
+    };
+
     render() {
         return (
 
@@ -56,16 +68,18 @@ export class ProjectScroller extends React.Component {
                             >
                                 Розташування
                             </Link>
-                            <Link
-                                activeClass="active"
-                                to="donates"
-                                spy
-                                smooth
-                                offset={-70}
-                                duration={500}
-                            >
+                            {(this.props.donatesSum > 0) && (
+                                <Link
+                                    activeClass="active"
+                                    to="donates"
+                                    spy
+                                    smooth
+                                    offset={-70}
+                                    duration={500}
+                                >
                                 Внески
-                            </Link>
+                                </Link>
+                            )}
                             {(this.props.status === 'реалізація' || this.props.status === 'виконаний') && (
                                 <Link
                                     activeClass="active"
@@ -75,7 +89,7 @@ export class ProjectScroller extends React.Component {
                                     offset={-70}
                                     duration={500}
                                 >
-                                Сторіборд
+                                    Сторіборд
                                 </Link>
                             )}
                         </div>
@@ -84,6 +98,12 @@ export class ProjectScroller extends React.Component {
                     <div className="" style={{ width: '80%', margin: '30px' }} id="description">
                         <h3>Опис</h3>
                         <br />
+                        <h5>
+Автор:
+                            {this.props.ownerFirstName}
+                            {' '}
+                            {this.props.ownerLastName}
+                        </h5>
                         <Description description={this.props.description} />
                     </div>
                     <br />
@@ -102,20 +122,33 @@ export class ProjectScroller extends React.Component {
 
                     <br />
 
-                    <div style={{ width: '80%', margin: '30px' }} id="donates">
-                        <h3>Внески</h3>
-                        <br />
-                        <div className="">
-                            <ProjectDonates projectId={this.props.projectId} />
+                    {(this.props.donatesSum > 0) && (
+                        <div style={{ width: '80%', margin: '30px' }} id="donates">
+                            <h3>Внески</h3>
+                            <br />
+                            <div className="">
+                                <ProjectDonates projectId={this.props.projectId} />
+                            </div>
                         </div>
-                    </div>
+                    )}
                     {(this.props.status === 'реалізація' || this.props.status === 'виконаний')
                     && (
                         <div style={{ width: '80%', margin: '30px' }} id="storyboard">
-                            <h3>Сторіборд</h3>
+                            <div className="row">
+                                <h3>Сторіборд</h3>
+                                <div
+                                    style={{ 'margin-left': '1rem' }}
+                                    hidden={!this.state.isUserOwner}
+                                >
+                                    <NewStoryBoard projectId={this.props.projectId} />
+                                </div>
+                            </div>
                             <br />
                             <div className="">
-                                <StoryBoardList projectId={this.props.projectId} />
+                                <StoryBoardList
+                                    projectId={this.props.projectId}
+                                    isUserOwner={this.state.isUserOwner}
+                                />
                             </div>
                         </div>
                     )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import Form from 'react-bootstrap/Form';
 
 export class Registration extends React.Component {
@@ -50,7 +50,7 @@ export class Registration extends React.Component {
             password: this.state.password,
             status: 0,
         };
-        console.log(data);
+
         axios.post('http://localhost:8091/api/v1/registration/',
             data,
             { withCredentials: true })
@@ -61,14 +61,11 @@ export class Registration extends React.Component {
                     dublicationEmail: undefined,
                     invalidPassword: undefined,
                 });
-                console.log(response.data);
             })
             .catch((err) => {
-                console.log(err);
-                const { data } = err.response;
-                const errors = JSON.parse(data.message);
+                const errors = JSON.parse(err.response.data.message);
+                // const
                 this.setState({ ...errors });
-                console.log(errors);
             });
     };
 
@@ -84,7 +81,6 @@ export class Registration extends React.Component {
     isVisible = () => this.state.status === 200;
 
     render() {
-        console.log(this.state);
         return (
 
             <div align="center">

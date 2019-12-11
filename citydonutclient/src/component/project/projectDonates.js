@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../utils/services';
 import Card from 'react-bootstrap/Card';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -74,7 +74,7 @@ export class ProjectDonates extends React.Component {
                 >
                     {donates.map(donate => (
                         <div>
-                            <Card style={{ width: '10rem', height: '10rem' }}>
+                            <Card style={{ width: '10rem', height: '11rem' }}>
                                 <Card.Body>
                                     <Card.Title>
                                         {donate.sum}

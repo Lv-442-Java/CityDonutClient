@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../utils/services';
 import ProgressBar from '../progressBar/progressBar';
 
 export class ProjectsItem extends React.Component {
@@ -10,15 +10,25 @@ export class ProjectsItem extends React.Component {
         donatedPercent: 0,
         photoUrl: '',
         arr: this.props.categories.map(category => category.category),
+        galleryId: undefined,
     };
 
     componentDidMount() {
         this.getDonatesSum();
-        this.getAvatar();
+        this.getGallery();
     }
 
+    getGallery = () => {
+        axios.get(`http://localhost:8091/api/v1/project/${this.props.id}/gallery`,
+            { withCredentials: true }).then((response) => {
+            this.setState({ galleryId: response.data });
+        }).then(
+            this.getAvatar
+        );
+    };
+
     getAvatar = () => {
-        axios.get(`http://localhost:8091/api/v1/project/${this.props.id}/getAvatar`, { withCredentials: true }).then((response) => {
+        axios.get(`http://localhost:8091/api/v1/gallery/${this.state.galleryId}/getAvatar`, { withCredentials: true }).then((response) => {
             this.setState({
                 photoUrl: response.data,
             });
@@ -35,9 +45,20 @@ export class ProjectsItem extends React.Component {
     };
 
     render() {
+        let url;
+        if (this.props.status.status === 'збір коштів'
+            || this.props.status.status === 'реалізація'
+            || this.props.status.status === 'виконаний') {
+            url = `/projects/${this.props.id}`;
+        } else {
+            url = `/project/update/${this.props.id}`;
+        }
+        console.log(url);
+
         return (
             <div className="px-2">
-                <Link to={`/projects/${this.props.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+
+                <Link to={url} style={{ textDecoration: 'none', color: 'black' }}>
                     <Card
                         border="primary"
                         className="text-center mx-auto"

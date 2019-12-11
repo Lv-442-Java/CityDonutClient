@@ -24,9 +24,10 @@ export class ProjectsList extends React.Component {
                     style={{ width: '99%' }}
                     onClick={this.props.showMore}
                     variant="secondary"
-                    hidden={this.props.projects.length % 6 > 0 || this.props.projects.length === 0}
+                    hidden={this.props.newProjects.length % 6 > 0
+                    || this.props.newProjects.length === 0}
                 >
-БІЛЬШЕ
+                    БІЛЬШЕ
                 </Button>
             </div>
         );

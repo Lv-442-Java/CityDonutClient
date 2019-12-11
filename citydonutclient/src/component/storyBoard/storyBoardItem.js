@@ -1,23 +1,25 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import axios from 'axios';
+import axios from '../../utils/services';
+import { UpdateStoryBoard } from './updateStoryBoard';
+import { DeleteStoryBoard } from './deleteStoryBoard';
 
 export class StoryBoardItem extends React.Component {
     state = {
-        galleryId: null,
         photos: [],
     };
 
     componentDidMount() {
-        console.log(this.props.storyBoard.id);
         this.getData();
     }
 
     getData = () => {
-        axios.get(`http://localhost:8091/api/v1/storyboard/${this.props.storyBoard.id}/gallery`, { withCredentials: true }).then((response) => {
-            axios.get(`http://localhost:8091/api/v1/gallery/${response.data}/`, { withCredentials: true }).then((response) => {
+        axios.get(`http://localhost:8091/api/v1/storyboard/${this.props.storyBoard.id}/gallery`,
+            { withCredentials: true }).then((response) => {
+            axios.get(`http://localhost:8091/api/v1/gallery/${response.data}/`,
+                { withCredentials: true }).then((resp) => {
                 this.setState({
-                    photos: response.data.filter(data => data.mediaType === 'photo').map(data => data.fileDownloadUri),
+                    photos: resp.data.filter(data => data.mediaType === 'photo').map(data => data.fileDownloadUri),
                 });
             });
         });
@@ -30,17 +32,39 @@ export class StoryBoardItem extends React.Component {
                     <div className="col-4 text-center">
                         <h5>
                             {this.props.storyBoard.moneySpent}
-₴
+                            ₴
                         </h5>
                     </div>
                     <div className="col-8" style={{ 'border-left': '1px solid grey' }}>
-                        <Carousel className="text-center" style={{ 'background-color': 'grey' }}>
-                            {this.state.photos.map(photo => (
-                                <Carousel.Item>
-                                    <img alt="img" src={photo} style={{ width: '50%', margin: '10px' }} />
-                                </Carousel.Item>
-                            ))}
-                        </Carousel>
+                        <div
+                            className="row"
+                            hidden={!this.props.isUserOwner}
+                            style={{ 'margin-bottom': '0.3rem', 'margin-left': '0rem' }}
+                        >
+                            <UpdateStoryBoard
+                                resetStoryBoards={this.props.resetStoryBoards}
+                                storyBoard={this.props.storyBoard}
+                            >
+                                редагувати
+                            </UpdateStoryBoard>
+                            <DeleteStoryBoard
+                                resetStoryBoards={this.props.resetStoryBoards}
+                                storyBoard={this.props.storyBoard}
+                            >
+                                видалити
+                            </DeleteStoryBoard>
+                        </div>
+                        {(this.state.photos.length !== 0)
+                        && (
+                            <Carousel className="text-center" style={{ 'background-color': 'grey' }}>
+                                {this.state.photos.map(photo => (
+                                    <Carousel.Item>
+                                        <img alt="img" src={photo} style={{ width: '50%', margin: '10px' }} />
+                                    </Carousel.Item>
+                                ))}
+                            </Carousel>
+                        )
+                        }
                         <p className="text-center">{this.props.storyBoard.description}</p>
                         <p style={{
                             color: 'grey',
