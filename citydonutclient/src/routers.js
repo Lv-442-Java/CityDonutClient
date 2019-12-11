@@ -28,12 +28,12 @@ export class Routers extends React.Component {
                     <Route path="/project/create" component={CreateProject} />
                     <Route path="/project/update/:projectId" component={UpdateProjectPage} />
                     <Route path="/registration" component={Registration} />
-                    <Route exact path="/projects" component={Projects} />
+                    <Route exact path="/projects" render={props => <Projects {...props} isOwner={false} />} />
                     <Route path="/projects/:id" render={props => <Project {...props} id={this.props.id} />} />
                     <Route path="/activationUser/:activationCode" component={ActivationUser} />
                     <Route path="/donates/projects" component={DonatedProjects} />
                     <Route path="/user" component={UserEdit} />
-                    <Route path="/userprojects" component={MyProjects} />
+                    <Route path="/userprojects" render={props => <Projects {...props} isOwner={true} />} />
                     <Route path="/faq" component={FAQ} />
                 </Switch>
             </BrowserRouter>
