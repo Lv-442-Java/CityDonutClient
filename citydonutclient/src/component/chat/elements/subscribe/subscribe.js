@@ -13,17 +13,17 @@ export class Subscribe extends React.Component {
         };
     }
 
-    isCurrentUserSubscribed = async () => {
-        const getUrl = `http://localhost:${this.state.port}/api/v1/user/subscribe/${this.state.projectId}`;
-        return axios.get(getUrl, { withCredentials: true });
-    };
-
     componentDidMount() {
         this.isCurrentUserSubscribed().then((response) => {
             if (response.data.id !== undefined) this.setState({ subscribed: true });
             else this.setState({ subscribed: false });
         });
     }
+
+    isCurrentUserSubscribed = async () => {
+        const getUrl = `http://localhost:${this.state.port}/api/v1/user/subscribe/${this.state.projectId}`;
+        return axios.get(getUrl, { withCredentials: true });
+    };
 
     subscribeToProject = async () => {
         const postUrl = `http://localhost:${this.state.port}/api/v1/user/subscribe/${this.state.projectId}`;
@@ -49,9 +49,10 @@ export class Subscribe extends React.Component {
 
     render() {
         return (
-            <label>
+            <label htmlFor="subscribeCheck">
                 <span className="subscribe-label">Subscribe: </span>
                 <input
+                    id="subscribeCheck"
                     className="subscribe-checkbox"
                     checked={this.state.subscribed}
                     type="checkbox"

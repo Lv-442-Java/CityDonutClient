@@ -2,10 +2,10 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import jwt from 'jwt-decode';
 import logo from '../../img/icon.jpg';
-import {AuthHeader} from './authHeader';
-import jwt from "jwt-decode";
+import { AuthHeader } from './authHeader';
 
 export class Head extends React.Component {
     cookiesToJson = () => Object.fromEntries(document.cookie.split(/; */).map((c) => {
@@ -41,21 +41,21 @@ export class Head extends React.Component {
                     {' '}
                     CityDonut
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
                         <Nav.Link as={Link} to="/projects">Проекти</Nav.Link>
 
-                        {this.state.role === "moderator" ?
-                            <Nav.Link as={Link} to={"/projects/free"}>Вільні проекти</Nav.Link> :
-                            <Nav.Link as={Link} to={this.linkToAddProject}>Подати проект</Nav.Link>}
+                        {this.state.role === 'moderator'
+                            ? <Nav.Link as={Link} to="/projects/free">Вільні проекти</Nav.Link>
+                            : <Nav.Link as={Link} to={this.linkToAddProject}>Подати проект</Nav.Link>}
 
-                        {/*<Nav.Link as={Link} to={this.linkToAddProject}>Подати проект</Nav.Link>*/}
+                        {/* <Nav.Link as={Link} to={this.linkToAddProject}>Подати проект</Nav.Link> */}
                         <Nav.Link as={Link} to="/faq">FAQ</Nav.Link>
                     </Nav>
                     <Nav className="ml-auto">
                         {this.isAuthorized()
-                            ? <AuthHeader/>
+                            ? <AuthHeader />
                             : <Nav.Link as={Link} to="/login">Увійти</Nav.Link>}
                     </Nav>
                 </Navbar.Collapse>
