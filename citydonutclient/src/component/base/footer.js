@@ -8,7 +8,6 @@ const FooterPage = () => (
         style={{
             backgroundColor: '#343A40',
             color: 'white',
-            // position: "fixed",
             width: '100%'
         }}
         className="font-small pt-1c"
