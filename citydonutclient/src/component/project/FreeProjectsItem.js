@@ -50,6 +50,7 @@ export class FreeProjectsItem extends React.Component {
                     style={{ width: '18rem', marginTop: '2rem' }}
                 >
                     <Card.Img
+                        style={{height: '11rem'}}
                         variant="top"
                         src={this.state.photoUrl}
                     />
