@@ -33,7 +33,7 @@ export class Routers extends React.Component {
                     <Route path="/activationUser/:activationCode" component={ActivationUser} />
                     <Route path="/donates/projects" component={DonatedProjects} />
                     <Route path="/user" component={UserEdit} />
-                    <Route path="/userprojects" render={props => <Projects {...props} isOwner={true} />} />
+                    <Route path="/userprojects" render={props => <MyProjects {...props} isOwner={true} />} />
                     <Route path="/faq" component={FAQ} />
                 </Switch>
             </BrowserRouter>
