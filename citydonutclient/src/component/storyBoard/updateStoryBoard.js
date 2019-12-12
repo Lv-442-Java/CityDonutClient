@@ -32,11 +32,7 @@ export class UpdateStoryBoard extends React.Component {
             newStoryBoard, { withCredentials: true },
         ).then(this.props.resetStoryBoards);
         axios.get(`http://localhost:8091/api/v1/gallery/${this.props.storyBoard.galleryDto.id}/`,
-            { withCredentials: true }).then((response) => {
-            Array.from(response.data).forEach((data) => {
-                axios.delete(`${data.fileDownloadUri}`, { withCredentials: true });
-            });
-        });
+            { withCredentials: true });
         const { files } = document.getElementById('fileInput');
         if (files.length !== 0) {
             const fileData = new FormData();

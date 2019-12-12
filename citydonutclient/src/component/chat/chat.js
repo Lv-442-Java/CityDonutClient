@@ -27,19 +27,50 @@ export class Chat extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.initAssignedUsers().then(() => {
+            this.getCurrentUser().then(() => {
+                this.getChatUpdateData().then(() => {
+                    this.initMessages().then(() => {
+                        this.sendReadMessagesRequest();
+                        this.messagesUpdateTimeout = this.getUpdateTimeout();
+                    });
+                });
+            });
+        });
+
+        const messagesList = document.getElementById('messagesList');
+        messagesList.scrollTop = messagesList.scrollHeight;
+    }
+
+    componentDidUpdate() {
+        if (this.needScroll === true) {
+            const messagesList = document.getElementById('messagesList');
+            messagesList.scrollTop = messagesList.scrollHeight;
+        }
+        this.needScroll = true;
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.messagesUpdateTimeout);
+    }
+
+    async getUserData(userId) {
+        if (this.users[userId] === undefined) {
+            const url = `http://localhost:${this.port}/api/v1/user/${userId}/role`;
+            const response = await axios.get(url, { withCredentials: true });
+            this.users[userId] = response.data;
+            return response.data;
+        }
+
+        return this.users[userId];
+    }
+
     getMessagesFromApi() {
         const url = `http://localhost:${this.port}/api/v1/project/${this.state.projectId}/comment`;
         return axios.get(url, { withCredentials: true })
             .then((response => response.data));
     }
-
-    initAssignedUsers = () => {
-        const url = `http://localhost:${this.port}/api/v1/user/${this.state.projectId}/roles`;
-        return axios.get(url, { withCredentials: true }).then((response) => {
-            this.userAmount = response.data.length;
-            response.data.forEach(userData => (this.users[userData.id] = userData));
-        });
-    };
 
     initMessages = () => this.getMessagesFromApi().then((data) => {
         this.composeMessages(data).then((messages) => {
@@ -60,7 +91,8 @@ export class Chat extends React.Component {
             messagesPromises[i] = this.composeMessage(message);
         });
 
-        return axios.all(messagesPromises).then(axios.spread((...args) => args.map(response => response)));
+        return axios.all(messagesPromises)
+            .then(axios.spread((...args) => args.map(response => response)));
     };
 
     composeMessage = (message) => {
@@ -84,17 +116,13 @@ export class Chat extends React.Component {
         }));
     };
 
-    async getUserData(userId) {
-        if (this.users[userId] === undefined) {
-            console.log('no');
-            const url = `http://localhost:${this.port}/api/v1/user/${userId}/role`;
-            const response = await axios.get(url, { withCredentials: true });
-            this.users[userId] = response.data;
-            return response.data;
-        }
-
-        return this.users[userId];
-    }
+    initAssignedUsers = () => {
+        const url = `http://localhost:${this.port}/api/v1/user/${this.state.projectId}/roles`;
+        return axios.get(url, { withCredentials: true }).then((response) => {
+            this.userAmount = response.data.length;
+            response.data.forEach((userData) => { this.users[userData.id] = userData; });
+        });
+    };
 
     sendReadMessagesRequest = async () => {
         const putUrl = `http://localhost:${this.port}/api/v1/chatupdated/${this.state.projectId}`;
@@ -103,22 +131,21 @@ export class Chat extends React.Component {
 
     getChatUpdateData = async () => {
         const getUrl = `http://localhost:${this.port}/api/v1/chatupdated/${this.state.projectId}`;
-        return axios.get(getUrl, { withCredentials: true }).then((response) => { this.updates = response.data; });
+        return axios.get(getUrl, { withCredentials: true })
+            .then((response) => { this.updates = response.data; });
     };
 
     updateMessagesFunc = () => {
-        console.log('update');
         this.initAssignedUsers().then(() => {
             this.needScroll = false;
             this.getChatUpdateData().then(() => {
                 this.initMessages().then(this.sendReadMessagesRequest);
             });
-            this.messagesUpdateTimeout = setTimeout(this.updateMessagesFunc, this.messagesUpdateTime);
+            this.messagesUpdateTimeout = this.getUpdateTimeout();
         });
     };
 
     getCurrentUser = async () => axios.get('http://localhost:8091/api/v1/user', { withCredentials: true }).then((response) => {
-        console.log(response.data.id);
         this.setState({
             userId: response.data.id,
             userFirstName: response.data.firstName,
@@ -126,33 +153,7 @@ export class Chat extends React.Component {
         });
     });
 
-    componentDidMount() {
-        this.initAssignedUsers().then(() => {
-            this.getCurrentUser().then(() => {
-                this.getChatUpdateData().then(() => {
-                    this.initMessages().then(() => {
-                        this.sendReadMessagesRequest();
-                        this.messagesUpdateTimeout = setTimeout(this.updateMessagesFunc, this.messagesUpdateTime);
-                    });
-                });
-            });
-        });
-
-        const messagesList = document.getElementById('messagesList');
-        messagesList.scrollTop = messagesList.scrollHeight;
-    }
-
-    componentDidUpdate() {
-        if (this.needScroll === true) {
-            const messagesList = document.getElementById('messagesList');
-            messagesList.scrollTop = messagesList.scrollHeight;
-        }
-        this.needScroll = true;
-    }
-
-    componentWillUnmount() {
-        clearTimeout(this.messagesUpdateTimeout);
-    }
+    getUpdateTimeout = () => setTimeout(this.updateMessagesFunc, this.messagesUpdateTime);
 
     handleMessageEdit = (textMessage, messageId) => {
         const editUrl = `http://localhost:${this.port}/api/v1/project/${this.state.projectId}/comment/${messageId}`;
@@ -161,7 +162,7 @@ export class Chat extends React.Component {
         };
         axios.put(editUrl, editData, { withCredentials: true }).then(() => {
             let messageIndex = 0;
-            for (let i = 0; i < this.state.messages.length; i++) {
+            for (let i = 0; i < this.state.messages.length; i += 1) {
                 if (this.state.messages[i].id === messageId) {
                     messageIndex = i;
                     break;
@@ -196,7 +197,6 @@ export class Chat extends React.Component {
 
         this.newMessageRef = React.createRef();
 
-        console.log('first after send');
         this.setState(state => ({ messages: [...state.messages, newMessage] }));
 
         const newCommentUrl = `http://localhost:${this.port}/api/v1/project/${this.state.projectId}/comment`;
@@ -214,10 +214,9 @@ export class Chat extends React.Component {
                     messageDateBefore.getFullYear()].join('.')} ${
                     [messageDateBefore.getHours(),
                         messageDateBefore.getMinutes()].join(':')}`;
-                // this.needScroll = true;
-                this.newMessageRef.current.onMessageSent(respone.data, newMessage, messageDateAfter, messageDateBefore);
+                this.newMessageRef.current
+                    .onMessageSent(respone.data, newMessage, messageDateAfter, messageDateBefore);
                 this.newMessageRef = undefined;
-                console.log(this.state);
                 return respone.data;
             }, () => { this.initMessages(); }).then(
                 (comment) => {
@@ -227,7 +226,6 @@ export class Chat extends React.Component {
                         }/comment/${
                             comment.id
                         }/notify`;
-                        console.log(pathUrl);
                         axios.patch(pathUrl, {}, { withCredentials: true });
                     }
                 },
@@ -236,8 +234,6 @@ export class Chat extends React.Component {
     };
 
     handleMessageContextMenuAction = (event, data) => {
-        console.log(data);
-
         if (data.action === 'delete') this.handleMessageContextDelete(event, data);
         else if (data.action === 'edit') this.handleMessageContextEdit(event, data);
     };
@@ -247,10 +243,9 @@ export class Chat extends React.Component {
     };
 
     handleMessageContextDelete = (event, data) => {
-        console.log(data);
         const deleteUrl = `http://localhost:${this.port}/api/v1/project/${this.state.projectId}/comment/${data.id}`;
         axios.delete(deleteUrl, { withCredentials: true }).then(() => {
-            this.setState(state => ({ messages: state.messages.filter(elem => (elem.id !== data.id)) }));
+            this.setState(state => ({ messages: state.messages.filter(e => e.id !== data.id) }));
         });
     };
 
@@ -277,7 +272,8 @@ members
                     {
                         this.state.messages.map(
                             (message) => {
-                                let isAllowedChange = (new Date() - message.dateObject) < this.changeTime;
+                                const dateSubstract = new Date() - message.dateObject;
+                                let isAllowedChange = dateSubstract < this.changeTime;
                                 isAllowedChange = isAllowedChange && message.fromCurrent;
                                 const messageComponent = (
                                     <Message
@@ -288,7 +284,9 @@ members
                                         userNames={this.users}
                                         updates={this.updates}
                                         changeTime={this.changeTime}
-                                        contextMenuActionHandler={this.handleMessageContextMenuAction}
+                                        contextMenuActionHandler={
+                                            this.handleMessageContextMenuAction
+                                        }
                                     />
                                 );
                                 key = message.id;

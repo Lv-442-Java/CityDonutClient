@@ -1,10 +1,10 @@
 import React from 'react';
-import axios from '../../utils/services';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { Link } from 'react-router-dom';
+import axios from '../../utils/services';
 
 export class Login extends React.Component {
     state = {
@@ -37,7 +37,7 @@ export class Login extends React.Component {
                 });
             })
             .catch((err) => {
-                this.setState({ errorMessage: err.response.data.message });
+                this.setState({ errorMessage: err.data.message });
             });
     };
 

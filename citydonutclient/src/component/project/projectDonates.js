@@ -1,7 +1,7 @@
 import React from 'react';
-import axios from '../../utils/services';
 import Card from 'react-bootstrap/Card';
 import Carousel from 'react-multi-carousel';
+import axios from '../../utils/services';
 import 'react-multi-carousel/lib/styles.css';
 
 

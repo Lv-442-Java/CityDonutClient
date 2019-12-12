@@ -1,6 +1,6 @@
 import React from 'react';
-import axios from '../../utils/services';
 import { Redirect } from 'react-router-dom';
+import axios from '../../utils/services';
 
 export class ActivationUser extends React.Component {
     state = {

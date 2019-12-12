@@ -144,7 +144,7 @@ export class ChangePassword extends React.Component {
                     }}
                 >
                     <div><h2>Зміна паролю</h2></div>
-                    <br/>
+                    <br />
                     <div
                         className="d-flex flex-column justify-content-around align-items-center"
                         style={{
@@ -205,7 +205,7 @@ export class ChangePassword extends React.Component {
                                 onChange={this.handleUserInput}
                                 type="password"
                                 onBlur={this.checkPasswordPattern}
-                                //placeholder="Старий пароль"
+                                // placeholder="Старий пароль"
                             />
                         </FormGroup>
                         <FormGroup
@@ -269,7 +269,7 @@ export class ChangePassword extends React.Component {
                                 onChange={this.handleUserInput}
                                 type="password"
                                 onBlur={this.checkPasswordPattern}
-                                //placeholder="Підтвердження паролю"
+                                // placeholder="Підтвердження паролю"
                             />
                         </FormGroup>
                     </div>

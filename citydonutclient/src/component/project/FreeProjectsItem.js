@@ -1,14 +1,14 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import { Button } from 'react-bootstrap';
 import axios from '../../utils/services';
-import {Button} from "react-bootstrap";
 
 export class FreeProjectsItem extends React.Component {
     state = {
         photoUrl: '',
         arr: this.props.categories.map(category => category.category),
-        text: "ПІДПИСАТИСЯ",
-        buttonColor: "secondary"
+        text: 'ПІДПИСАТИСЯ',
+        buttonColor: 'secondary',
     };
 
     componentDidMount() {
@@ -17,15 +17,15 @@ export class FreeProjectsItem extends React.Component {
 
     getGallery = () => {
         axios.get(`http://localhost:8091/api/v1/project/${this.props.id}/gallery`,
-            {withCredentials: true}).then((response) => {
-            this.setState({galleryId: response.data});
+            { withCredentials: true }).then((response) => {
+            this.setState({ galleryId: response.data });
         }).then(
-            this.getAvatar
+            this.getAvatar,
         );
     };
 
     getAvatar = () => {
-        axios.get(`http://localhost:8091/api/v1/gallery/${this.props.id}/getAvatar`, {withCredentials: true}).then((response) => {
+        axios.get(`http://localhost:8091/api/v1/gallery/${this.props.id}/getAvatar`, { withCredentials: true }).then((response) => {
             this.setState({
                 photoUrl: response.data,
             });
@@ -33,12 +33,12 @@ export class FreeProjectsItem extends React.Component {
     };
 
     subscribe = () => {
-        axios.put(`http://localhost:8091/api/v1/project/${this.props.id}/addToModerate`, {}, {withCredentials: true}).then(
+        axios.put(`http://localhost:8091/api/v1/project/${this.props.id}/addToModerate`, {}, { withCredentials: true }).then(
             this.setState({
-                text: "ВИ ПІДПИСАЛИСЯ",
-                buttonColor: "success"
-            })
-        )
+                text: 'ВИ ПІДПИСАЛИСЯ',
+                buttonColor: 'success',
+            }),
+        );
     };
 
     render() {
@@ -47,16 +47,17 @@ export class FreeProjectsItem extends React.Component {
                 <Card
                     border="primary"
                     className="text-center mx-auto"
-                    style={{width: '18rem', marginTop: '2rem'}}
+                    style={{ width: '18rem', marginTop: '2rem' }}
                 >
                     <Card.Img
+                        style={{height: '11rem'}}
                         variant="top"
                         src={this.state.photoUrl}
                     />
                     <Card.Body>
                         <Card.Title>{this.props.name}</Card.Title>
 
-                        <Card.Text style={{height: '3rem'}}>
+                        <Card.Text style={{ height: '3rem' }}>
                             Категорії:
                             {' '}
                             {this.state.arr.join(', ')}
