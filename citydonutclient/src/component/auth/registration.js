@@ -1,6 +1,6 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import axios from '../../utils/services';
+import axios from 'axios';
 
 export class Registration extends React.Component {
     state = {
@@ -63,7 +63,7 @@ export class Registration extends React.Component {
                 });
             })
             .catch((err) => {
-                const errors = JSON.parse(err.response.data.message);
+                const errors = JSON.parse(err.data.message);
                 // const
                 this.setState({ ...errors });
             });

@@ -27,7 +27,7 @@ export class UpdateProjectPage extends React.Component {
                     marginTop: '-25px',
                 }}
                 >
-                    <UpdateProject />
+                    <UpdateProject  projectId={this.state.projectId}/>
                 </div>
                 <div style={{
                     verticalAlign: 'top',

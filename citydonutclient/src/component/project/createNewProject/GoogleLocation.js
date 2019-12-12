@@ -1,22 +1,15 @@
 import React from 'react';
 import { GoogleComponent } from 'react-google-location';
-import { API_KEY } from './MyCustomMap';
-
 export default class PlaceComponent extends React.Component {
-    state = {
-        place: null,
-    };
 
     render() {
         return (
             <div>
                 <GoogleComponent
-                    apiKey={API_KEY}
+                    apiKey="AIzaSyAdBH3M36kCWsJ4YlqMt9F22uW7Pz4IUY3"
                     language="uk"
                     country="country:in|country:ukr"
                     coordinates
-                    // locationBoxStyle={'custom-style'}
-                    // locationListStyle={'custom-style-list'}
                     onChange={this.props.setPlace}
                 />
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import CardDeck from 'react-bootstrap/CardDeck';
 import axios from '../../utils/services';
 import { FreeProjectsItem } from './FreeProjectsItem';
+import Container from "react-bootstrap/Container";
 
 export class FreeProjectsList extends React.Component {
     state = {
@@ -22,9 +23,9 @@ export class FreeProjectsList extends React.Component {
     };
 
     render() {
-        console.log(this.state.projects);
         return (
             <div>
+                <h1 className="d-flex justify-content-center p-5">Вільні проекти</h1>
                 <CardDeck className="d-flex justify-content-around">
                     {this.state.projects.map(element => (
                         <FreeProjectsItem

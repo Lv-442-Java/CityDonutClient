@@ -26,6 +26,19 @@ export class Base extends React.Component {
     getItems = () => {
         const result = [];
         this.state.projects1.length !== 0
+        && result.push(<Carousel.Item className="text-center">
+            <SuccessfulProjectsList
+                projects={this.state.projects1}
+            />
+                       </Carousel.Item>);
+
+        this.state.projects2.length !== 0
+        && result.push(<Carousel.Item className="text-center">
+            <SuccessfulProjectsList
+                projects={this.state.projects2}
+            />
+                       </Carousel.Item>)
+
         && result.push(
             <Carousel.Item className="text-center">
                 <SuccessfulProjectsList
@@ -42,6 +55,7 @@ export class Base extends React.Component {
                 />
             </Carousel.Item>,
         );
+
 
         if (result.length !== 0) {
             return <Carousel style={{ 'background-color': 'white' }}>{result}</Carousel>;

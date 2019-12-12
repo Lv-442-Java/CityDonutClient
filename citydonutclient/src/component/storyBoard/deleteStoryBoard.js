@@ -19,12 +19,6 @@ export class DeleteStoryBoard extends React.Component {
     };
 
     handleDelete = () => {
-        axios.get(`http://localhost:8091/api/v1/gallery/${this.props.storyBoard.galleryDto.id}/`,
-            { withCredentials: true }).then((response) => {
-            Array.from(response.data).forEach((data) => {
-                axios.delete(`${data.fileDownloadUri}`, { withCredentials: true });
-            });
-        });
         axios.delete('http://localhost:8091/api/v1/project/'
             + `${this.props.storyBoard.projectId}/storyboard/${this.props.storyBoard.id}`,
         { withCredentials: true })

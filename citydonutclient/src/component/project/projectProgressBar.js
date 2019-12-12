@@ -68,11 +68,11 @@ export class ProjectProgressBar extends React.Component {
                         {this.state.contributors}
                     </h5>
 
-                    <MyModal
+                    {this.state.donatedPercent !== 100?<MyModal
                         projectId={this.props.projectId}
                         getDonatesSum={this.getDonatesSum}
                         getContributors={this.getContributors}
-                    />
+                    />: ""}
                 </div>
             </div>
         );

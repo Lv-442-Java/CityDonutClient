@@ -7,7 +7,6 @@ import axios from '../../../utils/services';
 import MyCustomMap from './MyCustomMap';
 import GoogleLocation from './GoogleLocation';
 
-
 export class CreateProject extends React.Component {
     state = {
         files: [],
@@ -19,11 +18,15 @@ export class CreateProject extends React.Component {
                 lat: 0,
                 lng: 0,
             },
+            status: undefined,
         },
         name: undefined,
         description: undefined,
         moneyNeeded: 0,
         categories: undefined,
+        galleryId: 0,
+        projectId: undefined,
+
     };
 
     setFile = (e) => {
@@ -68,6 +71,7 @@ export class CreateProject extends React.Component {
             }));
     };
 
+
     sendData = () => {
         const data = {
             name: this.state.name,
@@ -80,37 +84,70 @@ export class CreateProject extends React.Component {
         };
         console.log(data);
 
+
         axios.post('http://localhost:8091/api/v1/project',
             data,
             { withCredentials: true })
-            .then((response) => {
-                const fileData = new FormData();
-                console.log(fileData);
-                console.log(this.state.files);
-                Array.from(this.state.files).forEach((file, i) => {
-                    console.log(file);
-                    fileData.append('files', file);
+            .then(((response) => {
+                this.setState({
+                    projectId: response.data.id,
                 });
-                const config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                };
-                console.log(fileData);
-                axios.post(
-                    `http://localhost:8091/api/v1/project/${response.data.id}/uploadMultipleFiles`,
-                    fileData,
-                    config,
-                    { withCredentials: true },
-                ).then(response => console.log(response.data));
+            }))
+            .then((response) => {
+                axios.get(`http://localhost:8091/api/v1/project/${this.state.projectId}/gallery`,
+                    { withCredentials: true }).then((response) => {
+                    this.setState({ galleryId: response.data });
+                }).then((response) => {
+                    const fileData = new FormData();
+                    Array.from(this.state.files).forEach((file, i) => {
+                        console.log(file);
+                        fileData.append('files', file);
+                    });
+                    const config = {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    };
+                    console.log(fileData);
+                    axios.post(
+                        `http://localhost:8091/api/v1/gallery/${this.state.galleryId}/`,
+                        fileData,
+                        config,
+                        { withCredentials: true },
+                    ).then((response) => {
+                        this.setState(
+                            {
+                                status: response.status,
+                            },
+                        );
+                    });
+                });
             });
     };
+
+    goodJob() {
+        if (this.state.status === 200) {
+            return (
+                <Button variant="primary" href="http://localhost:3000" style={{ marginLeft: '10px' }}>На головну сторінку</Button>
+            );
+        }
+    }
+
+    checkCategory(){
+        if(this.state.categories === undefined){
+            return(
+                <label>{this.state.categoryName}</label>
+            )
+        }else
+            return (
+                <label>{this.state.categories}</label>
+            )
+    }
 
     componentDidMount() {
         this.sendData();
         this.getCategories();
     }
-
 
     render() {
         return (
@@ -121,12 +158,13 @@ export class CreateProject extends React.Component {
 
                     <div style={{ width: '100%' }}>
                         <label htmlFor="pName"> Назва проекту:</label>
+
                         <input
                             type="text"
                             name="name"
                             autoComplete="off"
-                            required
                             placeholder="Назва проекту..."
+                            maxLength='50'
                             style={{
                                 width: '100%',
                                 padding: '12px 20px',
@@ -136,6 +174,7 @@ export class CreateProject extends React.Component {
                                 borderRadius: '4px',
 
                             }}
+
                             onChange={this.setName}
                         />
 
@@ -144,8 +183,8 @@ export class CreateProject extends React.Component {
                             id="pDescription"
                             name="description"
                             autoComplete="off"
-                            required
                             placeholder="Про проект..."
+                            max='255'
                             style={{
                                 resize: 'none',
                                 width: '100%',
@@ -163,8 +202,9 @@ export class CreateProject extends React.Component {
                         <input
                             type="number"
                             autoComplete="off"
-                            required
                             className="form-control"
+                            min='1'
+                            max="10000000000"
                             name="projectPrice"
                             onChange={this.setMoney}
                         />
@@ -176,7 +216,7 @@ export class CreateProject extends React.Component {
 
                         <Dropdown onSelect={this.setCategory}>
                             <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                {this.state.categories}
+                                {this.checkCategory()}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {this.state.allCategories.map(item => (
@@ -201,7 +241,7 @@ export class CreateProject extends React.Component {
                                 cursor: 'pointer',
                             }}
                         >
-Загрузити файли
+                            Загрузити файли
                         </label>
                         <input
                             type="file"
@@ -234,12 +274,14 @@ export class CreateProject extends React.Component {
 
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={this.sendData}>Надіслати</Button>
+                <Modal.Footer style={{ display: 'inline-block' }}>
+
+                    {this.goodJob()}
+                    <Button variant="primary" onClick={this.sendData} style={{ float: 'left' }}>Надіслати</Button>
+
                 </Modal.Footer>
             </Modal.Dialog>
         );
     }
 }
 
-export default CreateProject;

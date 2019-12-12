@@ -37,7 +37,7 @@ export class Login extends React.Component {
                 });
             })
             .catch((err) => {
-                this.setState({ errorMessage: err.response.data.message });
+                this.setState({ errorMessage: err.data.message });
             });
     };
 
